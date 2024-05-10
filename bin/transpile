@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+filepaths=$@
+for filepath in $filepaths; do
+    transpile-one "$filepath" &
+done
+wait

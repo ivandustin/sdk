@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+echo refactor. code only. | gpt - $* | uncodeblock
