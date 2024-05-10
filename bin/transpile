@@ -1,6 +1,2 @@
 #!/usr/bin/env bash
-filepaths=$@
-for filepath in $filepaths; do
-    transpile-one "$filepath" &
-done
-wait
+echo pseudo code to python code. source code only. | gpt - $* | uncodeblock

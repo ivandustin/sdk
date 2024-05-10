@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-filepath=$1
-outfile="${filepath%.*}.py"
-if [ -f "$outfile" ]; then
-    echo "WARNING: File $outfile already exists. Skipping." >&2
-else
-    echo pseudo code to python code. source code only. | gpt - "$filepath" | uncodeblock > "$outfile"
-fi
