@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-echo to $1. code only. | gpt - "$2" | unblock
+coder "to $1" "$2"

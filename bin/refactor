@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-echo refactor. code only. | gpt - "$1" | unblock
+coder refactor "$1"
