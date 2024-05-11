@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-echo pseudo code to python code. source code only. | gpt - $* | uncodeblock
+echo to $1. code only. | gpt - "$2" | uncodeblock
