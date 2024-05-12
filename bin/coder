@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-echo $1. code only. | gpt - "$2" | unblock
+ai $*. code only. | unblock

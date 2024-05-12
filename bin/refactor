@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-coder refactor "$1"
+coder refactor. $*
