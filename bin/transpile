@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-coder to $1
+coder to $*
