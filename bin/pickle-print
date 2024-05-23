@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+import pickle
+import sys
+
+def read_pickle_file(filepath):
+    try:
+        with open(filepath, 'rb') as file:
+            data = pickle.load(file)
+            print(data)
+    except Exception as e:
+        print(f"Error reading pickle file: {e}")
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python script.py <filepath>")
+    else:
+        read_pickle_file(sys.argv[1])
