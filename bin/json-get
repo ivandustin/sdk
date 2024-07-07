@@ -4,4 +4,6 @@ import sys
 
 dictionary = json.load(sys.stdin)
 key = sys.argv[1]
-print(dictionary[key])
+value = dictionary[key]
+output = value if isinstance(value, str) else json.dumps(value, indent=4)
+print(output)
