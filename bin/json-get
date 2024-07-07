@@ -1,0 +1,7 @@
+#!/usr/bin/env python
+import json
+import sys
+
+dictionary = json.load(sys.stdin)
+key = sys.argv[1]
+print(dictionary[key])
