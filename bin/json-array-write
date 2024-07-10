@@ -8,7 +8,9 @@ items = json.load(sys.stdin)
 directory = Path(sys.argv[1])
 shutil.rmtree(directory, ignore_errors=True)
 directory.mkdir(parents=True, exist_ok=True)
+width = len(str(len(items)))
 for i, item in enumerate(items):
-    filepath = directory / f"{i}.txt"
+    filename = str(i + 1).zfill(width) + ".txt"
+    filepath = directory / filename
     with filepath.open("w", encoding="utf-8") as f:
         f.write(str(item))
