@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -e
+if [ $# -gt 0 ]; then
+    files=$*
+else
+    files=$(find * -type f | xargs grep -l '^#!/usr/bin/env python')
+fi
+black $files
+flake8 $files
+linters="pylint mypy"
+for linter in $linters; do
+    for file in $files; do
+        $linter $file
+    done
+done
