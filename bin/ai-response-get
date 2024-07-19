@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from json import load, dumps
+from json import load, loads, dumps
 from sys import stdin
 
 
@@ -8,7 +8,9 @@ def main():
     message = response["choices"][0]["message"]
     output = message["content"]
     if output is None:
-        output = dumps(message["tool_calls"][0]["function"]["arguments"], indent=4)
+        output = dumps(
+            loads(message["tool_calls"][0]["function"]["arguments"]), indent=4
+        )
     print(output)
 
 
