@@ -1,5 +1,2 @@
 #!/usr/bin/env bash
-instructions=$(mktemp)
-trap "rm -f $instructions" EXIT
-echo $* > $instructions
-gpt $instructions -
+ai-request-create $* | ai-request-send | ai-response-get

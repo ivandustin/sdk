@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -e
+if [ $# -gt 0 ]; then
+    files=$*
+else
+    files_1=$(find * -type f -name '*.py')
+    files_2=$(find * -type f | xargs grep -l '^#!/usr/bin/env python')
+    files="$files_1 $files_2"
+fi
+black $files
+flake8 $files
+pylint --jobs 0 $files
