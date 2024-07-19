@@ -16,7 +16,7 @@ def main():
                 environ["OPENAI_MODEL"],
                 float(environ.get("OPENAI_TEMPERATURE", 0)),
                 " ".join(argv[1:]),
-                stdin.read(),
+                stdin.read().strip(),
             )
             | tool,
             indent=4,
