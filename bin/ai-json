@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 filepath=$1
 shift
-ai-request-create $* | ai-schema-set "$filepath" | ai-request-send | ai-output-json-get
+ai-request-create $* | ai-schema-set "$filepath" | openai-request-send | openai-arguments-get
