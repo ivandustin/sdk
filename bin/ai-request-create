@@ -1,54 +1,24 @@
 #!/usr/bin/env python3
-from json import dumps, loads
 from sys import argv, stdin
-from pathlib import Path
+from json import dumps
 from os import environ
 
 
 def main():
-    schema = environ.get("OPENAI_SCHEMA", None)
-    tool = (
-        create_tool(loads(Path(schema).read_text(encoding="utf-8"))) if schema else {}
-    )
-    print(
-        dumps(
-            create_request(
-                environ["OPENAI_MODEL"],
-                float(environ.get("OPENAI_TEMPERATURE", 0)),
-                " ".join(argv[1:]),
-                stdin.read().strip(),
-            )
-            | tool,
-            indent=4,
-        )
-    )
+    model = environ["OPENAI_MODEL"]
+    instruction = " ".join(argv[1:])
+    data = stdin.read().strip()
+    print(dumps(create(model, instruction, data)))
 
 
-def create_request(model: str, temperature: float, instruction: str, data: str) -> dict:
+def create(model: str, instruction: str, data: str) -> dict:
     return {
         "model": model,
         "messages": [
             {"role": "system", "content": instruction},
             {"role": "user", "content": data},
         ],
-        "temperature": temperature,
-    }
-
-
-def create_tool(parameters: dict) -> dict:
-    return {
-        "tools": [
-            {
-                "type": "function",
-                "function": {"name": "function", "parameters": parameters},
-            }
-        ],
-        "tool_choice": {
-            "type": "function",
-            "function": {
-                "name": "function",
-            },
-        },
+        "temperature": float(0),
     }
 
 

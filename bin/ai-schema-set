@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+from json import dumps, load
+from sys import argv, stdin
+
+
+def main():
+    with open(argv[1], encoding="utf-8") as file:
+        print(dumps(load(stdin) | create(load(file))))
+
+
+def create(parameters: dict) -> dict:
+    return {
+        "tools": [
+            {
+                "type": "function",
+                "function": {"name": "function", "parameters": parameters},
+            }
+        ],
+        "tool_choice": {
+            "type": "function",
+            "function": {
+                "name": "function",
+            },
+        },
+    }
+
+
+if __name__ == "__main__":
+    main()

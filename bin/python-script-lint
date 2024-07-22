@@ -7,9 +7,7 @@ else
 fi
 black $files
 flake8 $files
-linters="pylint mypy"
-for linter in $linters; do
-    for file in $files; do
-        $linter $file
-    done
+pylint --jobs 0 $files
+for file in $files; do
+    mypy $file
 done

@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-ai-request-create $* | ai-request-send | ai-response-get
+ai-request-create $* | ai-request-send | ai-output-get
