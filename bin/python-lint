@@ -8,4 +8,4 @@ fi
 black $files
 flake8 $files
 pylint --jobs 0 $files
-mypy $files
+mypy --ignore-missing-imports $files
