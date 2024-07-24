@@ -10,7 +10,7 @@ def main():
     method = argv[2]
     filepaths = list(map(Path, argv[3:]))
     for filepath in filepaths:
-        custom_id = filepath.stem
+        custom_id = str(filepath)
         content = filepath.read_text(encoding="utf-8").strip()
         document["messages"][-1]["content"] = content
         print(
