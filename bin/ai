@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-ai-request-create $* | openai-request-send | openai-content-get
+ai-request-create $* | openai-chat-post | openai-content-get

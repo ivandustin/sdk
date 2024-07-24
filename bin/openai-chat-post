@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+openai-request-post /v1/chat/completions
