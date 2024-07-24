@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+from json import load, dumps
+from sys import argv, stdin
+from pathlib import Path
+
+
+def main():
+    document = load(stdin)
+    url = argv[1]
+    method = argv[2]
+    filepaths = list(map(Path, argv[3:]))
+    for filepath in filepaths:
+        custom_id = filepath.stem
+        content = filepath.read_text(encoding="utf-8").strip()
+        document["messages"][-1]["content"] = content
+        print(
+            dumps(
+                {
+                    "custom_id": custom_id,
+                    "url": url,
+                    "method": method,
+                    "body": document,
+                }
+            )
+        )
+
+
+if __name__ == "__main__":
+    main()
