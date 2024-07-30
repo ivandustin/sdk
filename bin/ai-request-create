@@ -5,20 +5,21 @@ from os import environ
 
 
 def main():
+    temperature = float(environ.get("OPENAI_TEMPERATURE", "0"))
     model = environ["OPENAI_MODEL"]
     instruction = " ".join(argv[1:])
     data = stdin.read().strip()
-    print(dumps(create(model, instruction, data)))
+    print(dumps(create(temperature, model, instruction, data)))
 
 
-def create(model: str, instruction: str, data: str) -> dict:
+def create(temperature: float, model: str, instruction: str, data: str) -> dict:
     return {
         "model": model,
         "messages": [
             {"role": "system", "content": instruction},
             {"role": "user", "content": data},
         ],
-        "temperature": float(0),
+        "temperature": temperature,
     }
 
 
