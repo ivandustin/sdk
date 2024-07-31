@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-json-get choices 0 message content
+json-get choices 0 message content | json-string-print

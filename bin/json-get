@@ -9,7 +9,7 @@ def main():
         value = loads(line)
         for key in keys:
             value = value[int(key)] if isinstance(value, list) else value[key]
-        print(value if isinstance(value, str) else dumps(value))
+        print(dumps(value))
 
 
 if __name__ == "__main__":
