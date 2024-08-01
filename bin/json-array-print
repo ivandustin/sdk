@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+from json import loads
+from sys import stdin
+
+
+def main():
+    for line in stdin:
+        for value in loads(line):
+            print(value)
+
+
+if __name__ == "__main__":
+    main()
