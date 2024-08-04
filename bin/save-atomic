@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
-tempfile=$(mktemp -d -t save-atomic-XXXXXX)
+tempfile=$(mktemp save-atomic-XXXXXX)
+trap "rm -f $tempfile" EXIT
 tee $tempfile > /dev/null
 mv $tempfile $1
