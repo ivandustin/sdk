@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+dalle-request-create | openai-request-post /v1/images/generations
