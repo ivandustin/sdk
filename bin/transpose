@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+command=$1
+shift
+while read input; do
+    $* | $command $input
+done
