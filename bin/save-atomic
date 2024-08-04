@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -e
+tempfile=$(mktemp -d -t save-atomic-XXXXXX)
+tee $tempfile > /dev/null
+mv $tempfile $1
