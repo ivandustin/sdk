@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-set -e
-tempfile=$(mktemp /tmp/save-atomic-XXXXXX)
-trap "rm -f $tempfile" EXIT
-tee $tempfile > /dev/null
-mv $tempfile $1
