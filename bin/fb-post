@@ -1,39 +1,53 @@
 #!/usr/bin/env python3
-from sys import stdin, argv
+from argparse import ArgumentParser
 from pathlib import Path
 from time import sleep
 from os import environ
-from playwright.sync_api import Playwright, sync_playwright
+from sys import stdin
+from playwright.sync_api import sync_playwright
 
 
 def main():
+    parser = ArgumentParser(description="Post a message to Facebook")
+    parser.add_argument(
+        "-d",
+        "--default",
+        action="store_true",
+        help="Post to Facebook with default privacy settings",
+    )
+    parser.add_argument(
+        "-p",
+        "--profile",
+        type=str,
+        help="Post to Facebook with a specific profile name",
+    )
+    args = parser.parse_args()
     storage_state = Path(environ["PLAYWRIGHT_STORAGE"])
     assert storage_state.is_file(), "Expected a storage state file"
-    is_default = len(argv) > 1 and argv[1] == "default"
-    is_private = not is_default
+    profile = args.profile
+    is_private = not args.default
     message = stdin.read()
     assert message, "Expected a message to post"
     with sync_playwright() as playwright:
-        post(playwright, storage_state, is_private, message)
-
-
-def post(playwright: Playwright, storage_state: Path, is_private: bool, message: str):
-    browser = playwright.chromium.launch(headless=True)
-    context = browser.new_context(storage_state=storage_state)
-    page = context.new_page()
-    page.goto("https://www.facebook.com/")
-    sleep(5)
-    page.get_by_role("button", name="What's on your mind").click()
-    if is_private:
-        page.get_by_label("Edit privacy. Sharing with").click()
-        page.get_by_role("radio", name="Only me").click()
-        page.get_by_label("Done").click()
-    page.get_by_role("paragraph").click()
-    page.get_by_label("What's on your mind").fill(message)
-    page.get_by_label("Post", exact=True).click()
-    sleep(5)
-    context.close()
-    browser.close()
+        browser = playwright.chromium.launch(headless=True)
+        context = browser.new_context(storage_state=storage_state)
+        page = context.new_page()
+        page.goto("https://www.facebook.com/")
+        if profile:
+            page.get_by_role("button", name="Your profile", exact=True).click()
+            page.get_by_label("See all profiles").click()
+            page.get_by_role("radio", name=profile).click()
+        sleep(5)
+        page.get_by_role("button", name="What's on your mind").click()
+        if is_private:
+            page.get_by_label("Edit privacy. Sharing with").click()
+            page.get_by_role("radio", name="Only me").click()
+            page.get_by_label("Done").click()
+        page.get_by_role("paragraph").click()
+        page.get_by_label("What's on your mind").fill(message)
+        page.get_by_label("Post", exact=True).click()
+        context.close()
+        browser.close()
 
 
 if __name__ == "__main__":
