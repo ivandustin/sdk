@@ -7,7 +7,7 @@ from playwright.sync_api import Playwright, sync_playwright
 
 
 def main():
-    storage_state = Path(environ["PLAYWRIGHT_STATE"])
+    storage_state = Path(environ["PLAYWRIGHT_STORAGE"])
     assert storage_state.is_file(), "Expected a storage state file"
     is_default = len(argv) > 1 and argv[1] == "default"
     is_private = not is_default
