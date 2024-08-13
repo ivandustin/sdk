@@ -1,15 +1,8 @@
 #!/usr/bin/env python3
-from contextlib import suppress
-from random import shuffle
-
-
 def main():
     data = {"matthew": 28, "mark": 16, "luke": 24, "john": 21}
-    items = list(create(data))
-    while True:
-        shuffle(items)
-        for item in items:
-            print(item)
+    for item in create(data):
+        print(item)
 
 
 def create(data):
@@ -19,5 +12,4 @@ def create(data):
 
 
 if __name__ == "__main__":
-    with suppress(KeyboardInterrupt, OSError):
-        main()
+    main()
