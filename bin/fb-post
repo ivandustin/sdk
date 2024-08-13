@@ -10,12 +10,6 @@ from playwright.sync_api import sync_playwright
 def main():
     parser = ArgumentParser(description="Post a message to Facebook")
     parser.add_argument(
-        "-d",
-        "--default",
-        action="store_true",
-        help="Post to Facebook with default privacy settings",
-    )
-    parser.add_argument(
         "-p",
         "--profile",
         type=str,
@@ -25,7 +19,8 @@ def main():
     storage_state = Path(environ["PLAYWRIGHT_STORAGE"])
     assert storage_state.is_file(), "Expected a storage state file"
     profile = args.profile
-    is_private = not args.default
+    is_public = environ.get("FB_POST_PUBLIC", "0") == "1"
+    is_private = not is_public
     message = stdin.read()
     assert message, "Expected a message to post"
     with sync_playwright() as playwright:
