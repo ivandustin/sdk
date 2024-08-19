@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
-while ! $*; do
-    sleep 1
+max=$1
+shift
+for i in $(seq $max); do
+    if $@; then
+        break
+    else
+        echo Command failed $? $@ >&2
+        echo Retrying in 1 second $i of $max >&2
+        sleep 1
+    fi
 done
