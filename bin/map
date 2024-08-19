@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+command=$1
+shift
+for item in $@; do
+  $command $item
+done
