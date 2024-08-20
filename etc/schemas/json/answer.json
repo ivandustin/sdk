@@ -1,0 +1,13 @@
+{
+    "properties": {
+        "answer": {
+            "title": "Answer",
+            "type": "boolean"
+        }
+    },
+    "required": [
+        "answer"
+    ],
+    "title": "Schema",
+    "type": "object"
+}
