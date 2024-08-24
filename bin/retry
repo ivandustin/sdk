@@ -8,5 +8,6 @@ for i in $(seq $max); do
         echo Command failed $? $@ >&2
         echo Retrying in 1 second $i of $max >&2
         sleep 1
+        false
     fi
 done
