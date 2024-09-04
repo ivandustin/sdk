@@ -1,4 +1,4 @@
-from flax.linen import Module, Dense, Sequential, compact, sigmoid
+from flax.linen import Module, Dense, compact, sigmoid
 
 
 class Neurons(Module):
@@ -6,4 +6,5 @@ class Neurons(Module):
 
     @compact
     def __call__(self, x):
-        return Sequential([Dense(self.neurons), sigmoid])(x)
+        linear = Dense(self.neurons)
+        return sigmoid(linear(x))

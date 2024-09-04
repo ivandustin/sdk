@@ -1,6 +1,7 @@
-from flax.linen import Module, Dense, Sequential, compact
+from flax.linen import Module, compact
+from jax import vmap
 from selfattention import SelfAttention
-from neurons import Neurons
+from uat import Function
 
 
 class Transformer(Module):
@@ -9,10 +10,6 @@ class Transformer(Module):
     @compact
     def __call__(self, x):
         dims = x.shape[-1]
-        return Sequential(
-            [
-                SelfAttention(),
-                Neurons(self.neurons),
-                Dense(dims),
-            ]
-        )(x)
+        attention = vmap(SelfAttention())
+        function = Function(self.neurons, dims)
+        return function(attention(x))
