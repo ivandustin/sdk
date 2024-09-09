@@ -1,4 +1,4 @@
-from flax.linen import Module, Embed, Dense, compact
+from flax.linen import Module, Embed, compact
 from jax.numpy import arange
 from transformer import Transformer
 
@@ -15,14 +15,6 @@ class Encoder(Module):
         return embedding(x) * position(arange(length))
 
 
-class Decoder(Module):
-    classes: int
-
-    @compact
-    def __call__(self, x):
-        return Dense(self.classes)(x)
-
-
 class Model(Module):
     classes: int
     dims: int
@@ -31,6 +23,5 @@ class Model(Module):
     @compact
     def __call__(self, x):
         encode = Encoder(self.classes, self.dims)
-        transformer = Transformer(self.neurons)
-        decode = Decoder(self.classes)
-        return decode(transformer(encode(x)))
+        transformer = Transformer(self.neurons, self.classes)
+        return transformer(encode(x))

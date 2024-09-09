@@ -6,10 +6,10 @@ from uat import Function
 
 class Transformer(Module):
     neurons: int
+    dims: int
 
     @compact
     def __call__(self, x):
-        dims = x.shape[-1]
         attention = vmap(SelfAttention())
-        function = Function(self.neurons, dims)
+        function = Function(self.neurons, self.dims)
         return function(attention(x))
