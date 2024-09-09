@@ -33,4 +33,4 @@ class Model(Module):
         encode = Encoder(self.classes, self.dims)
         transformer = Transformer(self.neurons)
         decode = Decoder(self.classes)
-        return decode(transformer(encode(x))[:, -1])
+        return decode(transformer(encode(x)))
