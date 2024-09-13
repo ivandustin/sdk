@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from argparse import ArgumentParser
 from pathlib import Path
 from time import sleep
 from os import environ
@@ -8,17 +7,9 @@ from playwright.sync_api import sync_playwright
 
 
 def main():
-    parser = ArgumentParser(description="Post a message to Facebook")
-    parser.add_argument(
-        "-p",
-        "--profile",
-        type=str,
-        help="Post to Facebook with a specific profile name",
-    )
-    args = parser.parse_args()
     storage_state = Path(environ["PLAYWRIGHT_STORAGE"])
     assert storage_state.is_file(), "Expected a storage state file"
-    profile = args.profile
+    profile = environ.get("FB_POST_PROFILE", "")
     is_public = environ.get("FB_POST_PUBLIC", "0") == "1"
     is_private = not is_public
     message = stdin.read()
