@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+from sys import stdin, stdout
+from os import environ
+from transformers import AutoTokenizer, AutoModelForPreTraining
+from numpy import savetxt
+import torch
+
+
+def main():
+    model_name = environ.get("EMBEDDING_MODEL", "google/mobilebert-uncased")
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForPreTraining.from_pretrained(model_name)
+    model.eval()
+    for line in stdin:
+        text = line.strip()
+        input_ids = torch.tensor(tokenizer.encode(text)).unsqueeze(0)
+        outputs = model(input_ids, output_hidden_states=True)
+        final_hidden = outputs.hidden_states[-1]
+        final_hidden = final_hidden.squeeze(0)
+        text_embedding = final_hidden.mean(dim=0)
+        array = text_embedding.detach().numpy()
+        savetxt(stdout, array, newline=" ")
+        print()
+
+
+if __name__ == "__main__":
+    with torch.no_grad():
+        main()
