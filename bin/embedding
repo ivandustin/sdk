@@ -7,7 +7,7 @@ import torch
 
 
 def main():
-    model_name = environ.get("EMBEDDING_MODEL", "google/mobilebert-uncased")
+    model_name = environ.get("EMBEDDING_MODEL", "sentence-transformers/LaBSE")
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForPreTraining.from_pretrained(model_name)
     model.eval()
