@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+from pathlib import Path
+from os import environ
+from re import sub
+import sys
+from pandas import read_csv
+
+
+def main():
+    directory = Path(environ["BIBLE_HOME"]) / "data"
+    filepaths = directory.glob("*/*.csv")
+    for filepath in filepaths:
+        dataframe = read_csv(filepath)
+        dataframe["book"] = filepath.stem[3:].replace("-", " ")
+        dataframe = dataframe[["book", "chapter", "verse"]]
+        dataframe = dataframe.drop_duplicates()
+        output = dataframe.to_string(index=False, header=False)
+        output = sub(r" +", " ", output).strip()
+        print(output)
+
+
+if __name__ == "__main__":
+    sys.stderr = None
+    main()
