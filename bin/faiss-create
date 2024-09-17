@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+from sys import argv, stdin
+from faiss import IndexFlatIP, write_index
+from numpy import fromstring, expand_dims
+
+
+def main():
+    filepath = argv[1]
+    index = None
+    for line in stdin:
+        array = fromstring(line.strip(), sep=" ")
+        array = expand_dims(array, axis=0)
+        if index is None:
+            dims = array.shape[-1]
+            index = IndexFlatIP(dims)
+        index.add(array)  # pylint: disable=no-value-for-parameter
+    write_index(index, filepath)
+
+
+if __name__ == "__main__":
+    main()

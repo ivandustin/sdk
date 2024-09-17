@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+from sys import argv, stdin, stdout
+from numpy import fromstring, expand_dims, savetxt
+from faiss import read_index
+
+
+def main():
+    filepath = argv[1]
+    count = int(argv[2])
+    index = read_index(filepath)
+    count = min(count, index.ntotal)
+    for line in stdin:
+        array = fromstring(line.strip(), sep=" ")
+        array = expand_dims(array, axis=0)
+        _, indices = index.search(array, count)
+        savetxt(stdout, indices + 1, fmt="%d")
+
+
+if __name__ == "__main__":
+    main()
