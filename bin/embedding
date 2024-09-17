@@ -17,11 +17,9 @@ def main():
         input_ids = torch.tensor(input_ids).unsqueeze(0)
         outputs = model(input_ids, output_hidden_states=True)
         final_hidden = outputs.hidden_states[-1]
-        final_hidden = final_hidden.squeeze(0)
-        text_embedding = final_hidden.mean(dim=0)
+        text_embedding = final_hidden.mean(dim=1)
         array = text_embedding.detach().numpy()
-        savetxt(stdout, array, newline=" ")
-        print()
+        savetxt(stdout, array)
 
 
 if __name__ == "__main__":
