@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+awk -v name=$1 'BEGIN { print "```" name } { print } END { print "```" }'
