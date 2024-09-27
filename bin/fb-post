@@ -22,7 +22,7 @@ def main():
         if profile:
             page.get_by_role("button", name="Your profile", exact=True).click()
             page.get_by_label("See all profiles").click()
-            page.get_by_role("radio", name=profile).click()
+            page.get_by_role("button", name=profile).click()
         sleep(5)
         page.get_by_role("button", name="What's on your mind").click()
         if is_private:
