@@ -32,6 +32,7 @@ def main():
         page.get_by_role("paragraph").click()
         page.get_by_label("What's on your mind").fill(message)
         page.get_by_label("Post", exact=True).click()
+        sleep(5)
         context.close()
         browser.close()
 
