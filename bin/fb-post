@@ -23,7 +23,7 @@ def main():
             page.get_by_role("button", name="Your profile", exact=True).click()
             page.get_by_label("See all profiles").click()
             page.get_by_role("button", name=profile).click()
-        sleep(5)
+        sleep(10)
         page.get_by_role("button", name="What's on your mind").click()
         if is_private:
             page.get_by_label("Edit privacy. Sharing with").click()
@@ -32,7 +32,7 @@ def main():
         page.get_by_role("paragraph").click()
         page.get_by_label("What's on your mind").fill(message)
         page.get_by_label("Post", exact=True).click()
-        sleep(5)
+        sleep(10)
         context.close()
         browser.close()
 
