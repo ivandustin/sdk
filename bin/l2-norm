@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+from sys import stdin
+from faiss import normalize_L2
+from numpystring import to_array, to_string
+
+
+def main():
+    for line in stdin:
+        array = to_array(line)
+        normalize_L2(array)
+        print(to_string(array))
+
+
+if __name__ == "__main__":
+    main()
