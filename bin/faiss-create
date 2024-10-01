@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
-from argparse import ArgumentParser
+from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 from sys import stdin
-from faiss import METRIC_L2, index_factory, write_index
+from faiss import METRIC_INNER_PRODUCT, index_factory, write_index
 from numpystring import to_array
 
 
 def main():
-    parser = ArgumentParser()
+    parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
     parser.add_argument("filepath")
-    parser.add_argument("--string")
-    parser.add_argument("--metric", type=int, default=METRIC_L2)
+    parser.add_argument("--string", default="L2norm,Flat", help="index factory string")
+    parser.add_argument(
+        "--metric", type=int, default=METRIC_INNER_PRODUCT, help="metric type"
+    )
     args = parser.parse_args()
     index = None
     for line in stdin:
