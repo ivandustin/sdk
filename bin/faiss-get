@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 from sys import argv, stdin, stdout
-from base64 import b64decode
-from io import BytesIO
-from numpy import load, expand_dims, savetxt
+from numpy import expand_dims, savetxt
 from faiss import read_index
+from numpystring import to_array
 
 
 def main():
@@ -17,10 +16,6 @@ def main():
             array = expand_dims(array, axis=0)
         _, indices = index.search(array, count)
         savetxt(stdout, indices + 1, fmt="%d")
-
-
-def to_array(string):
-    return load(BytesIO(b64decode(string)))
 
 
 if __name__ == "__main__":
