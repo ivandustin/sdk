@@ -8,13 +8,13 @@ def main():
         print(dumps(load(stdin) | create(load(file))))
 
 
-def create(parameters: dict) -> dict:
+def create(schema: dict) -> dict:
     return {
         "response_format": {
             "type": "json_schema",
             "json_schema": {
                 "name": "schema",
-                "schema": parameters,
+                "schema": schema,
             },
         }
     }
