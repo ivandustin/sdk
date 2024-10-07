@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+awk -v a=$1 -v b=$2 '{ print a $0 b }'
