@@ -12,8 +12,8 @@ class Container:
 
 
 def get(file):
-    batch_size = int(environ.get("BATCH_LINE_SIZE", "128"))
-    timeout = float(environ.get("BATCH_LINE_TIMEOUT", "0.01"))
+    batch_size = int(environ.get("BATCH_SIZE", "128"))
+    timeout = float(environ.get("BATCH_TIMEOUT", "0.01"))
     container = Container(batch=[])
     queue = Queue()
     thread = spawn(partial(read, file, container, batch_size, queue))
