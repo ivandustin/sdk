@@ -2,9 +2,9 @@
 from os import environ
 from sys import argv, stdin
 from transformers import AutoModelForPreTraining
-from numpy import fromstring
 import torch
 from numpystring import to_string
+from batchline import get
 
 IS_GPU = torch.cuda.is_available()
 
@@ -13,15 +13,21 @@ def main():
     index = int(argv[1]) if len(argv) > 1 else None
     model_name = environ.get("MODEL", "sentence-transformers/LaBSE")
     model = cuda(AutoModelForPreTraining.from_pretrained(model_name).eval())
-    for line in stdin:
-        tokens = fromstring(line.strip(), sep=" ", dtype=int)
-        tokens = torch.tensor(tokens).unsqueeze(0)
+    for lines in get(stdin):
+        tokens = list(map(parse, lines))
+        tokens = torch.tensor(tokens)
         outputs = model(cuda(tokens), output_hidden_states=True)
-        embeddings = outputs.hidden_states[-1].squeeze(0)
+        embeddings = outputs.hidden_states[-1]
         if index is not None:
-            embeddings = embeddings[index].unsqueeze(0)
-        array = embeddings.detach().cpu().numpy()
-        print(to_string(array))
+            embeddings = embeddings[:, index, :].unsqueeze(1)
+        batch = embeddings.detach().cpu().numpy()
+        for record in batch:
+            for embeddings in record:
+                print(to_string(embeddings))
+
+
+def parse(line):
+    return list(map(int, line.split(" ")))
 
 
 def cuda(tensor):
