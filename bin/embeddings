@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from os import environ
 from sys import argv, stdin
-from transformers import AutoModelForPreTraining
+from transformers import AutoTokenizer, AutoModelForPreTraining
 import torch
 from numpystring import to_string
 from batchline import get
@@ -12,18 +12,27 @@ IS_GPU = torch.cuda.is_available()
 def main():
     index = int(argv[1]) if len(argv) > 1 else None
     model_name = environ.get("MODEL", "sentence-transformers/LaBSE")
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = cuda(AutoModelForPreTraining.from_pretrained(model_name).eval())
     for lines in get(stdin):
-        tokens = list(map(parse, lines))
-        tokens = torch.tensor(tokens)
-        outputs = model(cuda(tokens), output_hidden_states=True)
+        kwargs = tokenizer(lines, padding=True, return_tensors="pt")
+        outputs = model(output_hidden_states=True, **(apply(cuda, kwargs)))
         embeddings = outputs.hidden_states[-1]
         if index is not None:
             embeddings = embeddings[:, index, :].unsqueeze(1)
-        batch = embeddings.detach().cpu().numpy()
-        for record in batch:
-            for embeddings in record:
-                print(to_string(embeddings))
+        embeddings = embeddings.detach().cpu().numpy()
+        sep_indices = [
+            input_ids.index(tokenizer.sep_token_id)
+            for input_ids in kwargs["input_ids"].tolist()
+        ]
+        print(
+            "\n".join(
+                [
+                    to_string(embeddings[: sep_indices[index] + 1])
+                    for index, embeddings in enumerate(embeddings)
+                ]
+            )
+        )
 
 
 def parse(line):
@@ -32,6 +41,10 @@ def parse(line):
 
 def cuda(tensor):
     return tensor.cuda() if IS_GPU else tensor
+
+
+def apply(function, dictionary):
+    return {key: function(value) for key, value in dictionary.items()}
 
 
 if __name__ == "__main__":
