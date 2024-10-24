@@ -42,9 +42,8 @@ def tick(thread, timeout, container, queue):
         sleep(timeout)
         if batch:
             if container.batch is batch:
-                if len(container.batch) is len(batch):
-                    queue.put(batch)
-                    container.batch = []
+                queue.put(batch)
+                container.batch = []
 
 
 def spawn(function):
