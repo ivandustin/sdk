@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+from sys import stdin
+from numpystring import to_array
+
+
+def main():
+    for line in stdin:
+        print(" ".join(map(str, to_array(line).shape)))
+
+
+if __name__ == "__main__":
+    main()
