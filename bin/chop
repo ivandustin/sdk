@@ -3,7 +3,7 @@ from sys import argv, stdin
 
 
 def main():
-    symbols = argv[1] if len(argv) > 1 else ".?!;:(),"
+    symbols = argv[1] if len(argv) > 1 else ".?!;:,"
     for line in stdin:
         items = chop(symbols, line, 0)
         items = map(strip, items)
