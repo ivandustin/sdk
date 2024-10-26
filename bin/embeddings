@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-from concurrent.futures import ThreadPoolExecutor
 from functools import partial
 from sys import argv, stdin
 from os import environ
 from transformers import AutoModelForPreTraining
 import torch
 from numpystring import to_string
-from batchline import get
 
 IS_GPU = torch.cuda.is_available()
 
@@ -16,20 +14,10 @@ def main():
     model_name = environ.get("MODEL", "sentence-transformers/LaBSE")
     model = to_gpu(AutoModelForPreTraining.from_pretrained(model_name).eval())
     model = partial(model, output_hidden_states=True)
-    batch_size = int(environ.get("BATCH_SIZE", "128"))
-    with ThreadPoolExecutor(max_workers=batch_size) as executor:
-        for lines in get(stdin):
-            outputs = list(executor.map(partial(process, index, model), lines))
-            for output in map(to_string, map(to_cpu, outputs)):
-                print(output)
-
-
-def process(index, model, line):
-    input_ids = unshift(torch.tensor(parse(line)))
-    embeddings = get_embeddings(model(to_gpu(input_ids)))
-    if index is not None:
-        embeddings = select(index, embeddings)
-    return shift(embeddings)
+    for line in stdin:
+        input_ids = to_gpu(unshift(torch.tensor(parse(line))))
+        embeddings = select(index, get_embeddings(model(input_ids)))
+        print(to_string(to_cpu(shift(embeddings))))
 
 
 def parse(line):
@@ -44,20 +32,22 @@ def to_cpu(tensor):
     return tensor.detach().cpu().numpy()
 
 
-def get_embeddings(output):
-    return output.hidden_states[-1]
-
-
-def select(index, embeddings):
-    return embeddings[:, index, :].unsqueeze(1)
-
-
 def shift(tensor):
     return tensor.squeeze(0)
 
 
 def unshift(tensor):
     return tensor.unsqueeze(0)
+
+
+def get_embeddings(output):
+    return output.hidden_states[-1]
+
+
+def select(index, embeddings):
+    if index is None:
+        return embeddings
+    return unshift(embeddings[:, index, :])
 
 
 if __name__ == "__main__":
