@@ -11,10 +11,9 @@ def main():
     count = min(count, index.ntotal)
     for line in stdin:
         array = to_array(line)
-        _, indices = index.search(array, count)
-        indices = indices + 1
-        for item in indices:
-            print(" ".join(map(str, item)))
+        distances, indices = index.search(array, count // array.shape[0])
+        _, indices = zip(*sorted(zip(distances.flatten(), indices.flatten() + 1)))
+        print(" ".join(map(str, indices)))
 
 
 if __name__ == "__main__":
