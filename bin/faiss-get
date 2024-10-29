@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 from sys import argv, stdin
-from faiss import read_index
+from faiss import read_index, IO_FLAG_MMAP
 from numpystring import to_array
 
 
 def main():
     filepath = argv[1]
     count = int(argv[2])
-    index = read_index(filepath)
+    index = read_index(filepath, IO_FLAG_MMAP)
     count = min(count, index.ntotal)
     for line in stdin:
         array = to_array(line)
