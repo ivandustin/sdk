@@ -1,16 +1,31 @@
 #!/usr/bin/env python3
-from sys import argv, stdin
+from argparse import ArgumentParser, FileType, ArgumentDefaultsHelpFormatter
+from sys import stdin
 
 
 def main():
-    symbols = argv[1] if len(argv) > 1 else ".?!;:,"
+    parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
+    parser.add_argument("--symbols", default=".?!;:,", help="symbols to chop on")
+    parser.add_argument(
+        "--lines",
+        type=FileType("w", encoding="utf-8"),
+        default=None,
+        help="file to write line numbers to",
+    )
+    args = parser.parse_args()
+    line_number = 0
     for line in stdin:
-        items = chop(symbols, line, 0)
+        line_number += 1
+        items = chop(args.symbols, line, 0)
         items = map(strip, items)
         items = filter(identity, items)
         items = set(items)
         items = sorted(items)
-        print("\n".join(items))
+        for item in items:
+            print(item)
+        if args.lines is not None:
+            for _ in range(len(items)):
+                print(line_number, file=args.lines)
 
 
 def chop(symbols, string, index):
