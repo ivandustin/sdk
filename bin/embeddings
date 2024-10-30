@@ -13,6 +13,8 @@ def main():
     index = int(argv[1]) if len(argv) > 1 else None
     model_name = environ.get("MODEL", "sentence-transformers/LaBSE")
     model = to_gpu(AutoModelForPreTraining.from_pretrained(model_name).eval())
+    if environ.get("HALF", "0") == "1":
+        model = model.half()
     model = partial(model, output_hidden_states=True)
     for line in stdin:
         input_ids = to_gpu(unshift(torch.tensor(parse(line))))
