@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+from sys import argv, stdin, stdout, stderr
+from subprocess import Popen, PIPE
+from functools import partial
+from threading import Thread
+from shutil import which
+
+
+def main():
+    commands = argv[1:]
+    processes = list(map(run, commands))
+    for process in processes:
+        assert process.poll() is None
+    spawn(partial(write, processes))
+    read(processes)
+
+
+def run(command):
+    return Popen(
+        [which("bash"), "-c", command],
+        stderr=stderr,
+        stdout=PIPE,
+        stdin=PIPE,
+        text=True,
+        bufsize=0,
+    )
+
+
+def spawn(function):
+    Thread(target=function, daemon=True).start()
+
+
+def write(processes):
+    while True:
+        for process in processes:
+            stdout.write(process.stdout.readline())
+
+
+def read(processes):
+    for line in stdin:
+        for process in processes:
+            process.stdin.write(line)
+
+
+if __name__ == "__main__":
+    main()
