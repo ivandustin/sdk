@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from os import environ
 from sys import stdin
-from transformers import AutoModelForPreTraining
+from transformers import AutoModel
 import torch
 from numpystring import to_string
 
@@ -10,7 +10,7 @@ IS_GPU = torch.cuda.is_available()
 
 def main():
     model_name = environ.get("MODEL", "sentence-transformers/LaBSE")
-    model = to_gpu(AutoModelForPreTraining.from_pretrained(model_name).eval())
+    model = to_gpu(AutoModel.from_pretrained(model_name).eval())
     if environ.get("HALF", "0") == "1":
         model = model.half()
     for line in stdin:
