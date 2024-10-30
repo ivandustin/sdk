@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+from itertools import chain
+from sys import stdin
+
+
+def main():
+    for line in stdin:
+        a = line.strip().split(" ")
+        b = stdin.readline().strip().split(" ")
+        print(" ".join(chain.from_iterable(zip(a, b))))
+
+
+if __name__ == "__main__":
+    main()
