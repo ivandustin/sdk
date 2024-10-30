@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
+from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter, FileType
 from sys import stdin
 from faiss import METRIC_INNER_PRODUCT, index_factory, write_index
+from numpy import concatenate
 from numpystring import to_array
 
 
@@ -12,6 +13,9 @@ def main():
     parser.add_argument(
         "--metric", type=int, default=METRIC_INNER_PRODUCT, help="metric type"
     )
+    parser.add_argument(
+        "--train", type=FileType("r", encoding="utf-8"), default=None, help="train file"
+    )
     args = parser.parse_args()
     index = None
     for line in stdin:
@@ -19,6 +23,8 @@ def main():
         if index is None:
             dims = array.shape[-1]
             index = index_factory(dims, args.string)
+            if args.train is not None:
+                index.train(concatenate([to_array(line) for line in args.train]))
         index.add(array)  # pylint: disable=no-value-for-parameter
     write_index(index, args.filepath)
 
