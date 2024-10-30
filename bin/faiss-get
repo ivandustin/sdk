@@ -9,8 +9,10 @@ def main():
     filepath = argv[1]
     count = int(argv[2])
     index = read_index(filepath) if name == "nt" else read_index(filepath, IO_FLAG_MMAP)
-    if "NPROBE" in environ:
-        ParameterSpace().set_index_parameter(index, "nprobe", int(environ["NPROBE"]))
+    if "FAISS_NPROBE" in environ:
+        ParameterSpace().set_index_parameter(
+            index, "nprobe", int(environ["FAISS_NPROBE"])
+        )
     count = min(count, index.ntotal)
     for line in stdin:
         array = to_array(line)
