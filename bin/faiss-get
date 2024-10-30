@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
+from os import name, environ
 from sys import argv, stdin
-from os import name
-from faiss import read_index, IO_FLAG_MMAP
+from faiss import read_index, IO_FLAG_MMAP, ParameterSpace
 from numpystring import to_array
 
 
@@ -9,6 +9,8 @@ def main():
     filepath = argv[1]
     count = int(argv[2])
     index = read_index(filepath) if name == "nt" else read_index(filepath, IO_FLAG_MMAP)
+    if "NPROBE" in environ:
+        ParameterSpace().set_index_parameter(index, "nprobe", int(environ["NPROBE"]))
     count = min(count, index.ntotal)
     for line in stdin:
         array = to_array(line)
