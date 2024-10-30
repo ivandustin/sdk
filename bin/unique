@@ -1,0 +1,11 @@
+#!/usr/bin/env python3
+from sys import stdin
+
+
+def main():
+    for line in stdin:
+        print(" ".join(list(dict.fromkeys(line.strip().split(" ")))))
+
+
+if __name__ == "__main__":
+    main()
