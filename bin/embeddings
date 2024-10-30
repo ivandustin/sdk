@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-from functools import partial
-from sys import argv, stdin
 from os import environ
+from sys import stdin
 from transformers import AutoModelForPreTraining
 import torch
 from numpystring import to_string
@@ -10,15 +9,13 @@ IS_GPU = torch.cuda.is_available()
 
 
 def main():
-    index = int(argv[1]) if len(argv) > 1 else None
     model_name = environ.get("MODEL", "sentence-transformers/LaBSE")
     model = to_gpu(AutoModelForPreTraining.from_pretrained(model_name).eval())
     if environ.get("HALF", "0") == "1":
         model = model.half()
-    model = partial(model, output_hidden_states=True)
     for line in stdin:
         input_ids = to_gpu(unshift(torch.tensor(parse(line))))
-        embeddings = select(index, get_embeddings(model(input_ids)))
+        embeddings = model(input_ids).last_hidden_state
         print(to_string(to_cpu(shift(embeddings))))
 
 
@@ -40,16 +37,6 @@ def shift(tensor):
 
 def unshift(tensor):
     return tensor.unsqueeze(0)
-
-
-def get_embeddings(output):
-    return output.hidden_states[-1]
-
-
-def select(index, embeddings):
-    if index is None:
-        return embeddings
-    return unshift(embeddings[:, index, :])
 
 
 if __name__ == "__main__":
