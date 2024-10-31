@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+from sys import argv, stdin
+from onnxruntime import InferenceSession
+from numpystring import to_array, to_string
+
+
+def main():
+    filepath = argv[1]
+    session = InferenceSession(filepath)
+    for line in stdin:
+        (output,) = session.run(["output"], {"input": to_array(line)})
+        print(to_string(output.squeeze(0)))
+
+
+if __name__ == "__main__":
+    main()

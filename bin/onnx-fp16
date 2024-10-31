@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+from sys import argv
+from onnx import load, save
+from onnxconverter_common import float16
+
+
+def main():
+    source = argv[1]
+    dest = argv[2]
+    save(float16.convert_float_to_float16(load(source)), dest)
+
+
+if __name__ == "__main__":
+    main()
