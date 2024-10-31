@@ -16,7 +16,7 @@ def main():
         filepath,
         input_names=["input"],
         output_names=["output"],
-        dynamic_axes={"input": [0, 1], "output": [0, 1]},
+        dynamic_axes={"input": [1], "output": [1]},
     )
 
 
