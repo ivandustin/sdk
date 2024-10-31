@@ -9,7 +9,7 @@ def main():
     model_name = environ.get("MODEL", "sentence-transformers/LaBSE")
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     for line in stdin:
-        print(to_string(tokenizer.encode(line.strip(), return_tensors="pt")))
+        print(to_string(tokenizer.encode(line.strip(), return_tensors="np")))
 
 
 if __name__ == "__main__":
