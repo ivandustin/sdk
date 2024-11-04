@@ -11,6 +11,10 @@ def main():
     index = read_index(filepath) if name == "nt" else read_index(filepath, IO_FLAG_MMAP)
     if "NPROBE" in environ:
         ParameterSpace().set_index_parameter(index, "nprobe", int(environ["NPROBE"]))
+    if "EFSEARCH" in environ:
+        ParameterSpace().set_index_parameter(
+            index, "efSearch", int(environ["EFSEARCH"])
+        )
     count = min(count, index.ntotal)
     for line in stdin:
         array = to_array(line)
