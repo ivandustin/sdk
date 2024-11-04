@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+from sys import argv, stdin
+from numpy import expand_dims
+from numpystring import to_array, to_string
+
+
+def main():
+    index = int(argv[1])
+    for line in stdin:
+        print(to_string(expand_dims(to_array(line)[index], axis=0)))
+
+
+if __name__ == "__main__":
+    main()
