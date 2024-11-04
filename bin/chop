@@ -5,7 +5,7 @@ from sys import stdin
 
 def main():
     parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
-    parser.add_argument("--symbols", default=".?!;:,", help="symbols to chop on")
+    parser.add_argument("--symbols", default=".?!:;,", help="symbols to chop on")
     parser.add_argument(
         "--lines",
         type=FileType("w", encoding="utf-8"),
