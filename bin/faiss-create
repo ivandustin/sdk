@@ -17,16 +17,17 @@ def main():
         "--train", type=FileType("r", encoding="utf-8"), default=None, help="train file"
     )
     args = parser.parse_args()
-    index = None
-    for line in stdin:
-        array = to_array(line)
-        if index is None:
-            dims = array.shape[-1]
-            index = index_factory(dims, args.string)
-            if args.train is not None:
-                index.train(concatenate([to_array(line) for line in args.train]))
-        index.add(array)  # pylint: disable=no-value-for-parameter
+    array = read(stdin)
+    dims = array.shape[-1]
+    index = index_factory(dims, args.string)
+    if args.train is not None:
+        index.train(read(args.train))
+    index.add(array)  # pylint: disable=no-value-for-parameter
     write_index(index, args.filepath)
+
+
+def read(file):
+    return concatenate(list(map(to_array, file)))
 
 
 if __name__ == "__main__":
