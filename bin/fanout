@@ -1,26 +1,20 @@
 #!/usr/bin/env python3
 from sys import argv, stdin, stdout, stderr
 from subprocess import Popen, PIPE
-from dataclasses import dataclass
 from functools import partial
 from threading import Thread
 from shutil import which
-
-
-@dataclass
-class State:
-    is_ended: bool = False
-    count: int = 0
+from queue import Queue
 
 
 def main():
     commands = argv[1:]
-    state = State()
+    queue = Queue()
     processes = list(map(run, commands))
     for process in processes:
         assert process.poll() is None
-    spawn(partial(write, processes, state))
-    read(processes, state)
+    spawn(partial(write, processes, queue))
+    read(processes, queue)
 
 
 def run(command):
@@ -38,20 +32,18 @@ def spawn(function):
     Thread(target=function).start()
 
 
-def write(processes, state):
-    count = 0
-    while not state.is_ended or count < state.count:
+def write(processes, queue):
+    while queue.get():
         for process in processes:
             stdout.write(process.stdout.readline())
-        count += 1
 
 
-def read(processes, state):
+def read(processes, queue):
     for line in stdin:
         for process in processes:
             process.stdin.write(line)
-        state.count += 1
-    state.is_ended = True
+        queue.put(True)
+    queue.put(False)
 
 
 if __name__ == "__main__":
