@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 from sys import stdin
-from faiss import METRIC_INNER_PRODUCT, index_factory, write_index
+from faiss import METRIC_INNER_PRODUCT, ParameterSpace, index_factory, write_index
 from numpy import concatenate
 from numpystring import to_array
 
@@ -13,10 +13,20 @@ def main():
     parser.add_argument(
         "--metric", type=int, default=METRIC_INNER_PRODUCT, help="metric type"
     )
+    parser.add_argument(
+        "--efconstruction",
+        type=int,
+        default=None,
+        help="expansion factor at construction time",
+    )
     args = parser.parse_args()
     array = concatenate(list(map(to_array, stdin)))
     dims = array.shape[-1]
     index = index_factory(dims, args.string)
+    if args.efconstruction is not None:
+        ParameterSpace().set_index_parameter(
+            index, "efConstruction", args.efconstruction
+        )
     if not index.is_trained:
         index.train(array)
     index.add(array)  # pylint: disable=no-value-for-parameter
