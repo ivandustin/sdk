@@ -12,7 +12,7 @@ def main():
         print(
             dumps(
                 {
-                    "custom_id": line_number,
+                    "custom_id": str(line_number),
                     "method": "POST",
                     "url": url,
                     "body": body,
