@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+from sys import argv, stdin
+from json import loads, dumps
+
+
+def main():
+    url = argv[1]
+    line_number = 0
+    for line in stdin:
+        line_number += 1
+        body = loads(line)
+        print(
+            dumps(
+                {
+                    "custom_id": line_number,
+                    "method": "POST",
+                    "url": url,
+                    "body": body,
+                }
+            )
+        )
+
+
+if __name__ == "__main__":
+    main()
