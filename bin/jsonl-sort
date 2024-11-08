@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+from json import loads, dumps
+from sys import argv, stdin
+
+
+def main():
+    key = argv[1]
+    items = list(map(loads, stdin))
+    items.sort(key=lambda item: int(item[key]))
+    print("\n".join(map(dumps, items)))
+
+
+if __name__ == "__main__":
+    main()
