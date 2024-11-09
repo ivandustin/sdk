@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+from sys import argv, stdin
+from os import environ
+from tiktoken import encoding_for_model
+
+
+def main():
+    tokens = int(argv[1])
+    encoder = encoding_for_model(environ["OPENAI_MODEL"])
+    for line in stdin:
+        print(encoder.decode(encoder.encode(line.strip())[:tokens]))
+
+
+if __name__ == "__main__":
+    main()
