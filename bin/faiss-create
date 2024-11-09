@@ -14,7 +14,7 @@ def main():
         "--metric", type=int, default=METRIC_INNER_PRODUCT, help="metric type"
     )
     parser.add_argument(
-        "--efconstruction",
+        "--ef",
         type=int,
         default=None,
         help="expansion factor at construction time",
