@@ -23,10 +23,8 @@ def main():
     array = concatenate(list(map(to_array, stdin)))
     dims = array.shape[-1]
     index = index_factory(dims, args.string)
-    if args.efconstruction is not None:
-        ParameterSpace().set_index_parameter(
-            index, "efConstruction", args.efconstruction
-        )
+    if args.ef is not None:
+        ParameterSpace().set_index_parameter(index, "efConstruction", args.ef)
     if not index.is_trained:
         index.train(array)
     index.add(array)  # pylint: disable=no-value-for-parameter
