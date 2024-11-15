@@ -5,15 +5,13 @@ from pandas import read_csv
 
 
 def main():
-    columns = argv[1:-1]
-    column = argv[-1]
+    columns = argv[1:]
     dataframe = read_csv(stdin, sep=None, engine="python")
     groups = dataframe.groupby(columns)
     for name, dataframe in groups:
-        filepath = Path(*(map(str, name)))
+        filepath = Path(*(map(str, name))).with_suffix(".csv")
         filepath.parent.mkdir(parents=True, exist_ok=True)
-        with open(filepath, "w", encoding="utf-8") as file:
-            print("\n".join(dataframe[column]), file=file)
+        dataframe.to_csv(filepath, index=False)
 
 
 if __name__ == "__main__":
