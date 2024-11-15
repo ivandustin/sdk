@@ -6,12 +6,15 @@ from pandas import read_csv
 
 def main():
     columns = argv[1:]
-    dataframe = read_csv(stdin, sep=None, engine="python")
-    groups = dataframe.groupby(columns)
-    for name, dataframe in groups:
-        filepath = Path(*(map(str, name))).with_suffix(".csv")
-        filepath.parent.mkdir(parents=True, exist_ok=True)
-        dataframe.to_csv(filepath, index=False)
+    for inpath in stdin:
+        inpath = Path(inpath.strip())
+        dataframe = read_csv(inpath)
+        groups = dataframe.groupby(columns)
+        for name, dataframe in groups:
+            outpath = inpath.stem / Path(*(map(str, name))).with_suffix(".csv")
+            outpath.parent.mkdir(parents=True, exist_ok=True)
+            dataframe.to_csv(outpath, index=False)
+            print(outpath)
 
 
 if __name__ == "__main__":
