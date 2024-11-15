@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+from sys import argv, stdin
+from pathlib import Path
+from pandas import read_csv
+
+
+def main():
+    column = argv[1]
+    for inpath in stdin:
+        inpath = Path(inpath.strip())
+        dataframe = read_csv(inpath)
+        outpath = inpath.parent / inpath.stem / f"{column}.txt"
+        outpath.parent.mkdir(exist_ok=True)
+        with open(outpath, "w", encoding="utf-8") as file:
+            print("\n".join(dataframe[column]), file=file)
+        print(outpath)
+
+
+if __name__ == "__main__":
+    main()
