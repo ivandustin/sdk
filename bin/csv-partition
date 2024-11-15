@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+from sys import argv, stdin
+from pathlib import Path
+from pandas import read_csv
+
+
+def main():
+    columns = argv[1:-1]
+    column = argv[-1]
+    dataframe = read_csv(stdin, sep=None, engine="python")
+    groups = dataframe.groupby(columns)
+    for name, dataframe in groups:
+        filepath = Path(*(map(str, name)))
+        filepath.parent.mkdir(parents=True, exist_ok=True)
+        with open(filepath, "w", encoding="utf-8") as file:
+            print("\n".join(dataframe[column]), file=file)
+
+
+if __name__ == "__main__":
+    main()
