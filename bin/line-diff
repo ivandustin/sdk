@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+from sys import argv, stdin
+from pathlib import Path
+
+
+def main():
+    dir_a = Path(argv[1])
+    dir_b = Path(argv[2])
+    for filepath in stdin:
+        filepath = Path(filepath.strip())
+        file_a = dir_a / filepath
+        file_b = dir_b / filepath
+        lines_a = readlines(file_a)
+        lines_b = readlines(file_b)
+        len_a = len(lines_a)
+        len_b = len(lines_b)
+        if len_a != len_b:
+            diff = abs(len_a - len_b)
+            print("a", len_a, "b", len_b, "diff", diff, filepath)
+
+
+def readlines(filepath):
+    with open(filepath, "r", encoding="utf-8") as file:
+        return list(filter(identity, map(strip, file.readlines())))
+
+
+def identity(value):
+    return value
+
+
+def strip(value):
+    return value.strip()
+
+
+if __name__ == "__main__":
+    main()
