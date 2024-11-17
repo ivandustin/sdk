@@ -16,7 +16,8 @@ def main():
         len_b = len(lines_b)
         if len_a != len_b:
             diff = abs(len_a - len_b)
-            print("a", len_a, "b", len_b, "diff", diff, filepath)
+            sign = "+" if len_b > len_a else "-"
+            print("a", len_a, "b", len_b, "diff", diff, sign, filepath)
 
 
 def readlines(filepath):
