@@ -15,14 +15,15 @@ def main():
 
 
 def get(columns, directory):
-    pattern = "/".join(["*"] * (len(columns)))
+    pattern = "/".join(["*"] * (len(columns) - 1))
     filepaths = list(directory.glob(pattern))
     for filepath in filepaths:
         with open(filepath, "r", encoding="utf-8") as file:
             items = list(map(strip, file.readlines()))
-        keys = list(filepath.parts[-len(columns) : -1])  # noqa: E203
-        for item in items:
-            yield keys + [item]
+        keys = list(filepath.parts[:-1][-(len(columns) - 2) :])  # noqa: E203
+        for index, item in enumerate(items):
+            line_number = index + 1
+            yield keys + [line_number] + [item]
 
 
 def strip(line):
