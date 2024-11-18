@@ -8,14 +8,16 @@ def main():
         inpath = Path(inpath.strip())
         with open(inpath, "r", encoding="utf-8") as file:
             lines = file.readlines()
-        batch_size = max(len(lines) // 2, 1)
-        for i in range(0, len(lines), batch_size):
-            batch = lines[i : i + batch_size]  # noqa: E203
-            outpath = inpath.with_stem(f"{inpath.stem}-{i + 1}")
-            with open(outpath, "w", encoding="utf-8") as file:
-                for line in batch:
-                    file.write(line)
-            print(outpath)
+        length = len(lines)
+        if length > 0:
+            batch_size = max(length // 2, length)
+            for i in range(0, length, batch_size):
+                batch = lines[i : i + batch_size]  # noqa: E203
+                outpath = inpath.with_stem(f"{inpath.stem}-{i + 1}")
+                with open(outpath, "w", encoding="utf-8") as file:
+                    for line in batch:
+                        file.write(line)
+                print(outpath)
 
 
 if __name__ == "__main__":
