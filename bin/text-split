@@ -20,8 +20,8 @@ def main():
                 with open(outpath, "w", encoding="utf-8") as file:
                     for line in batch:
                         file.write(line)
-                inpath.unlink()
                 print(outpath)
+            inpath.unlink()
 
 
 if __name__ == "__main__":
