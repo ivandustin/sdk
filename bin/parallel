@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+outdir=$1
+shift
+while read -r filepath; do
+    (
+        outpath=$outdir/$filepath
+        "$@" < $filepath > $outpath
+        echo $outpath
+    ) &
+done
+wait
