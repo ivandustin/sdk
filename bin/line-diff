@@ -17,20 +17,12 @@ def main():
         if len_a != len_b:
             diff = abs(len_a - len_b)
             sign = "+" if len_b > len_a else "-"
-            print("a", len_a, "b", len_b, "diff", diff, sign, filepath)
+            print("a", len_a, "b", len_b, "diff", diff, sign, filepath, file_a, file_b)
 
 
 def readlines(filepath):
     with open(filepath, "r", encoding="utf-8") as file:
-        return list(filter(identity, map(strip, file.readlines())))
-
-
-def identity(value):
-    return value
-
-
-def strip(value):
-    return value.strip()
+        return file.readlines()
 
 
 if __name__ == "__main__":
