@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-if [ "$REQ" -eq 1 ]; then
+if [ "$REQ" = "1" ]; then
     ai-request-create $*
 else
     ai-request-create $* | openai-chat-post | openai-content-get
