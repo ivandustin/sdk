@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-ai edit each line
+ai edit each line "$@"
