@@ -16,7 +16,7 @@ def create(temperature: float, model: str, instruction: str, data: str) -> dict:
     return {
         "model": model,
         "messages": [
-            {"role": "system", "content": "OUTPUT ONLY!"},
+            {"role": "system", "content": "STRICTLY OUTPUT ONLY!"},
             {"role": "assistant", "content": data},
             {"role": "user", "content": instruction},
         ],
