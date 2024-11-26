@@ -1,6 +1,2 @@
 #!/usr/bin/env bash
-if [ "$REQ" = "1" ]; then
-    ai-request $*
-else
-    ai-request $* | openai-chat | openai-content
-fi
+ai-request $* | openai-chat | openai-content

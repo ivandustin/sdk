@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
-curl -s "https://api.openai.com/$1" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $OPENAI_API_KEY" \
-  -d @- | json-ugly
+if [ "$REQ" = "1" ]; then
+  json-ugly >&2
+else
+  curl -s "https://api.openai.com/$1" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $OPENAI_API_KEY" \
+    -d @- | json-ugly
+fi
