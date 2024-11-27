@@ -5,4 +5,4 @@ bible-get $(cat ref.txt) 1-99 | log > greek.txt
 ai translate the given text to simple english < greek.txt | log > eng.txt
 ai-list list topics from the given text < eng.txt | log > topics.txt
 random-pick < topics.txt | log > topic.txt
-ai filter the given text to about $(cat topic.txt) only < eng.txt | tee out.txt
+ai filter the given text to about $(cat topic.txt) only. maintain the text. keep the pronouns clear. < eng.txt | tee out.txt
