@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-ai-request $* | openai-chat | openai-content
+schema=$(dirname $0)/../etc/schemas/output.json
+ai-json $schema $@ | json-get output | json-string-print

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-set -exo pipefail
-gospel-chapters | shuf | head -n 1 | log > ref.txt
+set -euxo pipefail
+gospel-chapters | random-pick | log > ref.txt
 bible-get $(cat ref.txt) 1-99 | log > greek.txt
-ai simple english < greek.txt | log > eng.txt
-ai topics. per line. no bullets. < eng.txt | log > topics.txt
-shuf < topics.txt | head -n 1 | log > topic.txt
-ai $(cat topic.txt) excerpt only < eng.txt | tee out.txt
+ai translate the given text to simple english < greek.txt | log > eng.txt
+ai-list list topics from the given text < eng.txt | log > topics.txt
+random-pick < topics.txt | log > topic.txt
+ai filter the given text to about $(cat topic.txt) only < eng.txt | tee out.txt

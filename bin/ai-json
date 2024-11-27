@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 filepath=$1
 shift
-ai-request $* | ai-schema "$filepath" | openai-chat | openai-content | json-ugly
+ai-request $@ | ai-schema "$filepath" | openai-chat | openai-content | json-ugly

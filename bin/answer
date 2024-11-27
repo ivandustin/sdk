@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
+set -euo pipefail
 schema=$(dirname $0)/../etc/schemas/answer.json
 ai-json $schema $@ | json-get answer

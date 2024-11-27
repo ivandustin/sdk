@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+shuf | head -n 1

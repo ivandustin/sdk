@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+schema=$(dirname $0)/../etc/schemas/text.json
+ai-json $schema $@ | json-get text | json-string-print
