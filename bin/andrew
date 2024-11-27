@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -exo pipefail
+gospel-chapters | shuf | head -n 1 | log > ref.txt
+bible-get $(cat ref.txt) 1-99 | log > greek.txt
+ai simple english < greek.txt | log > eng.txt
+ai topics. per line. no bullets. < eng.txt | log > topics.txt
+shuf < topics.txt | head -n 1 | log > topic.txt
+ai $(cat topic.txt) excerpt only < eng.txt | tee out.txt
