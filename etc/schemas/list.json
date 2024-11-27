@@ -1,0 +1,16 @@
+{
+    "properties": {
+        "list": {
+            "items": {
+                "type": "string"
+            },
+            "title": "List",
+            "type": "array"
+        }
+    },
+    "required": [
+        "list"
+    ],
+    "title": "Schema",
+    "type": "object"
+}
