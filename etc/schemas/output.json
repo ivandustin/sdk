@@ -1,0 +1,13 @@
+{
+    "properties": {
+        "output": {
+            "title": "Output",
+            "type": "string"
+        }
+    },
+    "required": [
+        "output"
+    ],
+    "title": "Schema",
+    "type": "object"
+}
