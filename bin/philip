@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
-set -euxo pipefail
-trap 'echo FAIL' ERR
+set -euvxo pipefail
 filepath=$1
 first < $filepath | log | assert the given text is a pure new testament text
 last < $filepath | log | assert the given text is a pure new testament text
 assert the given text is a pure new testament text < $filepath
 assert there are no verse numbers in the given text < $filepath
-echo OK
