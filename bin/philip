@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 set -euxo pipefail
+trap 'echo FAIL' ERR
 filepath=$1
-[ $(grep -i jesus $filepath | wc -l) -gt 0 ] || false
-[ $(first < $filepath | answer is the given text a pure new testament text?) = true ] || false
-[ $(last < $filepath | answer is the given text a pure new testament text?) = true ] || false
-[ $(answer is the given text a pure new testament text? < $filepath) = true ] || false
-[ $(answer can the given text stand alone? < $filepath) = true ] || false
-[ $(answer are there any verse numbers in the given text? < $filepath) = false ] || false
-[ $(answer are there any errors in the new testament text? < $filepath) = false ] || false
+first < $filepath | log | assert the given text is a pure new testament text
+last < $filepath | log | assert the given text is a pure new testament text
+assert the given text is a pure new testament text < $filepath
+assert there are no verse numbers in the given text < $filepath
+echo OK
