@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+from json import dumps, load
+from sys import argv, stdin
+
+
+def main():
+    with open(argv[1], encoding="utf-8") as file:
+        print(dumps(load(stdin) | create(load(file))))
+
+
+def create(schema: dict) -> dict:
+    return {
+        "response_format": {
+            "type": "json_schema",
+            "json_schema": {
+                "name": "schema",
+                "schema": schema,
+            },
+        }
+    }
+
+
+if __name__ == "__main__":
+    main()
