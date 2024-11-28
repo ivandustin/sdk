@@ -4,5 +4,5 @@ andrew
 philip out.txt
 cp out.txt fb.txt
 echo >> fb.txt
-echo Reference: $(title < ref.txt) Bible >> fb.txt
+echo Read full chapter https://searchyah.app/$(tr ' ' - < ref.txt) >> fb.txt
 log < fb.txt | fb-post
