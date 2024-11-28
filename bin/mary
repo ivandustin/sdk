@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euvxo pipefail
+andrew
+philip out.txt
+cp out.txt fb.txt
+echo >> fb.txt
+echo Reference: $(title < ref.txt) Bible >> fb.txt
+log < fb.txt | fb-post
