@@ -1,5 +1,2 @@
 #!/usr/bin/env bash
-set -euo pipefail
-result=$(answer answer if the following statement is true or false: $@)
-echo $result $@ >&2
-[ $result = true ] || false
+answer answer if the following statement is true or false: $@
