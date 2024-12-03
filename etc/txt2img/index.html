@@ -7,14 +7,16 @@
         <link href="https://fonts.googleapis.com/css2?family=Radley&display=swap" rel="stylesheet">
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
-            p {
-                font-family: 'Radley', serif;
+            body {
                 font-size: 5.57vw;
                 padding: 14.59vw;
+            }
+            p {
+                font-family: 'Radley', serif;
             }
         </style>
     </head>
     <body class="flex items-center justify-center">
-        <p class="tracking-wider leading-relaxed text-center">{{text}}</p>
+        <p class="tracking-wider leading-relaxed text-center max-h-full overflow-hidden text-ellipsis">{{text}}</p>
     </body>
 </html>

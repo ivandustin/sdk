@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-set -evx
+set -euvxo pipefail
 root=$(dirname $(dirname $(realpath $0)))
 output=$1
 template=$(mktemp /tmp/XXXXX.html)
 data=$(mktemp /tmp/XXXXX.json)
 trap "rm $template $data" EXIT
-json-create text > $data
+json-create text | first > $data
 chevron $root/etc/txt2img/index.html --data $data > $template
 playwright screenshot $template $output --viewport-size 1080,1080 >&2
-echo $output
+json-get text < $data | json-string-print
