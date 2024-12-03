@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+ai translate the given text to $@
