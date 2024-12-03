@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
+from sys import stdin, stdout
 from pathlib import Path
 from time import sleep
 from os import environ
-from sys import stdin
 from playwright.sync_api import sync_playwright
 
 
@@ -35,6 +35,7 @@ def main():
         sleep(10)
         context.close()
         browser.close()
+    stdout.write(message)
 
 
 if __name__ == "__main__":
