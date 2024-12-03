@@ -1,0 +1,13 @@
+{
+    "properties": {
+        "sentence": {
+            "title": "Sentence",
+            "type": "string"
+        }
+    },
+    "required": [
+        "sentence"
+    ],
+    "title": "Schema",
+    "type": "object"
+}
