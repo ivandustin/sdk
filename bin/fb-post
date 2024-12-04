@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from argparse import ArgumentParser
+from contextlib import suppress
 from sys import stdin, stdout
 from pathlib import Path
 from time import sleep
@@ -7,6 +9,9 @@ from playwright.sync_api import sync_playwright
 
 
 def main():
+    parser = ArgumentParser()
+    parser.add_argument("--media", type=Path, help="Add photo or video")
+    args = parser.parse_args()
     storage_state = Path(environ["PLAYWRIGHT_STORAGE"])
     assert storage_state.is_file(), "Expected a storage state file"
     profile = environ.get("FB_POST_PROFILE", "")
@@ -31,6 +36,14 @@ def main():
             page.get_by_label("Done").click()
         page.get_by_role("paragraph").click()
         page.get_by_label("What's on your mind").fill(message)
+        if args.media:
+            page.get_by_label("Photo/video").click()
+            with page.expect_file_chooser() as fc_info:
+                page.get_by_role("button", name="Add Photos/Videos").click()
+            file_chooser = fc_info.value
+            file_chooser.set_files(str(args.media))
+        with suppress(Exception):
+            page.get_by_label("Next", exact=True).click()
         page.get_by_label("Post", exact=True).click()
         sleep(10)
         context.close()
