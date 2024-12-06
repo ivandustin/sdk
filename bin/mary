@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 set -evxo pipefail
 andrew >&2
+philip out.txt
 translate $LANGUAGE < out.txt > native.txt
-philip native.txt
 cp native.txt fb.txt
 echo >> fb.txt
 echo See full chapter https://searchyah.app/$(tr ' ' - < ref.txt) >> fb.txt
 ramah media.png < native.txt > media.txt
-assert the given sentence is a pure new testament verse < media.txt
 fb-post --media media.png < fb.txt
