@@ -1,0 +1,13 @@
+{
+    "properties": {
+        "translation": {
+            "title": "Translation",
+            "type": "string"
+        }
+    },
+    "required": [
+        "translation"
+    ],
+    "title": "Schema",
+    "type": "object"
+}
