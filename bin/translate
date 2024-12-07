@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-iff "$1" ai translate the given text to $@
+iff "$1" ai-translation translate the given text to $@
