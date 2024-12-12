@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+root=$(dirname $(dirname $(realpath $0)))
+template=$root/etc/schemas/template.json
+schema=$(mktemp)
+type=$1
+sed s/%/$type/g $template > $schema
+trap "rm $schema" EXIT
+shift
+ai-json $schema "$@" | json-get $type | json-string-print
+
