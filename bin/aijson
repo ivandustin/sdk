@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+aireq $2 | ai-schema-set $1 | openai-chat | openai-content | json-ugly
+
