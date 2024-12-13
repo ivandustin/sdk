@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -eu
+file=$(mktemp)
+trap "rm $file" EXIT
+command=$1
+shift
+echo $@ > $file
+exec $command $file
+
