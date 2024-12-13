@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -eu
+acc $1 > /dev/null
+exec python3 $(anycache $1)
+

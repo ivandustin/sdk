@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -eu
+source=$(anycache $1)
+[ -s $source ] || any2py < $1 > $source
+exec cat $source
+
