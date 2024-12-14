@@ -5,5 +5,5 @@ trap "rm $file" EXIT
 command=$1
 shift
 echo $@ > $file
-exec $command $file
+$command $file
 
