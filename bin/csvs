@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+import sys
+import csv
+
+def print_column_value(column_name):
+    reader = csv.DictReader(sys.stdin)
+    for row in reader:
+        print(row[column_name])
+
+if __name__ == '__main__':
+    column_name = sys.argv[1]
+    print_column_value(column_name)
