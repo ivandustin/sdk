@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -eu
-dir=/var/anyscript/cache
+dir=/var/any/cache
 [ -d $dir ] || mkdir -p $dir 
 echo $dir/$(md5sum $1 | awk '{ print $1 }').py
 
