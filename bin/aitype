@@ -4,6 +4,9 @@ root=$(dirname $(dirname $(realpath $0)))
 template=$root/etc/schemas/template.json
 schema=$(mktemp)
 trap "rm $schema" EXIT
-sed s/%/$1/g $template > $schema
-aijson $schema $2 | json-get $1 | json-string-print
+type=$1
+script=$2
+shift 2
+sed s/%/$type/g $template > $schema
+aijson $schema $script "$@" | json-get $type | json-string-print
 

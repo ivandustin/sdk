@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+file=$1
+shift
+tmp=$(mktemp)
+trap "rm $tmp" EXIT
+args $file "$@" | unshebang > $tmp
+aireq $tmp
+
