@@ -5,4 +5,6 @@ process input per line
 use standard streams
 write concise code
 use functional programming paradigm
+add usr bin env python3 shebang
+no comments
 
