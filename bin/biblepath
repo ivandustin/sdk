@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+home=$BIBLE_HOME
+data=$home/data
+for name in $@
+do
+	for path in $data/old/*-$name.csv $data/new/*-$name.csv
+	do
+		if [ -s $path ]
+		then
+			echo $path
+		fi
+	done
+done
+
