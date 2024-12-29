@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euvxo pipefail
+[ -s topic.txt ] || gospick
+exg $(cat topic.txt) < eng.txt | log > exg.txt
+
