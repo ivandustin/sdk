@@ -1,4 +1,3 @@
 #!/usr/bin/env aistory
-write a story
-about $@
+write a story about $@ based on the given text
 
