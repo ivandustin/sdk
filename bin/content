@@ -1,0 +1,5 @@
+#!/usr/bin/env aicontent
+write a content
+about $@
+based on the given text
+
