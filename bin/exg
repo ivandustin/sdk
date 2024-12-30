@@ -1,5 +1,4 @@
 #!/usr/bin/env aiexg
-write a standalone easy to understand full of grace exegesis that leads to jesus
-about $@
-use simple words
+write a standalone exegesis about $@
+use the given text as reference
 
