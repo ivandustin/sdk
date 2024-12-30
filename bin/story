@@ -1,0 +1,4 @@
+#!/usr/bin/env aistory
+write a story
+about $@
+
