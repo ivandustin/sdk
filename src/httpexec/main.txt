@@ -1,0 +1,10 @@
+use http.server
+script=argv[1]
+names=argv[2:]
+listen on port 8080
+handle POST /
+accept form url encoded
+args=[req[key] for key in names]
+run [bash, scripts] + args, check=true
+send stdout as plain text
+
