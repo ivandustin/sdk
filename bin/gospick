@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euvxo pipefail
-gospel-chapters | random-pick | log > ref.txt
+goschaps | pick | log > ref.txt
 biblechap $(cat ref.txt) | log > greek.txt
-translate modern english < greek.txt | log > eng.txt
-ai-list list topics from the given text < eng.txt | log > topics.txt
-random-pick < topics.txt | log > topic.txt
+eng < greek.txt | log > eng.txt
+topics < eng.txt | log > topics.txt
+pick < topics.txt | log > topic.txt
+
