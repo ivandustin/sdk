@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -eu
+script=$1
+shift
+shebang bash > $script
+echo exec "$@" '"$@"' >> $script
+chmod +x $script
+
