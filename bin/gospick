@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-set -euvxo pipefail
-goschaps | pick | log > ref.txt
-biblechap $(cat ref.txt) | log > greek.txt
-eng < greek.txt | log > eng.txt
-topics < eng.txt | log > topics.txt
-pick < topics.txt | log > topic.txt
+set -euo pipefail
+if [ $(seq 2 | pick) = 1 ]
+then
+	goschaps | grep john
+else
+	goschaps | grep -v john
+fi | pick
 
