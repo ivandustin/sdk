@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+script=$1
+interp=${2:-bash}
+shebang $interp > $script
+chmod +x $script
+
