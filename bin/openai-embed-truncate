@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-OPENAI_MODEL=$OPENAI_EMBEDDING_MODEL openai-truncate "$@"
+OPENAIMODEL=$OPENAI_EMBEDDING_MODEL openai-truncate "$@"

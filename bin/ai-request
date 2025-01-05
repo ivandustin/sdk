@@ -6,7 +6,7 @@ from os import environ
 
 def main():
     temperature = float(environ.get("OPENAI_TEMP", "0"))
-    model = environ["OPENAI_MODEL"]
+    model = environ["OPENAIMODEL"]
     instruction = " ".join(argv[1:])
     data = stdin.read().strip()
     print(dumps(create(temperature, model, instruction, data)))
