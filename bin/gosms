@@ -1,5 +1,5 @@
 #!/usr/bin/env aisms
-write a short gospel SMS about $@ from the given text
+write a concise gospel SMS about $@ from the given text
 no greetings
+no questions
 no hashtags
-
