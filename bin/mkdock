@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -eu
+dock=$(rootpath $0)/etc/dock
+name=$1
+cp -r $dock $name
+cd $name
+sed -i s/NAME/$name/g *
