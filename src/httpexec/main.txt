@@ -5,6 +5,6 @@ listen on port 8080
 handle POST /
 accept form url encoded
 args=[req[key] for key in names]
-run [bash, scripts] + args, check=true
+run [bash, scripts] + args, check=true, text=true, stderr=sys.stderr, stdout=pipe, stdin=devnull
 send stdout as plain text
-
+handle unset headers

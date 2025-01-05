@@ -2,20 +2,23 @@
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs
-import subprocess
+from subprocess import run, PIPE, DEVNULL
 import sys
 
 class RequestHandler(BaseHTTPRequestHandler):
     def do_POST(self):
-        content_length = int(self.headers['Content-Length'])
-        post_data = self.rfile.read(content_length)
-        req = parse_qs(post_data.decode('utf-8'))
+        content_length = int(self.headers.get('Content-Length', 0))
+        post_data = self.rfile.read(content_length).decode('utf-8')
+        req = parse_qs(post_data)
         args = [req.get(key, [''])[0] for key in sys.argv[2:]]
-        result = subprocess.run(['bash', sys.argv[1]] + args, check=True, capture_output=True, text=True)
+        result = run(['bash', sys.argv[1]] + args, check=True, text=True, stderr=sys.stderr, stdout=PIPE, stdin=DEVNULL)
         self.send_response(200)
         self.send_header('Content-type', 'text/plain')
         self.end_headers()
         self.wfile.write(result.stdout.encode('utf-8'))
+
+    def log_message(self, format, *args):
+        return
 
 def main():
     server_address = ('', 8080)
