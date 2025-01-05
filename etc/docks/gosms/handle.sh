@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
-exec sandbox gosmsx
-
+set -euvxo pipefail
+lang=$1
+sandbox gosmsx | trans2 $lang | log
