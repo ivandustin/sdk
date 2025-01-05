@@ -2,4 +2,4 @@
 set -euvxo pipefail
 gosprep
 gosedit < eng.txt | log > edit.txt
-gosms $(cat topic.txt) < edit.txt | log | tee sms.txt
+gosms $(cat topic.txt) < edit.txt | tee sms.txt
