@@ -1,5 +1,6 @@
 #!/usr/bin/env aisms
 write a concise gospel SMS about $@ from the given text
+use ASCII characters only
 no greetings
 no questions
 no hashtags
