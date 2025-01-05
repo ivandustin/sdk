@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euvxo pipefail
-[ -s topic.txt ] || gospick
-gosms $(cat topic.txt) < eng.txt | log > sms.txt
-wc -m sms.txt >&2
+gosprep
+gosedit < eng.txt | log > edit.txt
+gosms $(cat topic.txt) < edit.txt | tee sms.txt
 
