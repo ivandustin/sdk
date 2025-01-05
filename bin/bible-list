@@ -7,7 +7,7 @@ from pandas import read_csv
 
 
 def main():
-    directory = Path(environ["BIBLE_HOME"]) / "data"
+    directory = Path(environ["BIBLEHOME"]) / "data"
     filepaths = directory.glob("*/*.csv")
     for filepath in filepaths:
         dataframe = read_csv(filepath)
