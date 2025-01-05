@@ -1,4 +1,4 @@
-#!/usr/bin/env aicode
+#!/usr/bin/env aipy
 the given text is a pseudocode
 convert it to python code
 process input per line
@@ -8,4 +8,3 @@ use functional programming paradigm
 add usr bin env python3 shebang
 no comments
 define main
-
