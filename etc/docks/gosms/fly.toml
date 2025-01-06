@@ -1,3 +1,8 @@
+# fly.toml app configuration file generated for gosms on 2025-01-06T10:32:39+08:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
 app = 'gosms'
 primary_region = 'iad'
 
