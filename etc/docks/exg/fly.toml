@@ -1,4 +1,9 @@
-app = 'exg'
+# fly.toml app configuration file generated for exg-a5b4 on 2025-01-07T13:54:11+08:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'exg-a5b4'
 primary_region = 'iad'
 
 [build]
