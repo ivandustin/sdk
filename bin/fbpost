@@ -12,10 +12,10 @@ def main():
     parser = ArgumentParser()
     parser.add_argument("--media", type=Path, help="Add photo or video")
     args = parser.parse_args()
-    storage_state = Path(environ["PLAYWRIGHT_STORAGE"])
+    storage_state = Path(environ["PWSTOR"])
     assert storage_state.is_file(), "Expected a storage state file"
-    profile = environ.get("FB_POST_PROFILE", "")
-    is_public = environ.get("FB_POST_PUBLIC", "0") == "1"
+    profile = environ.get("FBPROF", "")
+    is_public = environ.get("FBPUB", "0") == "1"
     is_private = not is_public
     message = stdin.read()
     assert message, "Expected a message to post"
