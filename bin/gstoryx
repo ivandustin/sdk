@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euvxo pipefail
+gosprep
+gstory < topic.txt | tee story.txt
