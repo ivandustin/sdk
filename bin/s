@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec q write a statement about "$@"
+exec q write a formal statement about "$@"
