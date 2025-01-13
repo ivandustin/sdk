@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -eu
+tmp=$(mktemp ./XXXXX)
+trap "rm $tmp" EXIT
+fly deploy
