@@ -1,6 +1,5 @@
 #!/usr/bin/env aistory
-tell
-a story
+tell a story
 about the given topic
 from the New Testament
 that leads to Jesus
