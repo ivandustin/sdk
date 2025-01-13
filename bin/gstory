@@ -1,9 +1,10 @@
 #!/usr/bin/env aistory
 tell
-a short
-and inspiring
-and full of grace
-story
+a story
+about the given topic
 from the New Testament
 that leads to Jesus
-about the given topic
+in prose form
+no headings
+be concise
+use layman words
