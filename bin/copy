@@ -1,2 +1,4 @@
 #!/usr/bin/env aicopy
-copy the following topic from the given text: $@
+copy only
+from the given text
+about $@
