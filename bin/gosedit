@@ -1,6 +1,7 @@
-#!/usr/bin/env aiedit
-edit the given new testament text
+#!/usr/bin/env aicopyedit
+copyedit the given new testament text
 format the text properly
 clarify the speaker
 in prose form
 no headings
+be concise
