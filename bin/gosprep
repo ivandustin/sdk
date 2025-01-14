@@ -5,4 +5,3 @@ biblechap $(cat ref.txt) | log > greek.txt
 eng < greek.txt | log > eng.txt
 topics < eng.txt | log > topics.txt
 pick < topics.txt | log > topic.txt
-
