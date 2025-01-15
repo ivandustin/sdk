@@ -1,4 +1,9 @@
-app = 'mary'
+# fly.toml app configuration file generated for mary-c743 on 2025-01-15T21:12:17+08:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'mary-c743'
 primary_region = 'iad'
 
 [build]
