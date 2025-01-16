@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 set -evxo pipefail
-andrew | log > out.txt
-philip out.txt
-ifa trans $LANGUAGE < out.txt > native.txt
-cp native.txt fb.txt
-echo >> fb.txt
-echo See full chapter https://searchyah.app/$(tr ' ' - < ref.txt) >> fb.txt
-ramah media.png < native.txt | log >  media.txt
-fbpost --media media.png < fb.txt
+andrew | log | ifa trans $LANGUAGE | log > out.txt
+ramah media.png < out.txt >&2
+echo >> out.txt
+echo See full chapter https://searchyah.app/$(tr ' ' - < ref.txt) >> out.txt
+fbpost --media media.png < out.txt
