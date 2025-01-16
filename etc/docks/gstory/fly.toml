@@ -20,6 +20,6 @@ primary_region = 'iad'
   policy = 'never'
 
 [[vm]]
-  memory = '1gb'
+  memory = '2gb'
   cpu_kind = 'shared'
-  cpus = 1
+  cpus = 8
