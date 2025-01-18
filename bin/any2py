@@ -1,10 +1,8 @@
 #!/usr/bin/env aipy
-the given text is a pseudocode
-convert it to python code
-process input per line
+convert the given pseudocode to python code
+print each output immediately by default
+accept multiple inputs by default
+use functional programming
 use standard streams
 write concise code
-use functional programming paradigm
-add usr bin env python3 shebang
 no comments
-define main

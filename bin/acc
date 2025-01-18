@@ -2,5 +2,5 @@
 set -eu
 source=$(anycache $1)
 [ -s $source ] || any2py < $1 > $source
+shebang python3
 exec cat $source
-
