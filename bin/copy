@@ -1,4 +1,4 @@
 #!/usr/bin/env aicopy
-copy only
+copy partial text
 from the given text
 about $@
