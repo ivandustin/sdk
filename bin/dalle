@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-dalle-request | openai-post /v1/images/generations
+set -euo pipefail
+args $1 "$@" | dallereq | openai-post /v1/images/generations | json-get data 0 url | json-string-print
