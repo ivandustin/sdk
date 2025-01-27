@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euvxo pipefail
+[ ! -z "$*" ]
 describe $@ | log > desc.txt
 focus < desc.txt | log > focus.txt
 dalle < focus.txt | tee image.txt
