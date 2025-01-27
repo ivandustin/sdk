@@ -1,3 +1,2 @@
 #!/usr/bin/env aidesc
-describe $@
-in the given scene
+describe the $@ in the given scene
