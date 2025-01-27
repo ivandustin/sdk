@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euvxo pipefail
+file=$1
+objects < $file | log > objects.txt
+pick < objects.txt | log > object.txt
+exec image $(cat object.txt) < $file
