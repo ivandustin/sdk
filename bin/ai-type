@@ -7,5 +7,5 @@ type=$1
 sed s/%/$type/g $template > $schema
 trap "rm $schema" EXIT
 shift
-ai-json $schema "$@" | json $type | json-string-print
+ai-json $schema "$@" | json $type | jsonprint
 

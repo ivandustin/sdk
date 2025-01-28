@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-json choices 0 message tool_calls 0 function arguments | json-string-print | json-ugly
+json choices 0 message tool_calls 0 function arguments | jsonprint | json-ugly
