@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-set -euo pipefail
-ai-use output $@ | json output | jsonprint
+exec aitype output "$@"
