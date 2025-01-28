@@ -2,4 +2,4 @@
 set -euo pipefail
 filepath=$1
 shift
-ai-request $@ | ai-schema-set "$filepath" | openaichat | openaicontent | jsonugly
+ai-request $@ | aischema "$filepath" | openaichat | openaicontent | jsonugly
