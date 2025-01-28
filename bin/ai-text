@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 set -euo pipefail
-ai-use text $@ | json-get text | json-string-print
+ai-use text $@ | json text | json-string-print

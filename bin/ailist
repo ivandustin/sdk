@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
-aiuse list "$@" | json-get list | json-array-print
+aiuse list "$@" | json list | json-array-print
 
