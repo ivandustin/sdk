@@ -1,4 +1,9 @@
-pp = 'gstory2'
+# fly.toml app configuration file generated for gstory2 on 2025-01-28T19:27:08+08:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'gstory2'
 primary_region = 'iad'
 
 [build]
