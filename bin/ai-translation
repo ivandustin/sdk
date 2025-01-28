@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-ai-use translation $@ | json translation | jsonprint

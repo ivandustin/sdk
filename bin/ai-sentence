@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-ai-use sentence $@ | json sentence | jsonprint

@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-filepath=$(dirname $0)/../etc/schemas/$1.json
-shift
-ai-json $filepath $@

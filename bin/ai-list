@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-ai-use list $@ | json list | json-array-print
