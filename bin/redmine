@@ -1,0 +1,9 @@
+#!/usr/bin/env aiedit
+edit the document
+convert it to redmine format
+use e.g. "h1. Title" for headings
+use "<pre></pre>" for code blocks
+use e.g. "@variable@" for backticks
+add newline after each heading
+use "*" for unordered list
+use "#" for ordered list
