@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec aitype output "$@"
+exec a2f "aitype output" "$@"
