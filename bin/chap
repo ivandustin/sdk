@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+chapter=$1
+shift
+book="$*"
+csvf chapter $chapter < $(biblepath $book) | csvs word | join
