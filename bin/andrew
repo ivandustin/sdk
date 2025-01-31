@@ -2,4 +2,4 @@
 set -euvxo pipefail
 gosprep
 copy $(cat topic.txt) < eng.txt | log > part.txt
-gosedit < part.txt
+ged < part.txt

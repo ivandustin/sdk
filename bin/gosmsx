@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 set -euvxo pipefail
 gosprep
-gosedit < eng.txt | log > edit.txt
+ged < eng.txt | log > edit.txt
 gosms $(cat topic.txt) < edit.txt | tee sms.txt
