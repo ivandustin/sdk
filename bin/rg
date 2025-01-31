@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+if [ $(seq 2 | pick) = 1 ]
+then
+	echo john
+else
+	echo matthew
+	echo mark
+	echo luke
+fi | pick
