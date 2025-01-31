@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euvxo pipefail
+rg | log > book.txt
+chaps $(<book.txt) | pick | log > chap.txt
+chap $(<chap.txt) $(<book.txt) | log > raw.txt
+eng < raw.txt | log > eng.txt
+jesus < eng.txt | log > list.txt
+pick < list.txt | log > pick.txt
+teaching < pick.txt
+ged < pick.txt
