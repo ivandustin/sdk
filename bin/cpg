@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euvxo pipefail
+copy $(<topic.txt) < eng.txt | log > copy.txt
+ged < copy.txt | log > edit.txt
