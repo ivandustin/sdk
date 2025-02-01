@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 set -euvxo pipefail
-gosprep
+pg
 copy $(cat topic.txt) < eng.txt | log > part.txt
 ged < part.txt

@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -euvxo pipefail
-gosprep
+pg
 exg < topic.txt | tee exg.txt
