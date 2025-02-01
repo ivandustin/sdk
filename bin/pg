@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euvxo pipefail
-gospick | log > ref.txt
-biblechap $(cat ref.txt) | log > greek.txt
-eng < greek.txt | log > eng.txt
+rg | log > book.txt
+chaps $(<book.txt) | pick | log > chap.txt
+chap $(<chap.txt) $(<book.txt) | log > raw.txt
+eng < raw.txt | log > eng.txt
 topics < eng.txt | log > topics.txt
 pick < topics.txt | log > topic.txt
