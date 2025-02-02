@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -euvxo pipefail
 lang=$1
-sandbox gosmsx | log | ifa trans $lang | log
+sandbox gosmsx | log | trans $lang | log

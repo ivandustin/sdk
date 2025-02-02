@@ -7,11 +7,11 @@ pg
 cpg
 exg < edit.txt | log > exg.txt
 (
-	ifa trans $lang < edit.txt | log
+	trans $lang < edit.txt | log
 	echo
 	echo —
 	echo
-	ifa trans $lang < exg.txt | log
+	trans $lang < exg.txt | log
 ) > post.txt
-sen < edit.txt | log | ifa trans $lang | log | txt2img title.png
+sen < edit.txt | log | trans $lang | log | txt2img title.png
 fbpost --media title.png < post.txt

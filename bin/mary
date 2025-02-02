@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -evxo pipefail
-andrew | log | ifa trans $LANGUAGE | log > out.txt
+andrew | log | trans $LANGUAGE | log > out.txt
 ramah media.png < out.txt >&2
 echo >> out.txt
 echo See full chapter https://searchyah.app/$(tr ' ' - < ref.txt) >> out.txt
