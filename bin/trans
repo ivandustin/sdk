@@ -1,2 +1,2 @@
-#!/usr/bin/env aitrans
-translate the given text to modern and simple $@
+#!/usr/bin/env bash
+exec ifa translate "$@"
