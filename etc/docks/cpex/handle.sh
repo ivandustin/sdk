@@ -6,12 +6,12 @@ export FBPUB=$3
 pg
 cpg
 exg < edit.txt | log > exg.txt
-ifa trans $lang < edit.txt | log > post.txt
 (
+	ifa trans $lang < edit.txt | log
 	echo
-	echo ---
+	echo —
 	echo
 	ifa trans $lang < exg.txt | log
-) >> post.txt
+) > post.txt
 sen < edit.txt | log | ifa trans $lang | log | txt2img title.png
 fbpost --media title.png < post.txt
