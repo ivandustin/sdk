@@ -1,0 +1,5 @@
+#!/usr/bin/env aisen
+write one sentence
+about $@
+based on the given text
+in layman
