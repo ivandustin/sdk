@@ -3,5 +3,5 @@ set -evxo pipefail
 andrew | log | trans $LANGUAGE | log > out.txt
 ramah media.png < out.txt >&2
 echo >> out.txt
-echo See full chapter https://searchyah.app/$(tr ' ' - < ref.txt) >> out.txt
+echo See full chapter https://searchyah.app/$(<book.txt)-$(<chap.txt) >> out.txt
 fbpost --media media.png < out.txt
