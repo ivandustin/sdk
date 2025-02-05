@@ -9,7 +9,7 @@ exg < edit.txt | log > exg.txt
 (
 	trans $lang < edit.txt | log
 	echo
-	echo —
+	ref
 	echo
 	trans $lang < exg.txt | log
 ) > post.txt
