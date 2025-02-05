@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -eu
+book=$(title < book.txt)
+chap=$(<chap.txt)
+echo Reference: $book $chap Bible
