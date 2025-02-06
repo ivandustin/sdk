@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec mkj role $1 content
