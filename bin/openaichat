@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-openaipost /v1/chat/completions
+openai /v1/chat/completions

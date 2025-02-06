@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 set -euo pipefail
-dallereq | openaipost /v1/images/generations | json data 0 url | jsonprint
+dallereq | openai /v1/images/generations | json data 0 url | jsonprint
