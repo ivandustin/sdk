@@ -2,6 +2,5 @@
 set -euo pipefail
 script=$1
 interp=${2:-bash}
-shebang $interp > $script
+sb $interp > $script
 chmod +x $script
-

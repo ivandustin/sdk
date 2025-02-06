@@ -2,7 +2,6 @@
 set -eu
 script=$1
 shift
-shebang bash > $script
+sb bash > $script
 echo exec "$@" '"$@"' >> $script
 chmod +x $script
-
