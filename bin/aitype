@@ -8,5 +8,4 @@ type=$1
 script=$2
 shift 2
 sed s/%/$type/g $template > $schema
-aijson $schema $script "$@" | json $type | jsonprint
-
+aijson $schema $script "$@" | json $type | printj

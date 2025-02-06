@@ -8,4 +8,4 @@ trap "rm $template $data" EXIT
 json-create text | first > $data
 chevron $root/etc/txt2img/index.html --data $data > $template
 playwright screenshot $template $output --viewport-size 1080,1080 >&2
-json text < $data | jsonprint
+json text < $data | printj

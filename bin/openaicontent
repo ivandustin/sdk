@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-json choices 0 message content | jsonprint
+json choices 0 message content | printj
