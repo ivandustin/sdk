@@ -1,5 +1,2 @@
-#!/usr/bin/env aicontent
-write a content
-about $@
-based on the given text
-
+#!/usr/bin/env bash
+json choices 0 message content | printj
