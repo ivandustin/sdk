@@ -1,0 +1,3 @@
+build json array from sys argv
+parse each arg as json
+if parse error then string

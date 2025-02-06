@@ -1,0 +1,11 @@
+#!/usr/bin/env python3
+import sys, json
+
+print(
+    json.dumps(
+        [
+            json.loads(arg) if arg.startswith("{") or arg.startswith("[") else arg
+            for arg in sys.argv[1:]
+        ]
+    )
+)
