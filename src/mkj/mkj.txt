@@ -1,0 +1,5 @@
+build json from args
+args are key value pairs
+if no value then read from stdin
+parse value as json
+if parse error then string
