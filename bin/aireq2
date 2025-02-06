@@ -4,5 +4,5 @@ file=$1
 shift
 tmp=$(mktemp)
 trap "rm $tmp" EXIT
-args $file "$@" | unsb > $tmp
+args $file "$@" | rmsb > $tmp
 aireq $tmp
