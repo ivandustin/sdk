@@ -11,6 +11,8 @@ exg < edit.txt | log > exg.txt
 	echo
 	ref
 	echo
+	echo —
+	echo
 	trans $lang < exg.txt | log
 ) > post.txt
 sen < edit.txt | log | trans $lang | log | txt2img title.png
