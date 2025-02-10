@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -eu
 file=$1
-sys=$(rmsb < $file | sys)
+shift
+sys=$(args $file "$@" | rmsb | sys)
 msgs=$(mkja "$sys" "$(usr)")
 exec mkj model $MODEL messages "$msgs"
