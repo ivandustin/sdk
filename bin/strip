@@ -1,0 +1,7 @@
+#!/usr/bin/env python3
+import sys
+from functools import partial
+from pathlib import Path
+
+process_file = lambda f: Path(f).write_text(Path(f).read_text(encoding='utf-8').strip() + '\n', encoding='utf-8')
+list(map(process_file, sys.argv[1:]))

@@ -1,0 +1,6 @@
+for each argv
+read file as utf8
+strip
+save
+overwrite
+add newline
