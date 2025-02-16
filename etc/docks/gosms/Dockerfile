@@ -3,4 +3,3 @@ WORKDIR /app
 COPY . .
 RUN ./install.sh
 CMD ./main.sh
-

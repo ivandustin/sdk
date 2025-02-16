@@ -6,4 +6,3 @@ then
 else
 	goschaps | grep -v john
 fi | pick
-

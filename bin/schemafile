@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 root=$(dirname $(dirname $(realpath $0)))
 echo $root/etc/schemas/$1.json
-

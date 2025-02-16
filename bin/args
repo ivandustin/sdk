@@ -10,4 +10,3 @@ do
 	buff=${buff//\$$i/${!i}}
 done
 printf "%s\n" "$buff"
-

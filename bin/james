@@ -2,4 +2,3 @@
 set -euvxo pipefail
 [ -s topic.txt ] || gospick
 exg $(cat topic.txt) < eng.txt | tee exg.txt
-

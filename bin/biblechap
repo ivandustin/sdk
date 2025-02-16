@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 set -euo pipefail
 csvf chapter $2 < $(biblepath $1) | csvs word | join
-

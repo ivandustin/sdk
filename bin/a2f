@@ -6,4 +6,3 @@ command=$1
 shift
 echo $@ > $file
 $command $file
-
