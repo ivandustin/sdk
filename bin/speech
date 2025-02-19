@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+openai2 /v1/audio/speech $1
