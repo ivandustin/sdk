@@ -4,4 +4,4 @@ root=$(pwd)
 export PATH=$root/sdk/bin:$PATH
 export OPENAIMODEL=gpt-4o-mini
 export BIBLEHOME=$root/bible
-exec httpexec handle.sh lang
+exec httpexec app.sh lang
