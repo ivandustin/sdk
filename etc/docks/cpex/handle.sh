@@ -16,4 +16,4 @@ exg < edit.txt | log > exg.txt
 	trans $lang < exg.txt | log
 ) > post.txt
 sen < edit.txt | log | trans $lang | log | txt2img title.png
-fbpost --media title.png < post.txt
+fb --media title.png < post.txt
