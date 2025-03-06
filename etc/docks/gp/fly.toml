@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for para on 2025-03-06T13:05:41Z
+# fly.toml app configuration file generated for gp6089 on 2025-03-06T13:41:42Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'para'
+app = 'gp6089'
 primary_region = 'iad'
 
 [build]
