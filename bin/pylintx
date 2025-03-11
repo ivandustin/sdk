@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+pylint --jobs 0 $(find $1 -name '*.py' -type f)
