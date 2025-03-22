@@ -1,0 +1,5 @@
+#!/usr/bin/env awkf
+{
+	print
+	print ""
+}
