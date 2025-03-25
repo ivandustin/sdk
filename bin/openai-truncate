@@ -6,7 +6,7 @@ from tiktoken import encoding_for_model
 
 def main():
     tokens = int(argv[1])
-    encoder = encoding_for_model(environ["OPENAIMODEL"])
+    encoder = encoding_for_model(environ["MODEL"])
     for line in stdin:
         print(encoder.decode(encoder.encode(line.strip())[:tokens]))
 

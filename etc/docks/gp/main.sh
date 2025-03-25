@@ -3,5 +3,5 @@ set -euvxo pipefail
 root=$(pwd)
 export PATH=$root/sdk/bin:$PATH
 export BIBLEHOME=$root/bible
-export OPENAIMODEL=gpt-4o
+export MODEL=gpt-4o
 exec httpexec app.sh lang

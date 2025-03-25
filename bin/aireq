@@ -7,7 +7,7 @@ from os import environ
 
 def main():
     temperature = float(environ.get("OPENAI_TEMP", "0"))
-    model = environ["OPENAIMODEL"]
+    model = environ["MODEL"]
     instruction = Path(argv[1]).read_text(encoding="utf-8").strip()
     data = stdin.read().strip()
     print(dumps(create(temperature, model, instruction, data)))
