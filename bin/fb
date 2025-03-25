@@ -12,7 +12,7 @@ def main():
     parser = ArgumentParser()
     parser.add_argument("--media", type=Path, help="Add photo or video")
     args = parser.parse_args()
-    storage_state = Path(environ["PWSTOR"])
+    storage_state = Path(environ["PW"])
     assert storage_state.is_file(), "Expected a storage state file"
     profile = environ.get("FBPROF", "")
     is_public = environ.get("FBPUB", "0") == "1"
