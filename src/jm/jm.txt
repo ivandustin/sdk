@@ -1,0 +1,6 @@
+join argv using space
+parse it as json
+read stdin line by line
+parse line as json
+line | arg
+print
