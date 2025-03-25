@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-home=$BIBLEHOME
+home=$BIBLE
 data=$home/data
 name="$*"
 name=${name// /-}

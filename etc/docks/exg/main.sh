@@ -2,7 +2,7 @@
 set -euvxo pipefail
 root=$(pwd)
 export PATH=$root/sdk/bin:$PATH
-export BIBLEHOME=$root/bible
+export BIBLE=$root/bible
 export PWSTOR=$root/pw.json
 export MODEL=gpt-4o
 exec httpexec app.sh lang prof pub
