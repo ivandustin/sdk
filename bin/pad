@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec awk -v w=$1 '{ printf "%0*d\n", w, $1 }'
