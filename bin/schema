@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -euo pipefail
+exec jm $(response-format < $1 | mkj response_format)
