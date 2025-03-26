@@ -2,4 +2,4 @@
 set -euo pipefail
 file=$1
 shift
-req $file "$@" | res
+req $file "$@" | chat | content
