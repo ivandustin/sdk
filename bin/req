@@ -4,4 +4,4 @@ file=$1
 shift
 sys=$(args $file "$@" | rmsb | sys)
 msgs=$(mkja "$sys" "$(usr)")
-mkj model $MODEL messages "$msgs" | iff "$TEMP" ja temperature $TEMP
+mkj model $MODEL messages "$msgs" | iff "$TEMP" ja temperature $TEMP | iff "$SCHEMA" sets $SCHEMA
