@@ -3,4 +3,4 @@ set -euo pipefail
 schema=$1
 script=$2
 shift 2
-aireq2 $script "$@" | aischema $schema | chat | content | ugly
+aireq2 $script "$@" | aischema $schema | res | ugly
