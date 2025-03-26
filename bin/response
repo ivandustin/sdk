@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-set -eo pipefail
-format | mkj response_format

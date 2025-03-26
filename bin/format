@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-set -eo pipefail
-schema | mkj type json_schema json_schema
