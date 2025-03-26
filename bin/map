@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-set -e
-command=$1
-shift
-for item in $@; do
-  $command $item
+set -eu
+while read -r file
+do
+	"$@" < $file
 done
