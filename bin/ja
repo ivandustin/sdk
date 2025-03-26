@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec jm $(mkj "$@")
+exec merge $(mkj "$@")
