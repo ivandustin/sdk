@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
 file=$(biblepath $@)
-csvs chapter < $file | uniq
+csv chapter < $file | uniq

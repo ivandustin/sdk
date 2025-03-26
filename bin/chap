@@ -3,4 +3,4 @@ set -euo pipefail
 chapter=$1
 shift
 book="$*"
-csvf chapter $chapter < $(biblepath $book) | csvs word | join
+filter chapter $chapter < $(biblepath $book) | csv word | join
