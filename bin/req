@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-set -eu
+set -eo pipefail
 file=$1
 shift
 sys=$(args $file "$@" | rmsb | sys)
 msgs=$(mkja "$sys" "$(usr)")
-exec mkj model $MODEL messages "$msgs"
+mkj model $MODEL messages "$msgs" | iff "$TEMP" ja temperature $TEMP
