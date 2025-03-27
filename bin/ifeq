@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+if [ "$1" = "$2" ]
+then
+	shift 2
+	exec "$@"
+else
+	exec cat
+fi
