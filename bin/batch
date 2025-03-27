@@ -1,2 +1,6 @@
 #!/usr/bin/env bash
-exec mkj custom_id "$*" method POST url /v1/chat/completions body
+set -euo pipefail
+while read -r file
+do
+	"$@" < $file | batch-record $file
+done
