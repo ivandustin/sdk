@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
-schema=$1
-script=$2
-shift 2
-aireq2 $script "$@" | aischema $schema | chat | content | ugly
+export SCHEMA=$1
+shift
+exec ais "$@"
