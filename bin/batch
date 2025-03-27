@@ -2,5 +2,5 @@
 set -euo pipefail
 while read -r file
 do
-	"$@" < $file | batch-record $file
+	REQ=1 hook "$@" < $file | batch-record $file
 done
