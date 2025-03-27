@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec merge "$(mkj "$@")"
+exec merge "$(json "$@")"

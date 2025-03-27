@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec mkj name schema schema
+exec json name schema schema
