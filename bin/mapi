@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -eu
+tmp=$(mktemp)
+trap "rm -f $tmp" EXIT
+while read -r file
+do
+	"$@" < $file > $tmp
+	mv $tmp $file
+done
