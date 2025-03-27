@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-json choices 0 message tool_calls 0 function arguments | printj | ugly
+get choices 0 message tool_calls 0 function arguments | printj | ugly
