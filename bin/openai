@@ -1,3 +1,8 @@
 #!/usr/bin/env bash
 set -eo pipefail
-iff "$REQ" log | curl -s "https://api.openai.com/$1" -H "Content-Type: application/json" -H "Authorization: Bearer $OPENAI" -d @- | ugly
+if [ "$REQ" = "1" ]
+then
+	cat >&2
+else
+	curl -s "https://api.openai.com/$1" -H "Content-Type: application/json" -H "Authorization: Bearer $OPENAI" -d @- | ugly
+fi
