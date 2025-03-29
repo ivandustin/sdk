@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-MODEL=$OPENAI_EMBEDDING_MODEL openai-tokens
+MODEL=$OPENAI_EMBEDDING_MODEL toks
