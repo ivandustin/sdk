@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euvxo pipefail
+in=$1
+stem=${in%.*}
+out=$stem.pdf
+shift
+exec pandoc $in -o $out --pdf-engine wkhtmltopdf "$@"
