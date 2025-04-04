@@ -2,4 +2,4 @@
 set -euo pipefail
 export SCHEMA=$1
 shift
-exec ais "$@"
+ais "$@" | ugly
