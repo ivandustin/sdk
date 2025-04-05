@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+export TEMP=
+export HIGH=1
+export MODEL=$REASON
+exec "$@"
