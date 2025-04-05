@@ -3,7 +3,6 @@ convert the given pseudocode to python code
 print each output immediately by default
 accept multiple inputs by default
 read stdin by line by default
-use functional programming
 use standard streams
 write concise code
 no comments
