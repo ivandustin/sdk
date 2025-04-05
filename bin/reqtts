@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -eo pipefail
+json model $TTS voice $VOICE input | ifa inst $INST

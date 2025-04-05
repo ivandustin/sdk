@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+content=$(args "$@" | rmsb)
+exec add instructions "$content"
