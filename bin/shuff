@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -eu
+file=$1
+tmp=$(mktemp)
+trap "rm -f $tmp" EXIT
+shuf < $file > $tmp
+mv $tmp $file
