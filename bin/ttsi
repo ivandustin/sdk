@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+export INST=$1
+shift
+exec tts "$@"
