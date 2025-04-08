@@ -1,2 +1,8 @@
 #!/usr/bin/env bash
-exec ffmpeg -f lavfi -i anullsrc=r=44100:cl=stereo -t $1 $2
+set -euo pipefail
+sample=$1
+channel=$2
+bitrate=$3
+duration=$4
+file=$5
+exec ffmpeg -f lavfi -i anullsrc=r=$sample:cl=$channel -t $duration -b:a $bitrate $file
