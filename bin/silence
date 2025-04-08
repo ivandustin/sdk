@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec ffmpeg -f lavfi -i anullsrc=r=44100:cl=stereo -t $1 $2
