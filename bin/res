@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
 set -eo pipefail
+if [[ "$MODEL" == "deepseek"* ]]
+then
+	domain=deepseek
+	key=$DEEPSEEK
+else
+	domain=openai
+	key=$OPENAI
+fi
 if [ "$REQ" = "1" ]
 then
 	cat >&2
 else
-	curl -s "https://api.openai.com/$1" -H "Content-Type: application/json" -H "Authorization: Bearer $OPENAI" -d @- | ugly
+	curl -s "https://api.$domain.com/$1" -H "Content-Type: application/json" -H "Authorization: Bearer $key" -d @- | ugly
 fi
