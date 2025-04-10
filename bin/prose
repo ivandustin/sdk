@@ -1,4 +1,3 @@
-#!/usr/bin/env aiprose
+#!/usr/bin/env ais
 convert the given text to prose
 use simple words
-no headings
