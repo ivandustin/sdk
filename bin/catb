@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cat $1
+shift
+for file in "$@"
+do
+	echo
+	cat $file
+done
