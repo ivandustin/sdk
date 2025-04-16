@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-export MODEL=$REASON
+[ -n "$REASON" ] && export MODEL=$REASON
 export EFFORT=high
 export TEMP=
 exec "$@"
