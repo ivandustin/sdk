@@ -3,6 +3,6 @@ set -euvxo pipefail
 rg | log > book.txt
 chaps $(<book.txt) | pick | log > chap.txt
 chap $(<chap.txt) $(<book.txt) | log > raw.txt
-eng < raw.txt | log > eng.txt
+lower < raw.txt | eng | log > eng.txt
 topics < eng.txt | log > topics.txt
 pick < topics.txt | log > topic.txt
