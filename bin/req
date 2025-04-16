@@ -4,4 +4,4 @@ file=$1
 shift
 sys=$(args $file "$@" | rmsb | sys)
 msgs=$(mkja "$sys" "$(usr)")
-json model $MODEL messages "$msgs" | ifa temp $TEMP | ifa schema $SCHEMA | ifa high $HIGH
+json model $MODEL messages "$msgs" | ifa temp $TEMP | ifa schema $SCHEMA | ifa effort $EFFORT
