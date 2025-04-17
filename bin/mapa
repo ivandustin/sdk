@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
-while read -r args; do
-	"$@" $args
-done
+set -euo pipefail
+cmd=$1
+shift
+printa "$@" | xargs -n1 $cmd
