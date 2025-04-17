@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-set -eu
+set -euvx
+dir=$1
+[ -n "$dir" ] && cd $dir
 tmp=$(mktemp XXX)
 trap 'rm $tmp' EXIT
 [ -f pre.sh ] && ./pre.sh
