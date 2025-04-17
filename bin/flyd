@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -eu
-tmp=$(mktemp ./XXXXX)
-trap "rm $tmp" EXIT
+tmp=$(mktemp XXX)
+trap 'rm $tmp' EXIT
+[ -f pre.sh ] && ./pre.sh
 fly deploy
