@@ -36,7 +36,7 @@ def main():
             page.get_by_role("radio", name="Only me").click()
             page.get_by_label("Done").click()
         page.get_by_role("paragraph").click()
-        page.get_by_label("What's on your mind").fill(message)
+        page.get_by_role("textbox").fill(message)
         if args.media:
             page.get_by_label("Photo/video").click()
             with page.expect_file_chooser() as fc_info:
