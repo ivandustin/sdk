@@ -1,0 +1,7 @@
+#!/usr/bin/env awkf
+NR == 1
+
+NR > 1 {
+	print ""
+	print
+}
