@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+export MODEL=gpt-4.1
+export TEMPER=0
+exec trans "$@"
