@@ -1,18 +1,28 @@
 #!/usr/bin/env python3
-import sys, urllib.parse
+import sys
 from http.server import HTTPServer, BaseHTTPRequestHandler
+from urllib.parse import parse_qs
+
+t = int(sys.argv[1])
+k = sys.argv[2:]
 
 
 class H(BaseHTTPRequestHandler):
     def do_POST(self):
         l = int(self.headers.get("Content-Length", 0))
-        d = self.rfile.read(l).decode()
-        p = urllib.parse.parse_qs(d, keep_blank_values=True)
-        for k in sys.argv[1:]:
-            print(p.get(k, [""])[0])
+        b = self.rfile.read(l).decode()
+        p = parse_qs(b)
+        for i in k:
+            print(p.get(i, [""])[0])
         self.send_response(200)
         self.end_headers()
         sys.exit(0)
 
+    def log_message(self, *a):
+        pass
 
-HTTPServer(("", 8080), H).serve_forever()
+
+s = HTTPServer(("", 8080), H)
+s.timeout = t
+s.handle_request()
+sys.exit(1)
