@@ -1,3 +1,4 @@
 #!/usr/bin/env aicopy
 copy the part about $@
 from the given text
+include full story
