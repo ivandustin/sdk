@@ -1,0 +1,8 @@
+use built in http module
+listen / on port 8080
+url decode body
+for each arg in argv
+	get arg as key in body
+	default to empty string
+	print value to stdout
+exit
