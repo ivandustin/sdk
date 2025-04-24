@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec xargs -d '\n' "$@"
