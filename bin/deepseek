@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+export MODEL=deepseek-reasoner
+exec "$@"
