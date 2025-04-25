@@ -1,4 +1,5 @@
-#!/usr/bin/env aiprose
-rewrite the given text to prose form
+#!/usr/bin/env aiedit
+edit the given text
 use simple words
 keep all details
+prose form
