@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-set -euvxo pipefail
-pg
-exg < topic.txt | tee exg.txt
