@@ -1,6 +1,6 @@
 #!/usr/bin/env aicopyedit
 copyedit the given new testament text
-clarify the speaker
+clarify speaker except narrator
 format the text
 in paragraphs
 no headings
