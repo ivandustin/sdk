@@ -1,3 +1,4 @@
-#!/usr/bin/env ais
-convert the given text to prose
+#!/usr/bin/env aiprose
+rewrite the given text to prose form
 use simple words
+keep all details
