@@ -1,0 +1,6 @@
+#!/usr/bin/env aiedit
+edit the given text
+remove references if any
+replace with actual text
+except reference topic
+keep as is
