@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-set -euo pipefail
-aiuse list "$@" | get list | json-array-print
+exec aita list "$@"

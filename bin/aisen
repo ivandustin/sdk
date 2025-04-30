@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec aitype sentence "$@"
+exec ait sentence "$@"

@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec aitype python $1
+exec ait python $1

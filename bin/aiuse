@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-set -eu
-schema=$(schemafile $1)
-script=$2
-shift 2
-exec aijson $schema $script "$@"

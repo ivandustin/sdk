@@ -3,7 +3,7 @@ set -euo pipefail
 while read -r line
 do
 	file=$(echo "$line" | get custom_id | printj)
-	if ! (echo "$line" | get response body | content | get "$@" | json-array-print > $file) 2>/dev/null
+	if ! (echo "$line" | get response body | content | get "$@" | printja > $file) 2>/dev/null
 	then
 		rm $file
 		echo $file

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+schema=$(mktemp)
+trap "rm $schema" EXIT
+type=$1
+script=$2
+shift 2
+prints tpla | tpl $type > $schema
+aij $schema $script "$@" | get $type | printja

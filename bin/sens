@@ -1,3 +1,2 @@
-#!/usr/bin/env ailist
-list each sentence
-from the given text
+#!/usr/bin/env aisens
+list each sentence from the given text
