@@ -1,0 +1,7 @@
+use pytubefix
+for each url
+download audio
+highest quality
+print filename
+skip if exists
+parallel max

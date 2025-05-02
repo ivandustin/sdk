@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+import sys, os
+from concurrent.futures import ThreadPoolExecutor
+from pytubefix import YouTube
+
+
+def download(url):
+    yt = YouTube(url)
+    stream = yt.streams.filter(only_audio=True).order_by("abr").desc().first()
+    filename = stream.default_filename
+    if not os.path.exists(filename):
+        stream.download()
+    print(filename, flush=True)
+
+
+def main():
+    urls = [l.strip() for l in sys.stdin if l.strip()]
+    with ThreadPoolExecutor() as e:
+        e.map(download, urls)
+
+
+if __name__ == "__main__":
+    main()
