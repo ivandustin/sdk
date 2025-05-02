@@ -1,15 +1,23 @@
 #!/usr/bin/env python3
+import re, unicodedata
 import sys, os
 from concurrent.futures import ThreadPoolExecutor
 from pytubefix import YouTube
 
 
+def normalize(name):
+    name = unicodedata.normalize("NFKD", name).strip()
+    name = re.sub(r'[<>:"/\\|?*\x00-\x1F]', "", name)
+    name = re.sub(r"\s+", " ", name)
+    return name[:255]
+
+
 def download(url):
     yt = YouTube(url)
     stream = yt.streams.filter(only_audio=True).order_by("abr").desc().first()
-    filename = stream.default_filename
+    filename = normalize(stream.default_filename)
     if not os.path.exists(filename):
-        stream.download()
+        stream.download(filename=filename)
     print(filename, flush=True)
 
 
