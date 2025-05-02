@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 def main():
     data = {"matthew": 28, "mark": 16, "luke": 24, "john": 21}
     for item in create(data):

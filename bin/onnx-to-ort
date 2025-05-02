@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-python3 -m onnxruntime.tools.convert_onnx_models_to_ort "$@"
+python -m onnxruntime.tools.convert_onnx_models_to_ort "$@"
