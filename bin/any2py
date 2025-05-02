@@ -4,5 +4,4 @@ print each output immediately by default
 accept multiple inputs by default
 read stdin by line by default
 use standard streams
-write concise code
 no comments
