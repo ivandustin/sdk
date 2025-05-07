@@ -1,4 +1,4 @@
-from .function import Function
-from . import vector
+from .fn import Fn
+from . import vec
 
-__all__ = ["Function", "vector"]
+__all__ = ["Fn", "vec"]

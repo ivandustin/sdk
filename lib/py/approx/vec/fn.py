@@ -1,7 +1,7 @@
 from jax.numpy import sum
-from approx import Function as Base
+from approx import Fn as Base
 
 
-class Function(Base):
+class Fn(Base):
     def __call__(self, x):
         return super().__call__(sum(x, axis=-2))
