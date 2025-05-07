@@ -1,0 +1,8 @@
+from jax.numpy import ones
+from flax.nnx import Rngs
+from approx import Function
+
+
+def test():
+    function = Function(2, 3, 4, rngs=Rngs(0))
+    function(ones((2, 2)))
