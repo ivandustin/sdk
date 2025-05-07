@@ -1,6 +1,6 @@
 from jax.numpy import ones
 from flax.nnx import Rngs
-from approx import Fn
+from uat import Fn
 
 
 def test():
