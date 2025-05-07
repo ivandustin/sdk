@@ -1,4 +1,4 @@
 from .fn import Fn
-from . import vec
+from . import mat
 
-__all__ = ["Fn", "vec"]
+__all__ = ["Fn", "mat"]

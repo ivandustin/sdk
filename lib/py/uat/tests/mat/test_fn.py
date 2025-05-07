@@ -1,6 +1,6 @@
 from jax.numpy import ones
 from flax.nnx import Rngs
-from uat.vec import Fn
+from uat.mat import Fn
 
 
 def test():
