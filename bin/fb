@@ -38,9 +38,8 @@ def main():
         page.get_by_role("paragraph").click()
         page.get_by_role("textbox").fill(message)
         if args.media:
-            page.get_by_label("Photo/video").click()
             with page.expect_file_chooser() as fc_info:
-                page.get_by_role("button", name="Add Photos/Videos").click()
+                page.get_by_role("button", name="Photo/video").click()
             file_chooser = fc_info.value
             file_chooser.set_files(str(args.media))
         with suppress(Exception):
