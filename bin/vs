@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+verse=$1
+chapter=$2
+shift 2
+book="$*"
+filter chapter $chapter < $(biblepath $book) | filter verse $verse | csv word | join
