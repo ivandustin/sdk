@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+delim=$1
+cat $2
+shift 2
+for file in "$@"
+do
+	echo -e $delim
+	cat $file
+done
