@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -euo pipefail
+reqi <$1 | res /v1/images/generations | get data 0 url | printj
