@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+import sys
+import yt_dlp
+
+
+def main():
+    playlist_url = sys.argv[1]
+
+    ydl_opts = {
+        "quiet": True,
+        "extract_flat": True,  # Only retrieve metadata, not download
+        "skip_download": True,
+        "force_generic_extractor": False,
+    }
+
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(playlist_url, download=False)
+        if "entries" in info:
+            for entry in info["entries"]:
+                print(entry["title"])
+
+
+if __name__ == "__main__":
+    main()
