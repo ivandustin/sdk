@@ -8,7 +8,7 @@ from websockets import serve
 async def main():
     mq = Queue()
     fn = partial(handle, mq)
-    async with serve(fn, "localhost", 1234):
+    async with serve(fn, "0.0.0.0", 1234):
         while True:
             q, msg = await mq.get()
             print(msg, flush=True)
