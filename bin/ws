@@ -12,7 +12,7 @@ async def main():
         while True:
             q, msg = await mq.get()
             print(msg, flush=True)
-            out = next(stdin)
+            out = next(stdin).strip()
             await q.put(out)
 
 
