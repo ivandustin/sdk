@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euvx
 cd $1
-tmp=$(mktemp XXX)
+tmp=$(mktemp deployXXX)
 trap 'rm $tmp' EXIT
 [ -f pre.sh ] && ./pre.sh
 fly deploy
