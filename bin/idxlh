@@ -1,0 +1,9 @@
+#!/usr/bin/env python
+from sys import argv, stdin, stdout
+from numpy import loadtxt, savetxt, where
+
+low = float(argv[1])
+high = float(argv[2])
+x = loadtxt(stdin)
+(i,) = where((x >= low) & (x <= high))
+savetxt(stdout, i, fmt="%d")
