@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+script=$(rootpath $0)/lib/awk/nrlh.awk
+exec awk -f $script -v "low=$1" -v "high=$2"
