@@ -1,0 +1,15 @@
+#!/usr/bin/env python
+from sys import argv, stdin
+from numpy import loadtxt
+
+length = int(argv[1])
+indexfile = argv[2]
+indices = loadtxt(indexfile, dtype=int)
+values = loadtxt(stdin, dtype=str)
+arrays = []
+for i in indices:
+    start = i - length
+    end = start + length
+    array = values[start:end]
+    if len(array) == length:
+        print(" ".join(array))
