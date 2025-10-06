@@ -27,9 +27,11 @@ def main():
         page.goto("https://www.facebook.com/")
         if profile:
             page.get_by_role("button", name="Your profile", exact=True).click()
-            page.get_by_label("See all profiles").click()
+            page.get_by_role("button", name="See all profiles").click()
             page.get_by_role("button", name=f"{profile}, ").click()
         sleep(10)
+        with suppress(Exception):
+            page.get_by_role("button", name="Close").click()
         page.get_by_role("button", name="What's on your mind, ").click()
         if is_private:
             page.get_by_label("Edit privacy. Sharing with").click()
@@ -45,6 +47,8 @@ def main():
         with suppress(Exception):
             page.get_by_label("Next", exact=True).click()
         page.get_by_label("Post", exact=True).click()
+        with suppress(Exception):
+            page.get_by_role("button", name="Publish Original Post").click()
         sleep(10)
         context.close()
         browser.close()
