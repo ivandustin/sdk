@@ -30,7 +30,7 @@ def main():
             page.get_by_label("See all profiles").click()
             page.get_by_role("button", name=f"{profile}, ").click()
         sleep(10)
-        page.get_by_role("button", name="What's on your mind").click()
+        page.get_by_role("button", name="What's on your mind, ").click()
         if is_private:
             page.get_by_label("Edit privacy. Sharing with").click()
             page.get_by_role("radio", name="Only me").click()
