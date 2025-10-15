@@ -1,0 +1,10 @@
+#!/usr/bin/env python
+from sys import argv, stdin
+from numpy import loadtxt
+
+indexfile = argv[1]
+indices = loadtxt(indexfile, dtype=int, ndmin=1)
+values = loadtxt(stdin, dtype=str, ndmin=1)
+for index in indices:
+    value = values[index]
+    print(value)
