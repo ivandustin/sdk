@@ -6,7 +6,7 @@ from numpy import loadtxt
 filepath = argv[1]
 set_page_config(layout="wide")
 array = cache_data(loadtxt)(filepath, dtype=str, ndmin=2)
-y, x = list(map(float, array[:, 0])), array[:, 1]
+x, y = array[:, 1], list(map(float, array[:, 0]))
 highlight = text_input("Highlight")
 figure = bar(x=x, y=y)
 if highlight:
