@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-exec streamlit run $(rootpath $0)/lib/st/freq.py $@
