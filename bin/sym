@@ -1,0 +1,9 @@
+#!/usr/bin/env python
+from sys import stdin
+from numpy import loadtxt, unique, savetxt
+
+array = loadtxt(stdin, dtype=str)
+array = array.flatten()
+array = unique(array)
+for item in array:
+    print(item)
