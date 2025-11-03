@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+from sys import argv, stdin
+from numpy import loadtxt
+
+symfile = argv[1]
+symbols = loadtxt(symfile, dtype=str).tolist()
+arrays = []
+for line in stdin:
+    items = line.strip().split(" ")
+    indices = []
+    for item in items:
+        index = symbols.index(item)
+        indices.append(index)
+    print(" ".join(map(str, indices)))
