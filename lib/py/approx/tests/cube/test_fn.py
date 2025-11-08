@@ -1,6 +1,6 @@
 from jax.numpy import ones
 from flax.nnx import Rngs
-from uat.cube.fn import Fn
+from approx.cube.fn import Fn
 
 
 def test():

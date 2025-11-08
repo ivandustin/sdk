@@ -1,5 +1,5 @@
 from jax.numpy import sum
-from uat.fn import Fn as Base
+from approx.fn import Fn as Base
 
 
 class Fn(Base):

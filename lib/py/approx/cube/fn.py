@@ -1,5 +1,5 @@
 from jax.numpy import prod
-from uat.mat.fn import Fn as Base
+from approx.matrix.fn import Fn as Base
 
 
 class Fn(Base):
