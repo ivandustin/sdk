@@ -1,4 +1,4 @@
-from uat.cube import Fn
+from approx.cube import Fn
 from flax.nnx import Rngs, Module
 from .embeds import Embeds
 
