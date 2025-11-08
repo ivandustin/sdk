@@ -1,0 +1,7 @@
+#!/usr/bin/env python
+from sys import stdin
+from numpy import array
+from npstr import encode
+
+for line in stdin:
+    print(encode(array(int(line.strip()))))

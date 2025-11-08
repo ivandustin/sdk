@@ -1,21 +1,10 @@
 #!/usr/bin/env python
-from sys import argv, stdin
-from numpy import loadtxt, stack, array
-from learn.batch.encode import encode
+from sys import stdin
+from numpy import stack
+from npstr import encode
 
-hasy = len(argv) > 1
-if hasy:
-    filepath = argv[1]
-    ys = loadtxt(filepath, dtype=int)
-    i = 0
 for line in stdin:
     items = line.strip().split(" ")
     indices = list(map(int, items))
     positions = list(range(len(indices)))
-    x = stack([positions, indices])
-    if hasy:
-        y = ys[i]
-        i += 1
-    else:
-        y = array(0)
-    print(encode(x, y))
+    print(encode(stack([positions, indices])))

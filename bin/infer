@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+from sys import stdin
+from orbax.checkpoint import StandardCheckpointer
+from flax.nnx import softmax
+from ml.load import load
+from npstr import encode, decode
+
+with StandardCheckpointer() as checkpointer:
+    batches = iter(stdin)
+    model = load(checkpointer)
+for line in stdin:
+    x = decode(line)
+    y = softmax(model(x))
+    print(encode(y))
