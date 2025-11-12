@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 from sys import stdin, stdout
-from numpy import loadtxt, isclose, savetxt
-from scipy import linalg
+from numpy import loadtxt, vstack, eye, ones, append, zeros, linalg, savetxt
 
 P = loadtxt(stdin)
-P_T = P.T
-w, v = linalg.eig(P_T)
-steady_state_idx = isclose(w, 1.0).argmax()
-pi_raw = v[:, steady_state_idx]
-pi_steady_state = (pi_raw / pi_raw.sum()).real
-savetxt(stdout, pi_steady_state)
+n = P.shape[0]
+A = vstack([P.T - eye(n), ones(n)])
+b = append(zeros(n), 1)
+pi = linalg.lstsq(A, b, rcond=None)[0]
+savetxt(stdout, pi)
