@@ -1,0 +1,13 @@
+#!/usr/bin/env python
+from sys import stdin, stdout
+from numpy import loadtxt, zeros, savetxt
+
+x = loadtxt(stdin, ndmin=1)
+w = len(x)
+z = zeros((w, w))
+for i in range(w):
+    a = i - 1 if i > 0 else 0
+    b = i + 2
+    y = x[a:b]
+    z[i, a:b] = y / y.sum()
+savetxt(stdout, z, fmt="%.2f")
