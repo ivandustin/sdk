@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-from sys import stdin
+from sys import stdin, stdout
+from numpy import loadtxt, isclose, savetxt
 from scipy import linalg
-from numpy import loadtxt, isclose
 
 P = loadtxt(stdin)
 P_T = P.T
@@ -9,5 +9,4 @@ w, v = linalg.eig(P_T)
 steady_state_idx = isclose(w, 1.0).argmax()
 pi_raw = v[:, steady_state_idx]
 pi_steady_state = (pi_raw / pi_raw.sum()).real
-for prob in pi_steady_state:
-    print(prob)
+savetxt(stdout, pi_steady_state, fmt="%.2f")
