@@ -1,0 +1,4 @@
+#!/usr/bin/env awkf
+{
+	print $2, $1
+}
