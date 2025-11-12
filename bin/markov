@@ -10,4 +10,4 @@ for i in range(w):
     b = i + 2
     y = x[a:b]
     z[i, a:b] = y / y.sum()
-savetxt(stdout, z, fmt="%.2f")
+savetxt(stdout, z)
