@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 from sys import stdin, stdout
-from numpy import loadtxt, vstack, eye, ones, append, zeros, linalg, savetxt
+from numpy import loadtxt, vstack, eye, ones, append, zeros, linalg, maximum, savetxt
 
 P = loadtxt(stdin)
 n = P.shape[0]
 A = vstack([P.T - eye(n), ones(n)])
 b = append(zeros(n), 1)
 pi = linalg.lstsq(A, b, rcond=None)[0]
+pi = maximum(pi, 0)
+pi /= pi.sum()
 savetxt(stdout, pi)
