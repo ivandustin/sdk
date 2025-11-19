@@ -4,11 +4,12 @@ from numpy import loadtxt
 
 symfile = argv[1]
 symbols = loadtxt(symfile, dtype=str).tolist()
+lookup = {symbol: index for index, symbol in enumerate(symbols)}
 arrays = []
 for line in stdin:
     items = line.strip().split(" ")
     indices = []
     for item in items:
-        index = symbols.index(item)
+        index = lookup[item]
         indices.append(index)
     print(" ".join(map(str, indices)))
