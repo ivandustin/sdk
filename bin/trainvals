@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euvxo pipefail
+idx $(<range.txt) < values.txt > index.txt
+ctx $(<context.txt) index.txt < values.txt > x.txt
+val index.txt < values.txt > y.txt
+sym < x.txt > xs.txt
+sym < y.txt > ys.txt
+wc -l < xs.txt > symbols.txt
+wc -l < ys.txt > classes.txt
+echo $(<context.txt) $(<symbols.txt) > embeds.txt
+sym2idx xs.txt < x.txt > xi.txt
+sym2idx ys.txt < y.txt > yi.txt
+encode < xi.txt > xa.txt
+int2arr < yi.txt > ya.txt
+paste -d ' ' xa.txt ya.txt > xy.txt
+batchxy $(<batch.txt) < xy.txt | train $(<steps.txt)
