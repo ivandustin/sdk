@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -u
+cmd=$1
+shift
+exec python -m cProfile -o $cmd.prof $(which $cmd) "$@"
