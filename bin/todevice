@@ -1,0 +1,18 @@
+#!/usr/bin/env python
+from sys import argv
+from orbax.checkpoint import StandardCheckpointer
+from jax import devices, device_put
+from flax.nnx import split, merge
+from ml.paths.state import MODEL
+from ml.state.save import save
+from ml.load import load
+
+with StandardCheckpointer() as checkpointer:
+    name = argv[1]
+    model = load(checkpointer)
+    graph, state = split(model)
+    device = devices(name)[0]
+    state = device_put(state, device=device)
+    model = merge(graph, state)
+    outpath = MODEL.with_suffix("." + name)
+    save(checkpointer, outpath, model)
