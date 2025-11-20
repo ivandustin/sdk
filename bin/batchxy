@@ -1,12 +1,15 @@
 #!/usr/bin/env python
+from sys import argv, stdin, stdout
 from contextlib import suppress
-from sys import argv, stdin
 from random import choice
 from numpy.random import choice as npchoice
 from numpy import array
-from npstr import encode, decode
+from pyarrow import Tensor, output_stream
+from pyarrow.ipc import write_tensor
+from npstr import decode
 
 size = int(argv[1])
+stream = output_stream(stdout.buffer)
 xs = []
 ys = []
 for line in stdin:
@@ -20,4 +23,7 @@ with suppress(KeyboardInterrupt, BrokenPipeError):
     while True:
         y = npchoice(len(g), size=size)
         x = array([choice(g[i]) for i in y])
-        print(encode(x), encode(y))
+        x = Tensor.from_numpy(x)
+        y = Tensor.from_numpy(y)
+        write_tensor(x, stream)
+        write_tensor(y, stream)
