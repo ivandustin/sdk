@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, unquote
-from sys import stdout, stdin
 from os import environ
+from sys import stdin
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -11,8 +11,7 @@ class Handler(BaseHTTPRequestHandler):
         query = unquote(query).strip()
         assert "\r" not in query
         assert "\n" not in query
-        print(query)
-        stdout.flush()
+        print(query, flush=True)
         output = stdin.readline()
         self.send_response(200)
         self.send_header("Content-Type", "text/plain")
