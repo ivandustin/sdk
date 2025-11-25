@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euvxo pipefail
+dir=$(mktemp -d)
+trap 'rm -rf $dir' EXIT
+fifo=$dir/fifo
+mkfifo $fifo
+http < $fifo | align xs.txt | sym2idx xs.txt | encode | infer | str | argmax | idx2sym ys.txt > $fifo
