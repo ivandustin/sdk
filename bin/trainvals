@@ -10,7 +10,6 @@ wc -l < ys.txt > classes.txt
 echo $(<context.txt) $(<symbols.txt) > embeds.txt
 sym2idx xs.txt < x.txt > xi.txt
 sym2idx ys.txt < y.txt > yi.txt
-encode < xi.txt > xa.txt
-int2arr < yi.txt > ya.txt
-paste -d ' ' xa.txt ya.txt > xy.txt
-batchxy $(<batch.txt) < xy.txt | train $(<steps.txt)
+encode < xi.txt > x.ipc
+tensor int < yi.txt > y.ipc
+batchxy $(<batch.txt) x.ipc y.ipc | train $(<steps.txt)
