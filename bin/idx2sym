@@ -1,0 +1,23 @@
+#!/usr/bin/env python
+from sys import argv, stdin
+from numpy import loadtxt
+
+
+def main():
+    symfile = argv[1]
+    symbols = loadtxt(symfile, dtype=str).tolist()
+    for line in stdin:
+        items = line.strip().split(" ")
+        output = []
+        for item in items:
+            try:
+                index = int(item)
+                symbol = symbols[index]
+            except ValueError:
+                symbol = item
+            output.append(symbol)
+        print(" ".join(output))
+
+
+if __name__ == "__main__":
+    main()
