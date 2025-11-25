@@ -1,13 +1,6 @@
 #!/usr/bin/env bash
-set -e
-if [ $# -gt 0 ]; then
-    files=$*
-else
-    files=$(find * -type f | xargs grep -l '^#!/usr/bin/env python')
-fi
-black $files
-flake8 $files
-pylint --jobs 0 $files
-for file in $files; do
-    mypy --ignore-missing-imports $file
-done
+set -ex
+black "$@"
+flake8 "$@"
+pylint --disable=C0114,C0115,C0116 --jobs 0 "$@"
+mypy --ignore-missing-imports "$@"
