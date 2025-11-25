@@ -1,29 +1,38 @@
 #!/usr/bin/env python
-from sys import argv, stdin, stdout
 from contextlib import suppress
+from sys import argv, stdout
 from random import choice
+from pyarrow import Tensor, input_stream, output_stream
+from pyarrow.ipc import read_tensor, write_tensor
 from numpy.random import choice as npchoice
-from numpy import array
-from pyarrow import Tensor, output_stream
-from pyarrow.ipc import write_tensor
-from npstr import decode
+from numpy import stack
 
-size = int(argv[1])
-stream = output_stream(stdout.buffer)
-xs = []
-ys = []
-for line in stdin:
-    x, y = line.split(" ")
-    xs.append(decode(x))
-    ys.append(decode(y))
-x = array(xs)
-y = array(ys)
-g = [x[y == i] for i in range(y.max() + 1)]
-with suppress(KeyboardInterrupt, BrokenPipeError):
-    while True:
-        y = npchoice(len(g), size=size)
-        x = array([choice(g[i]) for i in y])
-        x = Tensor.from_numpy(x)
-        y = Tensor.from_numpy(y)
-        write_tensor(x, stream)
-        write_tensor(y, stream)
+
+def main():
+    size = int(argv[1])
+    xpath = argv[2]
+    ypath = argv[3]
+    stream = output_stream(stdout.buffer)
+    x = stack(list(readfile(xpath)))
+    y = stack(list(readfile(ypath))).flatten()
+    g = [x[y == i] for i in range(y.max() + 1)]
+    with suppress(KeyboardInterrupt, BrokenPipeError):
+        while True:
+            y = npchoice(len(g), size=size)
+            x = stack([choice(g[i]) for i in y])
+            x = Tensor.from_numpy(x)
+            y = Tensor.from_numpy(y)
+            write_tensor(x, stream)
+            write_tensor(y, stream)
+
+
+def readfile(filepath):
+    with input_stream(filepath) as stream:
+        with suppress(Exception):
+            while True:
+                tensor = read_tensor(stream)
+                yield tensor.to_numpy()
+
+
+if __name__ == "__main__":
+    main()
