@@ -1,10 +1,14 @@
 #!/usr/bin/env python
-from sys import stdin
+from sys import stdin, stdout
+from pyarrow import Tensor, output_stream
+from pyarrow.ipc import write_tensor
 from numpy import stack
-from npstr import encode
 
+stream = output_stream(stdout.buffer)
 for line in stdin:
     items = line.strip().split(" ")
     indices = list(map(int, items))
     positions = list(range(len(indices)))
-    print(encode(stack([positions, indices])))
+    array = stack([positions, indices])
+    tensor = Tensor.from_numpy(array)
+    write_tensor(tensor, stream)
