@@ -4,4 +4,5 @@ dir=$(mktemp -d)
 trap 'rm -rf $dir' EXIT
 fifo=$dir/fifo
 mkfifo $fifo
+export PYTHONUNBUFFERED=1
 http < $fifo | align xs.txt | sym2idx xs.txt | encode | infer | str | argmax | idx2sym ys.txt > $fifo
