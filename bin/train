@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+from contextlib import suppress
+from functools import partial
 from sys import argv, stdin
 from orbax.checkpoint import StandardCheckpointer
 from pyarrow.ipc import read_tensor
@@ -9,18 +11,33 @@ from ml.state.save import save
 from ml.train import train
 from ml.load import load
 
-with StandardCheckpointer() as checkpointer:
-    steps = int(argv[1])
-    stream = input_stream(stdin.buffer)
-    model = load(checkpointer)
-    optimizer = create(model)
-    try:
-        for step in range(1, steps + 1):
-            x, y = read_tensor(stream), read_tensor(stream)
-            x, y = x.to_numpy(), y.to_numpy()
-            loss = train(optimizer, model, x, y)
-            if step % 100 == 0:
-                print(step, loss)
+
+def main():
+    with StandardCheckpointer() as checkpointer:
+        steps = int(argv[1])
+        epochs = int(argv[2])
+        stream = input_stream(stdin.buffer)
+        model = load(checkpointer)
+        optimizer = create(model)
+        learn = partial(train, optimizer, model)
+        best = None
+        for epoch in range(epochs):
+            loss = 0
+            for _ in range(steps):
+                x = read_tensor(stream)
+                y = read_tensor(stream)
+                x = x.to_numpy()
+                y = y.to_numpy()
+                loss += learn(x, y)
+            loss /= steps
+            if best is None:
+                best = loss
+            if loss < best:
+                best = loss
                 save(checkpointer, MODEL, model)
-    except KeyboardInterrupt:
-        pass
+            print(epoch, loss, best)
+
+
+if __name__ == "__main__":
+    with suppress(KeyboardInterrupt):
+        main()
