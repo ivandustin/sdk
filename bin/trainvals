@@ -12,4 +12,4 @@ sym2idx xs.txt < x.txt > xi.txt
 sym2idx ys.txt < y.txt > yi.txt
 encode < xi.txt > x.ipc
 tensor int < yi.txt > y.ipc
-batchxy $(<batch.txt) x.ipc y.ipc | train $(<steps.txt)
+batchxy $(<batch.txt) x.ipc y.ipc | train $(<steps.txt) $(<epochs.txt)
