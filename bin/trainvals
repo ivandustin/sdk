@@ -7,12 +7,10 @@ sym < x.txt > xs.txt
 sym < y.txt > ys.txt
 wc -l < xs.txt > symbols.txt
 wc -l < ys.txt > classes.txt
-{
+(
 	cat context.txt
-	{
-		yes $(<symbols.txt) || true
-	} | head -n $(<vars.txt)
-} | xargs > embeds.txt
+	yes $(<symbols.txt) | head -n $(<vars.txt)
+) | xargs > embeds.txt
 sym2idx xs.txt < x.txt > xi.txt
 sym2idx ys.txt < y.txt > yi.txt
 encode $(<vars.txt) < xi.txt > x.ipc
