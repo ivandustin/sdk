@@ -1,14 +1,22 @@
 #!/usr/bin/env python
-from sys import stdin, stdout
+from sys import argv, stdin, stdout
 from pyarrow import Tensor, output_stream
 from pyarrow.ipc import write_tensor
 from numpy import stack
 
-stream = output_stream(stdout.buffer)
-for line in stdin:
-    items = line.strip().split(" ")
-    indices = list(map(int, items))
-    positions = list(range(len(indices)))
-    array = stack([positions, indices])
-    tensor = Tensor.from_numpy(array)
-    write_tensor(tensor, stream)
+
+def main():
+    nvars = int(argv[1])
+    stream = output_stream(stdout.buffer)
+    for line in stdin:
+        items = line.strip().split(" ")
+        indices = list(map(int, items))
+        variable = list(range(len(indices)))
+        variables = [variable] * nvars
+        array = stack([indices] + variables)
+        tensor = Tensor.from_numpy(array)
+        write_tensor(tensor, stream)
+
+
+if __name__ == "__main__":
+    main()
