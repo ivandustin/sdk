@@ -2,14 +2,19 @@
 from sys import argv, stdin
 from numpy import loadtxt
 
-length = int(argv[1])
-indexfile = argv[2]
-indices = loadtxt(indexfile, dtype=int)
-values = loadtxt(stdin, dtype=str)
-arrays = []
-for i in indices:
-    start = i - length
-    end = start + length
-    array = values[start:end]
-    if len(array) == length:
+
+def main():
+    length = int(argv[1])
+    indexfile = argv[2]
+    indices = loadtxt(indexfile, dtype=int)
+    values = loadtxt(stdin, dtype=str)
+    for i in indices:
+        start = i - length
+        end = start + length
+        array = values[start:end]
+        assert len(array) == length
         print(" ".join(array))
+
+
+if __name__ == "__main__":
+    main()
