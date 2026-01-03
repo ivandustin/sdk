@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+import unicodedata
+import sys
+import os
+import re
+from pytubefix import YouTube
+
+
+def normalize(name):
+    name = unicodedata.normalize("NFKD", name).strip()
+    name = re.sub(r'[<>:"/\\|?*\x00-\x1F]', "", name)
+    name = re.sub(r"\s+", " ", name)
+    return name
+
+
+def download(url):
+    yt = YouTube(url)
+    stream = yt.streams.filter(progressive=True).order_by("resolution").desc().first()
+    filename = normalize(stream.default_filename)
+    if not os.path.exists(filename):
+        stream.download(filename=filename)
+    return filename
+
+
+def main():
+    urls = sys.argv[1:]
+    for url in urls:
+        print(download(url))
+
+
+if __name__ == "__main__":
+    main()
