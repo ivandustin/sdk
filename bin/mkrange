@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euvxo pipefail
+x=$1
+n=60
+let l=x-n
+let h=x+n
+echo 1.$l 1.$h > range.txt
