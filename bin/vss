@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+from=$1
+to=$2
+shift 2
+seq $from $to | xargs -I % vs % "$@"
