@@ -1,0 +1,9 @@
+#!/usr/bin/env awkf
+{
+	sum += $1
+	count++
+}
+
+END {
+	print sum / count
+}
