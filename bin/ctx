@@ -6,8 +6,8 @@ from numpy import loadtxt
 def main():
     length = int(argv[1])
     indexfile = argv[2]
-    indices = loadtxt(indexfile, dtype=int)
-    values = loadtxt(stdin, dtype=str)
+    indices = loadtxt(indexfile, dtype=int, ndmin=1)
+    values = loadtxt(stdin, dtype=str, ndmin=1)
     for i in indices:
         start = i - length
         end = start + length
