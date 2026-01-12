@@ -1,10 +1,14 @@
 #!/usr/bin/env python
-import yfinance as yf
+from tempfile import gettempdir
+from yfinance import download
+from diskcache import Cache
 
 
 def main():
     symbol = "EURUSD=X"
-    df = yf.download(symbol, period="2d", interval="1m", progress=False)
+    cache = Cache(gettempdir())
+    get = cache.memoize(expire=60)(download)
+    df = get(symbol, period="2d", interval="1m", progress=False)
     series = df["Close"][symbol]
     series = series.tail(300)
     for value in series:
