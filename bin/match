@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+from sys import argv, stdin
+
+
+def main():
+    q = [float(x) for x in argv[1:]]
+    s = [float(line) for line in stdin if line.strip()]
+
+    k, n = len(q), len(s)
+    assert not k == 0
+    assert not n < k
+
+    best_i, best_d = 0, float("inf")
+
+    for i in range(n - k + 1):
+        d = 0.0
+        for j in range(k):
+            diff = q[j] - s[i + j]
+            d += diff * diff
+        if d < best_d:
+            best_d, best_i = d, i
+
+    print(best_i)
+
+
+if __name__ == "__main__":
+    main()
