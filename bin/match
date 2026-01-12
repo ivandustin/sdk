@@ -9,12 +9,8 @@ def main():
     k, n = len(q), len(s)
     assert not k == 0
     assert not n < k
-    weights = np.arange(1, k + 1)
     distances = np.array(
-        [
-            np.sum(weights * ((s[i : i + k] - q) ** 2))  # noqa: E203
-            for i in range(n - k + 1)
-        ]
+        [np.sum((s[i : i + k] - q) ** 2) for i in range(n - k + 1)]  # noqa: E203
     )
     best_idx = np.argmin(distances)
     print(best_idx)
