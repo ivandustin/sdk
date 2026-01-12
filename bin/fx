@@ -1,0 +1,15 @@
+#!/usr/bin/env python
+import yfinance as yf
+
+
+def main():
+    symbol = "EURUSD=X"
+    df = yf.download(symbol, period="2d", interval="1m", progress=False)
+    series = df["Close"][symbol]
+    series = series.tail(300)
+    for value in series:
+        print(f"{value:.5f}")
+
+
+if __name__ == "__main__":
+    main()
