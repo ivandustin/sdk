@@ -4,14 +4,16 @@ from numpy import array, argmin, loadtxt, sum as npsum
 
 
 def main():
-    q = loadtxt(argv[1], dtype=float, ndmin=1)
-    s = loadtxt(stdin, dtype=float, ndmin=1)
-    k, n = len(q), len(s)
-    distances = array(
-        [npsum((s[i : i + k] - q) ** 2) for i in range(n - k + 1)]  # noqa: E203
-    )
-    index = argmin(distances)
-    print(index)
+    s = loadtxt(argv[1], dtype=float, ndmin=1)
+    n = len(s)
+    for line in stdin:
+        q = array(line.split(), dtype=float)
+        k = len(q)
+        distances = array(
+            [npsum((s[i : i + k] - q) ** 2) for i in range(n - k + 1)]  # noqa: E203
+        )
+        index = argmin(distances)
+        print(index)
 
 
 if __name__ == "__main__":
