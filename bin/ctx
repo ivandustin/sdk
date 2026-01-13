@@ -5,10 +5,9 @@ from numpy import loadtxt
 
 def main():
     length = int(argv[1])
-    indexfile = argv[2]
-    indices = loadtxt(indexfile, dtype=int, ndmin=1)
-    values = loadtxt(stdin, dtype=str, ndmin=1)
-    for i in indices:
+    values = loadtxt(argv[2], dtype=str, ndmin=1)
+    for line in stdin:
+        i = int(line)
         start = i - length
         end = start + length
         array = values[start:end]
