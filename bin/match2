@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+from sys import argv, stdin
+from numpy import array, argmin, loadtxt, sum as npsum
+
+
+def main():
+    s = loadtxt(argv[1], dtype=float, ndmin=1)
+    n = len(s)
+    for line in stdin:
+        q = array(line.split(), dtype=float)
+        k = len(q)
+        distances = array(
+            [npsum((s[i : i + k] - q) ** 2) for i in range(n - k + 1)]  # noqa: E203
+        )
+        index = argmin(distances)
+        items = s[index : index + k * 2]  # noqa: E203
+        print(" ".join(map(str, items)))
+
+
+if __name__ == "__main__":
+    main()
