@@ -9,11 +9,9 @@ def main():
     for line in stdin:
         q = array(line.split(), dtype=float)
         k = len(q)
-        distances = array(
-            [npsum((s[i : i + k] - q) ** 2) for i in range(n - k + 1)]  # noqa: E203
-        )
+        distances = array([npsum((s[i : i + k] - q) ** 2) for i in range(n - k + 1)])
         index = argmin(distances)
-        items = s[index : index + k * 2]  # noqa: E203
+        items = s[index : index + k * 2]
         print(" ".join(map(str, items)))
 
 
