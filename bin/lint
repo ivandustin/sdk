@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -ex
 black "$@"
-flake8 "$@"
+flake8 --ignore=E203 "$@"
 pylint --disable=C0114,C0115,C0116 --jobs 0 "$@"
 mypy --ignore-missing-imports "$@"
