@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from sys import argv, stdin
-from numpy import array, argmin, loadtxt, sum as npsum
+from numpy import array, argmin, empty, loadtxt, sum as npsum
+from numba import njit, prange
 
 
 def main():
@@ -9,11 +10,20 @@ def main():
     for line in stdin:
         q = array(line.split(), dtype=float)
         k = len(q)
-        distances = array(
-            [npsum((s[i : i + k] - q) ** 2) for i in range(n - k + 1)]  # noqa: E203
-        )
+        distances = compute(s, n, q, k)
         index = argmin(distances)
-        print(index)
+        items = s[index : index + k * 2]
+        print(" ".join(map(str, items)))
+
+
+@njit(parallel=True)
+def compute(s, n, q, k):
+    size = n - k + 1
+    distances = empty(size, dtype=s.dtype)
+    # pylint: disable=not-an-iterable
+    for i in prange(size):
+        distances[i] = npsum((s[i : i + k] - q) ** 2)
+    return distances
 
 
 if __name__ == "__main__":
