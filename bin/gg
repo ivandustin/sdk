@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euvx
+cd /tmp
+pg
+cpg
