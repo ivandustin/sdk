@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euvxo pipefail
 idx $(<range.txt) < values.txt > index.txt
-ctx $(<context.txt) index.txt < values.txt > x.txt
+ctx $(<context.txt) values.txt < index.txt > x.txt
 val index.txt < values.txt > y.txt
 sym < x.txt > xs.txt
 sym < y.txt > ys.txt
