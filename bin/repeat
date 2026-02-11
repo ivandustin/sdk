@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec awk -v n=$1 '{for(i=0;i<n;i++)print}'
