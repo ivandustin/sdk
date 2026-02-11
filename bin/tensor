@@ -9,7 +9,8 @@ def main():
     typename = argv[1]
     stream = output_stream(stdout.buffer)
     for line in stdin:
-        x = array(line.strip().split(" "), dtype=typename)
+        items = line.strip().split()
+        x = array(items, dtype=typename)
         tensor = Tensor.from_numpy(x)
         write_tensor(tensor, stream)
 
