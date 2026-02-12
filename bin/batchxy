@@ -13,7 +13,7 @@ def main():
     ypath = argv[3]
     stream = output_stream(stdout.buffer)
     xs = list(readfile(xpath))
-    ys = stack(list(readfile(ypath))).flatten()
+    ys = stack(list(readfile(ypath)))
     groups = [where(ys == i)[0] for i in range(ys.max() + 1)]
     with suppress(KeyboardInterrupt, BrokenPipeError):
         while True:
