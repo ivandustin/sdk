@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
 set -euvxo pipefail
-idx $(<range.txt) < values.txt > index.txt
-ctx $(<context.txt) values.txt < index.txt > x.txt
-slice $(<future.txt) values.txt < index.txt > y.txt
-sym < x.txt > xs.txt
-sym < y.txt > ys.txt
+wc -l < values.txt > total.txt
+clampidx $(<range.txt) < values.txt \
+	| clamplen $(<context.txt) \
+	$(<future.txt) $(<total.txt) \
+	> index.txt
+sliceback $(<context.txt) values.txt \
+	< index.txt > x.txt
+slicex $(<future.txt) values.txt \
+	< index.txt > y.txt
+nums < x.txt > xs.txt
+nums < y.txt > ys.txt
 wc -l < xs.txt > symbols.txt
 wc -l < ys.txt > classes.txt
 echo $(<context.txt) $(<symbols.txt) > embeds.txt
@@ -12,4 +18,5 @@ sym2idx xs.txt < x.txt > xi.txt
 sym2idx ys.txt < y.txt > yi.txt
 encode < xi.txt > x.ipc
 tensor int < yi.txt > y.ipc
-batchxy $(<batch.txt) x.ipc y.ipc | train $(<steps.txt) $(<epochs.txt)
+batchxy $(<batch.txt) x.ipc y.ipc \
+	| train $(<steps.txt) $(<epochs.txt)
