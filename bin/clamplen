@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+left=$1
+right=$2
+length=$3
+let min=left-1
+let max=length-right-1
+exec clamp $min $max
