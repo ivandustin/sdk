@@ -1,0 +1,16 @@
+#!/usr/bin/env python
+from sys import argv
+from pandas import read_parquet
+
+
+def main():
+    column = argv[1]
+    filepath = argv[2]
+    dataframe = read_parquet(filepath)
+    series = dataframe[column]
+    for value in series:
+        print(value)
+
+
+if __name__ == "__main__":
+    main()
