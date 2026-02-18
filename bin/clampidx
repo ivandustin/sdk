@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -eu
+exec awk -v min=$1 -v max=$2 \
+	'$1 >= min && $1 <= max { print NR - 1 }'
