@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+length=$1
+mapnum - $length + 1 | slice "$@"
