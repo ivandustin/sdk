@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec circuit "nc -lk 4444" "$@"
