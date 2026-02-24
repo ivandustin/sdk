@@ -11,11 +11,9 @@ def main():
         values = list(map(float, infer.stdout.readline().split()))
         align.stdin.write(line)
         index = int(align.stdout.readline().split()[-1])
-        total = sum(values)
-        value = values[index]
         low = sum(values[0:index])
         high = sum(values[index + 1 :])
-        print(total, value, low, high)
+        print(low, high)
 
 
 def spawn(command):
