@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -euo pipefail
+align xs.txt | sym2idx xs.txt | encode | infer | str | argmax | idx2sym ys.txt
