@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-exec circuit "nc -lk 4444" "$@"
+port=${PORT:-4444}
+exec circuit "nc -lk $port" "$@"
