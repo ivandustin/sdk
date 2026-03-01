@@ -3,7 +3,4 @@ from sys import stdin
 from numpy import array, argmax
 
 for line in stdin:
-    x = array(line.strip().split(" "), dtype=float)
-    i = argmax(x)
-    v = x[i]
-    print(i, v)
+    print(argmax(array(line.split(), dtype=float)))
