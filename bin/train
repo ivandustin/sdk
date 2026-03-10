@@ -35,7 +35,7 @@ def main():
             if loss < best:
                 best = loss
                 save(checkpointer, MODEL, model)
-            print(epoch, loss, best)
+            print(epoch, loss, best, flush=True)
 
 
 if __name__ == "__main__":
