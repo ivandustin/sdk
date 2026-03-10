@@ -1,18 +1,20 @@
 #!/usr/bin/env python
 from subprocess import PIPE, Popen
 from sys import stdin, stderr
+from numpy import array, loadtxt
 
 
 def main():
     infer = spawn("align xs.txt | sym2idx xs.txt | encode | infer | str")
-    align = spawn("align ys.txt | sym2idx ys.txt")
+    symbols = loadtxt("ys.txt")
     for line in stdin:
         infer.stdin.write(line)
-        values = list(map(float, infer.stdout.readline().split()))
-        align.stdin.write(line)
-        index = int(align.stdout.readline().split()[-1])
-        low = sum(values[0:index])
-        high = sum(values[index + 1 :])
+        output = infer.stdout.readline()
+        items = output.split()
+        values = array(items, dtype=float)
+        value = float(line.split()[-1])
+        low = values[symbols < value].sum()
+        high = values[symbols > value].sum()
         print(low, high)
 
 
