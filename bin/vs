@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-verse=$1
+book=$1
 chapter=$2
-shift 2
-book="$*"
+verse=$3
 filter chapter $chapter < $(biblepath $book) | filter verse $verse | csv word | join
