@@ -12,14 +12,11 @@ def main():
     for line in stdin:
         infer.stdin.write(line)
         output = infer.stdout.readline()
-        items = output.split()
-        values = array(items, dtype=float)
+        values = array(output.split(), dtype=float)
         value = float(line.split()[-1])
         low = values[symbols < value].sum()
         high = values[symbols > value].sum()
-        index = values.argmax()
-        symbol = symbols[index]
-        print(low, high, symbol)
+        print(low, high)
 
 
 def spawn(command):
