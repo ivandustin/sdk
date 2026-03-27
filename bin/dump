@@ -1,22 +1,19 @@
 #!/usr/bin/env python
 from pathlib import Path
-import sys
+from sys import argv
+
+BACKTICK = "`"
+DELIMITER = BACKTICK * 3
 
 
-def read_file_content(file_path: Path) -> str:
-    return file_path.read_text(encoding="utf-8")
-
-
-def format_file_content(file_path: Path) -> str:
-    return f"```{file_path}\n{read_file_content(file_path)}\n```"
-
-
-def process_files_from_stdin():
-    file_paths = [Path(line.strip()) for line in sys.stdin]
-    for file_path in file_paths:
-        if file_path.is_file():
-            print(format_file_content(file_path) + "\n")
+def main():
+    filepaths = map(Path, argv[1:])
+    for filepath in filepaths:
+        print(filepath)
+        print(DELIMITER)
+        print(filepath.read_text(encoding="utf-8"))
+        print(DELIMITER)
 
 
 if __name__ == "__main__":
-    process_files_from_stdin()
+    main()
