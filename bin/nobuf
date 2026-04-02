@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+export PYTHONUNBUFFERED=1
+exec stdbuf -o0 "$@"
