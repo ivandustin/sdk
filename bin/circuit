@@ -6,5 +6,4 @@ dir=$(mktemp -d)
 trap 'rm -rf $dir' EXIT
 fifo=$dir/fifo
 mkfifo $fifo
-export PYTHONUNBUFFERED=1
-$command < $fifo | stdbuf -o0 "$@" > $fifo
+$command < $fifo | nobuf "$@" > $fifo
