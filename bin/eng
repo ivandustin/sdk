@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec trans english
+exec native english
