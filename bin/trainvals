@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 set -euvxo pipefail
+point=$(<point.txt)
+margin=$(<margin.txt)
+let min=point-margin
+let max=point+margin
+echo $min $max > range.txt
 wc -l < values.txt > total.txt
 clampidx $(<range.txt) < values.txt \
 	| clamplen $(<context.txt) \
