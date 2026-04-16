@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-exec nvidia-smi | grep CUDA Version | awk {print $9} "$@"
+set -euo pipefail
+nvidia-smi | grep 'CUDA Version' | awk '{print $9}'
