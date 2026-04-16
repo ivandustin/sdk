@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec runpodctl remove pod $RUNPOD_POD_ID "$@"
