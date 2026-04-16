@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 set -euvxo pipefail
 pip install git+https://github.com/google/flax.git
-pip install --upgrade "jax[cuda12]"
+pip install --upgrade "jax[cuda$(majorcuda)]"
 pip install --upgrade pyarrow
