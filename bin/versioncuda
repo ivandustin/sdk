@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec nvidia-smi | grep CUDA Version | awk {print $9} "$@"
