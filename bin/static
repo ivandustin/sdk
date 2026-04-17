@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-export MODEL=gpt-4.1
+export EFFORT=none
 export TEMPER=0
-export EFFORT=
 exec "$@"
