@@ -3,3 +3,4 @@ set -euvx
 cd /tmp
 pg
 cpg
+g
