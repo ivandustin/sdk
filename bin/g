@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec cat /tmp/edit.txt
+exec less /tmp/edit.txt
