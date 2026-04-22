@@ -29,7 +29,7 @@ def main():
         if profile:
             page.get_by_role("button", name="Your profile", exact=True).click()
             page.get_by_role("button", name="See all profiles").click()
-            page.get_by_role("button", name=f"{profile}, ").click()
+            page.get_by_role("button", name=profile, exact=True).click()
         sleep(10)
         with suppress(Exception):
             page.get_by_role("button", name="Close").click()
@@ -46,8 +46,10 @@ def main():
             file_chooser = fc_info.value
             file_chooser.set_files(str(args.media))
         with suppress(Exception):
-            page.get_by_label("Next", exact=True).click()
-        page.get_by_label("Post", exact=True).click()
+            page.get_by_role("button", name="Next").click()
+        page.get_by_role("button", name="Post", exact=True).click()
+        with suppress(Exception):
+            page.get_by_role("button", name="Not now").click()
         with suppress(Exception):
             page.get_by_role("button", name="Publish Original Post").click()
         sleep(10)
