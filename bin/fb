@@ -5,9 +5,10 @@ from sys import stdin, stdout
 from pathlib import Path
 from time import sleep
 from os import environ
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import Error, sync_playwright
 
 
+# pylint: disable=too-many-statements
 def main():
     parser = ArgumentParser()
     parser.add_argument("--media", type=Path, help="Add photo or video")
@@ -29,7 +30,10 @@ def main():
         if profile:
             page.get_by_role("button", name="Your profile", exact=True).click()
             page.get_by_role("button", name="See all profiles").click()
-            page.get_by_role("button", name=profile, exact=True).click()
+            try:
+                page.get_by_role("button", name=profile, exact=True).click(timeout=5000)
+            except Error:
+                page.get_by_role("button", name=f"{profile}, ").click()
         sleep(10)
         with suppress(Exception):
             page.get_by_role("button", name="Close").click()
