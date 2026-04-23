@@ -1,0 +1,16 @@
+#!/usr/bin/env python
+from sys import argv
+
+
+def main():
+    equity = float(argv[1])
+    price = float(argv[2])
+    leverage = 200
+    units = equity * leverage / price
+    lots = units / 100_000
+    lots = int(lots * 100) / 100
+    print(lots)
+
+
+if __name__ == "__main__":
+    main()
