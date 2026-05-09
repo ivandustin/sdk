@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -eu
+dir=$1
+shift
+for path in "$@"
+do
+	name=$(basename "$path")
+	stem=${name%.*}
+	out=$dir/$stem.mp3
+	if [ ! -f "$out" ]
+	then
+		ffmpeg -i "$path" \
+			-codec:a libmp3lame \
+			-q:a 2 \
+			"$out"
+		echo $out
+	fi
+done
