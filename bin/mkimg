@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 set -euvx
-tag=$1
 name=$(basename $(pwd))
-docker build -t $name:$tag .
+docker build -t $name:latest .
