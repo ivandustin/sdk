@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euvx
+name=$(basename $(pwd))
+docker run --rm -it $name:latest bash
