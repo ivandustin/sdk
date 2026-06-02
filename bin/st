@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+name=$1
+shift
+exec streamlit run $(rootpath $0)/lib/st/$name.py $@
