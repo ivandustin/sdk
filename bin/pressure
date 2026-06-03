@@ -14,8 +14,8 @@ def main():
         output = infer.stdout.readline()
         values = array(output.split(), dtype=float)
         value = float(line.split()[-1])
-        low = 1 - values[symbols < value].sum()
-        high = 1 - values[symbols > value].sum()
+        low = values[symbols < value].sum()
+        high = values[symbols > value].sum()
         print(low, high)
 
 
