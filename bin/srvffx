@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
 set -euvxo pipefail
 cd ~/ffx
-srvnc forecast
+srvnc forecast &
+srvcmd logio in.txt out.txt inferstr &
+bar2 ys.txt out.txt in.txt &
+wait
