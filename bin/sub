@@ -1,2 +1,6 @@
 #!/usr/bin/env bash
-find * -type f | xargs sed -i "s/$1/$2/g"
+set -euo pipefail
+from=$1
+to=$2
+shift 2
+find * -type f | xargs sed -i "s/$from/$to/g" $@
