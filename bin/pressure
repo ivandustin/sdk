@@ -7,10 +7,7 @@ from numpy import array, loadtxt
 
 def main():
     environ["PYTHONUNBUFFERED"] = "1"
-    infer = spawn(
-        "tee in.txt | align xs.txt | sym2idx xs.txt |"
-        "encode | infer | str | tee out.txt"
-    )
+    infer = spawn("align xs.txt | sym2idx xs.txt | encode | infer | str")
     symbols = loadtxt("ys.txt")
     for line in stdin:
         infer.stdin.write(line)
