@@ -7,8 +7,7 @@ def main():
     filepath = argv[1]
     x = loadtxt(filepath)
     for line in stdin:
-        freq = array(line.split()).astype(float)
-        freq = freq.round().astype(int)
+        freq = array(line.split(), dtype=int)
         y = repeat(x, freq)
         print(" ".join(y.astype(str).tolist()))
 
