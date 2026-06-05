@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -eu
+root=$(rootpath $0)
+dir=$root/lib/tpl
+cp $dir/$1 $2
