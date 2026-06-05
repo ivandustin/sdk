@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+from sys import argv, stdin
+from numpy import loadtxt, array, repeat
+
+
+def main():
+    filepath = argv[1]
+    x = loadtxt(filepath)
+    for line in stdin:
+        freq = array(line.split()).astype(float)
+        freq = freq.round().astype(int)
+        y = repeat(x, freq)
+        print(" ".join(y.astype(str).tolist()))
+
+
+if __name__ == "__main__":
+    main()
