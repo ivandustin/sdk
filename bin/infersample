@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -eu
+inferstr | fx 'astype(x * 1000, int)' | repeat ys.txt
