@@ -8,9 +8,9 @@ def main():
     xpath = argv[1]
     ypath = argv[2]
     zpath = argv[3]
-    x = loadtxt(xpath)
-    y = loadtxt(ypath)[-1]
-    z = loadtxt(zpath)[-1][-1]
+    x = loadtxt(xpath, ndmin=1)
+    y = loadtxt(ypath, ndmin=2)[-1]
+    z = loadtxt(zpath, ndmin=2)[-1][-1]
     figure = bar(x=x, y=y)
     figure.add_shape(
         type="line",
