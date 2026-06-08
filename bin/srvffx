@@ -4,4 +4,6 @@ cd ~/ffx
 srvnc forecast &
 srvcmd logio in.txt out.txt inferstr &
 bar2 ys.txt out.txt in.txt &
+PORT=1234 srvnc infermean &
+PORT=2341 srvnc infernormal &
 wait
