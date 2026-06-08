@@ -1,0 +1,18 @@
+#!/usr/bin/env python
+from sys import argv, stdin
+from numpy.random import choice as npchoice
+from numpy import array, loadtxt
+
+
+def main():
+    size = int(argv[1])
+    items = loadtxt(argv[2], ndmin=1)
+    for line in stdin:
+        p = array(line.split()).astype(float)
+        p = p / p.sum()
+        y = npchoice(items, size=size, p=p)
+        print(" ".join(y.astype(str)))
+
+
+if __name__ == "__main__":
+    main()
