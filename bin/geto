@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -eu
+file=$1
+shift
+aws s3 cp s3://$BUCKET/$file $file "$@"
