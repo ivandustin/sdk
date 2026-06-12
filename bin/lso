@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec aws s3 ls s3://$BUCKET "$@"
+exec aws s3 ls s3://$BUCKET/$1
