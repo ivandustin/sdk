@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 set -eu
 root=$(rootpath $0)
-dir=$root/lib/tpl
+dir=$root/etc/tpl
 cp $dir/$1 $2
