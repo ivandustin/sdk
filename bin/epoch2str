@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -u
+epoch=$1
+shift
+exec date -d @$epoch "$@"
