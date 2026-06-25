@@ -4,6 +4,7 @@ point=$1
 cd ~
 [ -d ffx ] || git clone https://github.com/ivandustin/ffx.git
 cd ffx
+[ -f values.txt ] || curl https://cdn.natureframework.com/eurusd.txt.gz | gunzip > values.txt
 type bc
 echo $point > point.txt
 trainvals
