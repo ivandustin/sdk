@@ -8,9 +8,26 @@ else
 	domain=openai
 	key=$OPENAI
 fi
-if [ "$REQ" = "1" ]
+
+if [ "$OLLAMA" = 1 ]
+then
+	url=http://localhost:11434
+else
+	url=https://api.$domain.com
+fi
+
+if [ "$VERBOSE" = 1 ]
+then
+	verbose=-v
+fi
+
+if [ "$REQ" = 1 ]
 then
 	cat >&2
 else
-	curl -s "https://api.$domain.com/$1" -H "Content-Type: application/json" -H "Authorization: Bearer $key" -d @- | ugly
+	curl -sL "$url/$1" \
+		-H "Content-Type: application/json" \
+		-H "Authorization: Bearer $key" \
+		$verbose \
+		-d @- | ugly
 fi
