@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec find . -type f -name '*.py' "$@"
