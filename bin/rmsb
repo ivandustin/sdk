@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec grep -v '^\#\!' "$@"
+exec sed '1{/^#!/d}' "$@"
