@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -eu
+if [ ! -e .git ]
+then
+	git init
+	trap 'rm -rf .git' EXIT
+fi
+codex -c 'project_root_markers=[]' \
+	--sandbox workspace-write \
+	--ask-for-approval never \
+	"$@"

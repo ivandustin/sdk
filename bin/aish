@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 set -eu
-if [ ! -e .git ]
+if (( $# > 0 ))
 then
-	git init
-	trap 'rm -rf .git' EXIT
+	file=$1
+	shift
+	aish0 exec - "$@" < $file
+else
+	aish0 "$@"
 fi
-codex -c 'project_root_markers=[]' \
-	--sandbox workspace-write \
-	--ask-for-approval never \
-	"$@"
