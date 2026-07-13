@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+file=$1
+dir=$(mktemp -d)
+trap 'rm -rf $dir' EXIT
+agents=$dir/AGENTS.md
+if [ -f $file ]
+then
+	cat $file
+else
+	src $file
+fi | rmsb > $agents
+cd $dir
+aish
