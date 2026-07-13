@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec aishf copyedit "$@"
+exec mapline copyedit "$@"
