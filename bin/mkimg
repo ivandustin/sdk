@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -euvx
 name=$(basename $(pwd))
-docker build -t $name:latest .
+docker build --build-context home=~ -t $name:latest .
