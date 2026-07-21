@@ -2,5 +2,6 @@
 set -euo pipefail
 while read -e -p '> ' -r line
 do
+	history -s "$line"
 	echo $line | "$@"
 done
