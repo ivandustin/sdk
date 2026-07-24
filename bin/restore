@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec git restore . "$@"
+exec git restore "$@"
