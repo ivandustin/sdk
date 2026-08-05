@@ -7,4 +7,5 @@ then
 fi
 codex -c project_root_markers=[] \
 	--sandbox danger-full-access \
+	--search \
 	"$@"
