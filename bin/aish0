@@ -6,7 +6,5 @@ then
 	trap 'rm -rf .git' EXIT
 fi
 codex -c project_root_markers=[] \
-	-c sandbox_workspace_write.network_access=true \
-	--sandbox workspace-write \
-	--ask-for-approval never \
+	--sandbox danger-full-access \
 	"$@"
