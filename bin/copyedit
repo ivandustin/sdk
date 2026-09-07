@@ -1,2 +1,3 @@
-#!/usr/bin/env aif
-copyedit the given text
+#!/usr/bin/env bash
+set -euo pipefail
+copyedit0 "$@" | md2fmt
