@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+printf "data:$1;base64,"
+base64 -w 0 $2
