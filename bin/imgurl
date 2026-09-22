@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -euo pipefail
+json url "$@" | json type image_url image_url
