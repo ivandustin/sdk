@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+for file in "$@"
+do
+	base64 -w 0 $file | json data | json type input_audio input_audio
+done | jsonarray
