@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec parec --format=s16le --rate=16000 --channels=1 "$@"
