@@ -1,0 +1,113 @@
+#!/usr/bin/env python3
+"""Group speech from raw PCM stdin into rotating WAV files with silence padding."""
+
+import argparse
+from collections import deque
+import sys
+import wave
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--rate",
+        type=int,
+        choices=(8000, 16000, 32000, 48000),
+        default=16000,
+        help="input sample rate (default: 16000); PCM must be mono signed 16-bit little-endian",
+    )
+    parser.add_argument(
+        "--frame-ms",
+        type=int,
+        choices=(10, 20, 30),
+        default=30,
+        help="frame duration in milliseconds (default: 30)",
+    )
+    parser.add_argument(
+        "--mode",
+        type=int,
+        choices=(0, 1, 2, 3),
+        default=2,
+        help="VAD aggressiveness, 0 through 3 (default: 2)",
+    )
+    parser.add_argument(
+        "--pre-ms",
+        type=int,
+        default=200,
+        help="audio retained before speech, rounded up to whole frames (default: 200)",
+    )
+    parser.add_argument(
+        "--post-ms",
+        type=int,
+        default=300,
+        help="consecutive silence ending an utterance, retained as padding; "
+        "rounded up to whole frames (default: 300)",
+    )
+    args = parser.parse_args()
+    if args.pre_ms < 0 or args.post_ms < 0:
+        parser.error("--pre-ms and --post-ms must be nonnegative")
+
+    try:
+        import webrtcvad
+    except ImportError:
+        parser.exit(1, "Install dependency: python3 -m pip install webrtcvad-wheels\n")
+
+    detector = webrtcvad.Vad(args.mode)
+    frame_bytes = args.rate * args.frame_ms // 1000 * 2
+    preceding = deque(maxlen=(args.pre_ms + args.frame_ms - 1) // args.frame_ms)
+    post_frames = (args.post_ms + args.frame_ms - 1) // args.frame_ms
+    number = 1
+    output = None
+    silent_frames = 0
+
+    def finish():
+        nonlocal output, number
+        output.close()
+        output = None
+        print(filename, flush=True)
+        # Reuse filenames after 999, overwriting the previous rotation.
+        number = number % 999 + 1
+
+    try:
+        while True:
+            frame = bytearray()
+            while len(frame) < frame_bytes:
+                chunk = sys.stdin.buffer.read(frame_bytes - len(frame))
+                if not chunk:
+                    if frame:
+                        print(
+                            "vad: ignoring incomplete final PCM frame", file=sys.stderr
+                        )
+                    return
+                frame.extend(chunk)
+            frame = bytes(frame)
+            speech = detector.is_speech(frame, args.rate)
+            if output is None and speech:
+                filename = f"{number:03d}.wav"
+                output = wave.open(filename, "wb")
+                output.setnchannels(1)
+                output.setsampwidth(2)
+                output.setframerate(args.rate)
+                output.writeframesraw(b"".join(preceding))
+                silent_frames = 0
+            if output is not None:
+                if speech:
+                    silent_frames = 0
+                else:
+                    silent_frames += 1
+                if speech or post_frames:
+                    output.writeframesraw(frame)
+                if not speech and silent_frames >= post_frames:
+                    finish()
+            preceding.append(frame)
+    finally:
+        # Finalize pending speech on EOF or interruption, even without trailing silence.
+        if output is not None:
+            finish()
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        sys.exit(130)
