@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec kokoro-tts - --stream --voice bm_daniel "$@"
