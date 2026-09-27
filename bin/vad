@@ -37,6 +37,13 @@ def main():
         help="audio retained before speech, rounded up to whole frames (default: 200)",
     )
     parser.add_argument(
+        "--min-speech-ms",
+        type=int,
+        default=300,
+        help="minimum detected speech per output, excluding silence padding "
+        "(default: 300); 0 disables filtering",
+    )
+    parser.add_argument(
         "--post-ms",
         type=int,
         default=300,
@@ -46,6 +53,8 @@ def main():
     args = parser.parse_args()
     if args.pre_ms < 0 or args.post_ms < 0:
         parser.error("--pre-ms and --post-ms must be nonnegative")
+    if args.min_speech_ms < 0:
+        parser.error("--min-speech-ms must be nonnegative")
 
     try:
         import webrtcvad
@@ -58,10 +67,15 @@ def main():
     post_frames = (args.post_ms + args.frame_ms - 1) // args.frame_ms
     number = 1
     output = None
+    pending = None
+    speech_ms = 0
     silent_frames = 0
 
     def finish():
-        nonlocal output, number
+        nonlocal output, number, pending
+        pending = None
+        if output is None:
+            return
         output.close()
         output = None
         print(filename, flush=True)
@@ -82,27 +96,35 @@ def main():
                 frame.extend(chunk)
             frame = bytes(frame)
             speech = detector.is_speech(frame, args.rate)
-            if output is None and speech:
-                filename = f"{number:03d}.wav"
-                output = wave.open(filename, "wb")
-                output.setnchannels(1)
-                output.setsampwidth(2)
-                output.setframerate(args.rate)
-                output.writeframesraw(b"".join(preceding))
+            if pending is None and speech:
+                pending = list(preceding)
+                speech_ms = 0
                 silent_frames = 0
-            if output is not None:
+            if pending is not None:
                 if speech:
+                    speech_ms += args.frame_ms
                     silent_frames = 0
                 else:
                     silent_frames += 1
                 if speech or post_frames:
-                    output.writeframesraw(frame)
+                    if output is None:
+                        pending.append(frame)
+                    else:
+                        output.writeframesraw(frame)
+                if output is None and speech_ms >= args.min_speech_ms:
+                    filename = f"{number:03d}.wav"
+                    output = wave.open(filename, "wb")
+                    output.setnchannels(1)
+                    output.setsampwidth(2)
+                    output.setframerate(args.rate)
+                    output.writeframesraw(b"".join(pending))
+                    pending.clear()
                 if not speech and silent_frames >= post_frames:
                     finish()
             preceding.append(frame)
     finally:
         # Finalize pending speech on EOF or interruption, even without trailing silence.
-        if output is not None:
+        if pending is not None:
             finish()
 
 
