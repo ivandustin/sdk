@@ -1,0 +1,11 @@
+{
+    "properties": {
+        "%": {
+            "type": "boolean"
+        }
+    },
+    "required": [
+        "%"
+    ],
+    "type": "object"
+}
