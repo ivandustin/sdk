@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -euo pipefail
+pcm | vad | xargs -n 1 asr
