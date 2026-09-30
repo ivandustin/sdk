@@ -2,7 +2,7 @@
 set -eu
 if [ ! -e .git ]
 then
-	git init
+	git init 1>&2
 	trap 'rm -rf .git' EXIT
 fi
 codex -c project_root_markers=[] \
