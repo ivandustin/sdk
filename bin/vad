@@ -111,7 +111,7 @@ def main():
                         output.writeframesraw(frame)
                 if output is None and speech_ms >= args.min_speech_ms:
                     with tempfile.NamedTemporaryFile(
-                        prefix="vad-", suffix=".wav", dir=".", delete=False
+                        prefix="vad", suffix=".wav", delete=False
                     ) as temporary:
                         filename = temporary.name
                     output = wave.open(filename, "wb")
