@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+export MODEL=o4-mini
+export EFFORT=high
+exec "$@"
