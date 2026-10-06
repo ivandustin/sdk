@@ -1,0 +1,16 @@
+#!/usr/bin/env python
+from sys import argv, stdin
+from pandas import read_csv
+
+
+def main():
+    by = argv[1]
+    column = argv[2]
+    df = read_csv(stdin)
+    df = df.groupby(by)[column].agg(" ".join)
+    for group, value in df.items():
+        print(group, value)
+
+
+if __name__ == "__main__":
+    main()
