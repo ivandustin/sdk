@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+book=$1
+chapter=$2
+filter chapter $chapter < $(biblepath $book) | csv verse | sort -nu
