@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+book=$1
+chapter=$2
+filter chapter $chapter < $(biblepath $book) | groupby verse word | sort -n -k1,1 | cut -d' ' -f2-
