@@ -8,8 +8,8 @@ def main():
     column = argv[2]
     df = read_csv(stdin)
     df = df.groupby(by)[column].agg(" ".join)
-    for group, value in df.items():
-        print(group, value)
+    for item in df:
+        print(item)
 
 
 if __name__ == "__main__":
