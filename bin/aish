@@ -4,10 +4,10 @@ if [ "$#" = 0 ]
 then
 	if [ -t 0 ]
 	then
-		exec aish0
+		exec codexmain
 	else
-		exec aish0 exec -
+		exec codexmain exec -
 	fi
 else
-	rmsb < $1 | aish0 exec -
+	rmsb < $1 | codexmain exec -
 fi
