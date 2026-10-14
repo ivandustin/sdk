@@ -4,12 +4,12 @@ from pandas import read_csv
 
 
 def main():
-    by = argv[1]
-    column = argv[2]
+    column = argv[1]
+    by = argv[2]
     df = read_csv(stdin)
     df = df.groupby(by)[column].agg(" ".join)
-    for item in df:
-        print(item)
+    for key, value in df.items():
+        print(key, value)
 
 
 if __name__ == "__main__":
