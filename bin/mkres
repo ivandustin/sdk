@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+cmds=$1
+shift
+args=("$@")
+set -- $cmds
+cmd=$1
+shift
+$cmd "${args[@]}" | tee index.txt | while read line
+do
+	if [ "$#" -gt 0 ]
+	then
+		mkdir "$line"
+		pushd "$line"
+		mkres "$*" "${args[@]}" "$line"
+		popd
+	fi
+done
