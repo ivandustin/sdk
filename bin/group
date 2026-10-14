@@ -1,15 +1,19 @@
 #!/usr/bin/env python
 from sys import argv, stdin
-from pandas import read_csv
+from collections import defaultdict
+from csv import DictReader
 
 
 def main():
     column = argv[1]
     by = argv[2]
-    df = read_csv(stdin)
-    df = df.groupby(by)[column].agg(" ".join)
-    for key, value in df.items():
-        print(key, value)
+    groups = defaultdict(list)
+    for row in DictReader(stdin):
+        key = row[by]
+        if key:
+            groups[key].append(row[column])
+    for key, values in groups.items():
+        print(key, " ".join(values))
 
 
 if __name__ == "__main__":
