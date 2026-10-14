@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
-set -euo pipefail
-if [ "$#" = 0 ]
+set -eo pipefail
+if [ -t 0 ]
 then
-	if [ -t 0 ]
+	if [ -p "$1" ] || [ -f "$1" ]
 	then
-		exec codexmain
+		file=$1
+		shift
+		rmsb < $file | codexexec "$@"
 	else
-		exec codexmain exec -
+		exec codexmain "$@"
 	fi
 else
-	rmsb < $1 | codexmain exec -
+	exec codexexec "$@"
 fi
