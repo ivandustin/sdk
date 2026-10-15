@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 data=$BIBLE/data
-find $data/old $data/new -type f -name '*.csv'
+find $data/old -type f -name '*.csv' | sort
+find $data/new -type f -name '*.csv' | sort
