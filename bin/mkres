@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 cmds=$1
 shift
 args=("$@")
