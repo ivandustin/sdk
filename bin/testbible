@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+for book in $(lsb)
+do
+	echo $book
+	lsc $book | sort -nuc
+	for chapter in $(lsc $book)
+	do
+		echo $book $chapter
+		lsv "$book" "$chapter" | sort -nuc
+	done
+done
