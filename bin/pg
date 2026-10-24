@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euvxo pipefail
 rg | log > book.txt
-chaps $(<book.txt) | pick | log > chap.txt
-chap $(<chap.txt) $(<book.txt) | log > raw.txt
+lsc $(<book.txt) | pick | log > chap.txt
+ch "$(<book.txt)" $(<chap.txt) | log > raw.txt
 lower < raw.txt | eng | log > eng.txt
 topics < eng.txt | log > topics.txt
 pick < topics.txt | log > topic.txt
