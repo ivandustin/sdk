@@ -1,0 +1,7 @@
+#!/usr/bin/env aish
+run python in bg
+run playwright headed
+communicate via stdin
+read only storage from PW env
+goto facebook
+switch to PROFILE env if exist
