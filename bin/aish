@@ -4,9 +4,7 @@ if [ -t 0 ]
 then
 	if [ -p "$1" ] || [ -f "$1" ]
 	then
-		file=$1
-		shift
-		rmsb < $file | codexexec "$@"
+		args "$@" | rmsb | codexexec
 	else
 		exec codexmain "$@"
 	fi
