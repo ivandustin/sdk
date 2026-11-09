@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euvxo pipefail
-rg | log > book.txt
+randg | log > book.txt
 lsc $(<book.txt) | pick | log > chap.txt
 ch "$(<book.txt)" $(<chap.txt) | log > raw.txt
 lower < raw.txt | eng | log > eng.txt
