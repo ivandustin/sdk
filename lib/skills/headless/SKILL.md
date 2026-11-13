@@ -1,9 +1,9 @@
 ---
-name: playwright
+name: headless
 description: Browse and automate websites with Playwright in a persistent Python interactive session, launching headless Firefox by default. Use for navigation, page inspection, forms, screenshots, and web UI tasks that do not require attachment to the user's existing browser.
 ---
 
-# Playwright
+# Headless
 
 Use Playwright's Python synchronous API through a persistent `python -i` process. Default to Mozilla Firefox in headless mode unless the user requests another browser or a visible window. This launches a separate browser session; it does not inherit the user's signed-in browser profile.
 

@@ -5,7 +5,7 @@ description: Use Playwright to control the user's existing Chromium browser thro
 
 # Browser
 
-Read [the Playwright skill](../playwright/SKILL.md) and use its persistent Python REPL workflow, page inspection, locators, waiting, and verification guidance. Replace its browser launch, storage-state initialization, and cleanup with the attachment workflow below.
+Read [the headless skill](../headless/SKILL.md) and use its persistent Python REPL workflow, page inspection, locators, waiting, and verification guidance. Replace its browser launch, storage-state initialization, and cleanup with the attachment workflow below.
 
 ## Connect to the user's browser
 
@@ -13,7 +13,7 @@ Use a browser-level `ws://` or `wss://` Chrome DevTools Protocol endpoint suppli
 
 If no endpoint is supplied, default to `http://127.0.0.1:9222`. For a remote-debugging HTTP address, including this default, read that address's `/json/version` response and use its `webSocketDebuggerUrl`. Resolve only the supplied address or this default; do not scan for debugging ports or guess other endpoints. If connection fails, report the concrete blocker and request an updated endpoint when needed. Do not silently launch a separate browser or restart the user's browser.
 
-CDP attachment supports Chromium-based browsers only. Check that `playwright.sync_api` is importable as described in the Playwright skill; browser binary installation is unnecessary for attachment.
+CDP attachment supports Chromium-based browsers only. Check that `playwright.sync_api` is importable as described in the headless skill; browser binary installation is unnecessary for attachment.
 
 Start `python -i -q` with `tty: true` and retain its `session_id`. Initialize in that persistent REPL:
 
