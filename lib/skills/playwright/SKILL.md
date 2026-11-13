@@ -5,7 +5,7 @@ description: Browse and automate websites with Playwright in a persistent Python
 
 # Playwright
 
-Use Playwright's Python synchronous API through a persistent `python -i` process. Default to Mozilla Firefox in headless mode unless the user requests another browser or a visible window. This launches a separate browser session; it does not inherit the user's signed-in browser profile. When the task explicitly requires the user's existing browser session, use the repository's `browser` skill instead.
+Use Playwright's Python synchronous API through a persistent `python -i` process. Default to Mozilla Firefox in headless mode unless the user requests another browser or a visible window. This launches a separate browser session; it does not inherit the user's signed-in browser profile.
 
 ## Start a persistent session
 
