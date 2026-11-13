@@ -5,13 +5,14 @@ description: Browse and automate websites using Playwright from a persistent Pyt
 
 # Browser
 
-Use Python Playwright through `python -i` and the user's running browser at `http://127.0.0.1:9222`, preserving their existing profile and signed-in session.
+Use Python Playwright through `python -i` and the user's running browser at `127.0.0.1:9222`, preserving their existing profile and signed-in session.
 
 ## Connect to the user's browser
 
 - Check that the chosen Python interpreter can import `playwright.sync_api`. If missing, install with that interpreter's `python -m pip install playwright`, using a project virtual environment when appropriate. A bundled Playwright browser download is unnecessary for attachment.
-- Attach directly to `http://127.0.0.1:9222` through Chrome DevTools Protocol (CDP). Do not detect the OS default browser or discover alternative endpoints.
-- A Chromium-based browser must already expose remote debugging at that address. If attachment fails, report the concrete failure and ask the user to make that endpoint available. Do not terminate or relaunch the user's browser, copy profile data, or substitute another browser or profile.
+- Attach through Chrome DevTools Protocol (CDP), first using `ws://127.0.0.1:9222/devtools/browser`. This endpoint works with Chrome's remote debugging enabled through `chrome://inspect/#remote-debugging`, even when HTTP discovery at `/json/version` returns 404. The WebSocket root `ws://127.0.0.1:9222/` is a different endpoint and may return 403.
+- If the direct WebSocket endpoint is unavailable, try `http://127.0.0.1:9222` for browsers launched with a conventional remote debugging port. Do not detect the OS default browser or scan other ports.
+- A Chromium-based browser must already expose remote debugging at that address. Chrome may show a connection approval prompt; if it does, let the user approve it. If both connection methods fail, report the concrete failures and ask the user to enable remote debugging or approve the connection as appropriate. Do not terminate or relaunch the user's browser, copy profile data, or substitute another browser or profile.
 
 ## Keep one interactive Python process
 
@@ -21,13 +22,24 @@ Initialize in that REPL:
 
 ```python
 import inspect
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import Error, sync_playwright
 pw = sync_playwright().start()
 options = {"timeout": 15000}
 if "no_defaults" in inspect.signature(pw.chromium.connect_over_cdp).parameters:
     options["no_defaults"] = True
 
-browser = pw.chromium.connect_over_cdp("http://127.0.0.1:9222", **options)
+try:
+    browser = pw.chromium.connect_over_cdp(
+        "ws://127.0.0.1:9222/devtools/browser", **options
+    )
+except Error as websocket_error:
+    try:
+        browser = pw.chromium.connect_over_cdp("http://127.0.0.1:9222", **options)
+    except Error as http_error:
+        raise RuntimeError(
+            f"WebSocket attachment failed: {websocket_error}\n"
+            f"HTTP attachment failed: {http_error}"
+        ) from http_error
 context = browser.contexts[0]
 [(i, tab.url) for i, tab in enumerate(context.pages)]
 ```
