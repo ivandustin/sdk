@@ -1,7 +1,5 @@
 #!/usr/bin/env aish
-run python in bg
-run playwright headed
-communicate via stdin
-read only storage from PW env
+use headless browser
 goto facebook
-switch to PROFILE env if exist
+switch to PROFILE env if set
+post msg in text file $1
