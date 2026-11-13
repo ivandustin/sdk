@@ -51,7 +51,9 @@ Save screenshots and downloads to known task output paths. Use `page.screenshot(
 
 ## Finish
 
-When the browsing task is complete, close the owned context and browser, stop Playwright, and exit the interpreter:
+When the browsing task is complete, keep the Python interpreter, Playwright, browser, context, and pages open for follow-up work. Retain the `session_id` and reuse the same session for subsequent actions. Do not run cleanup merely because the task or turn has ended.
+
+Only when the user requests closing the session, close the owned context and browser, stop Playwright, and exit the interpreter:
 
 ```python
 context.close()
