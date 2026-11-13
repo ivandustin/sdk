@@ -11,7 +11,7 @@ Read [the Playwright skill](../playwright/SKILL.md) and use its persistent Pytho
 
 Use a browser-level `ws://` or `wss://` Chrome DevTools Protocol endpoint supplied by the user or the environment. Use `BROWSER_CDP_URL` as the environment convention for this skill; do not print its value because it may contain credentials. Do not confuse a page-level `/devtools/page/...` endpoint or a Playwright protocol endpoint with a browser CDP endpoint.
 
-If only a remote-debugging HTTP address is supplied, read that address's `/json/version` response and use its `webSocketDebuggerUrl`. Resolve only the supplied address; do not scan for debugging ports or guess endpoints. If no endpoint is available, ask for the user's browser WebSocket CDP URL. If connection fails, report the concrete blocker and request an updated endpoint when needed. Do not silently launch a separate browser or restart the user's browser.
+If no endpoint is supplied, default to `http://127.0.0.1:9222`. For a remote-debugging HTTP address, including this default, read that address's `/json/version` response and use its `webSocketDebuggerUrl`. Resolve only the supplied address or this default; do not scan for debugging ports or guess other endpoints. If connection fails, report the concrete blocker and request an updated endpoint when needed. Do not silently launch a separate browser or restart the user's browser.
 
 CDP attachment supports Chromium-based browsers only. Check that `playwright.sync_api` is importable as described in the Playwright skill; browser binary installation is unnecessary for attachment.
 
@@ -19,10 +19,16 @@ Start `python -i -q` with `tty: true` and retain its `session_id`. Initialize in
 
 ```python
 import os
+import json
 from urllib.parse import urlsplit
+from urllib.request import urlopen
 from playwright.sync_api import sync_playwright
-endpoint = os.environ.get("BROWSER_CDP_URL", "").strip()
+endpoint = os.environ.get("BROWSER_CDP_URL", "").strip() or "http://127.0.0.1:9222"
 # If supplied directly instead, assign that endpoint without printing it.
+if urlsplit(endpoint).scheme in ("http", "https"):
+    with urlopen(endpoint.rstrip("/") + "/json/version", timeout=30) as response:
+        endpoint = json.load(response)["webSocketDebuggerUrl"]
+
 assert urlsplit(endpoint).scheme in ("ws", "wss"), "A WebSocket CDP URL is required"
 pw = sync_playwright().start()
 browser = pw.chromium.connect_over_cdp(endpoint, timeout=30000)
