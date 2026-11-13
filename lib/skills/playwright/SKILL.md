@@ -16,14 +16,20 @@ Start `python -i -q` using `exec_command` with `tty: true` and retain the return
 Initialize in the REPL:
 
 ```python
+import json
+import os
 from playwright.sync_api import sync_playwright
 pw = sync_playwright().start()
 browser = pw.firefox.launch(headless=True)
-context = browser.new_context()
+storage = os.environ.get("PW")
+storage_state = json.loads(storage) if storage and storage.lstrip().startswith("{") else storage
+context = browser.new_context(storage_state=storage_state or None)
 page = context.new_page()
 page.set_default_timeout(15000)
 page.set_default_navigation_timeout(30000)
 ```
+
+By default, load browser storage state from the `PW` environment variable when it is nonempty. Accept either a storage-state JSON object or a path to a storage-state JSON file. If `PW` is unset or empty, start with a fresh context. Use a different storage state when the user requests it, and do not print the environment value or its credentials.
 
 Keep `pw`, `browser`, `context`, and `page` alive across calls. Avoid a `with sync_playwright()` block that would exit between actions. End interactive compound statements with a blank line, or send them through `exec()` with a multiline string. Wait for each command to finish before issuing the next browser action; poll the same session when an operation is still running. After an exception, inspect the current page state before retrying.
 
