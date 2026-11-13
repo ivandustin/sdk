@@ -34,7 +34,7 @@ pw = sync_playwright().start()
 browser = pw.chromium.connect_over_cdp(endpoint, timeout=30000)
 ```
 
-Do not use `launch()`, `launch_persistent_context()`, or the Playwright skill's `PW` storage-state initialization. Reuse the attached browser's contexts and cookies.
+Do not use `launch()`, `launch_persistent_context()`, or the headless skill's `STORAGE` storage-state initialization. Reuse the attached browser's contexts and cookies.
 
 ## Select a tab and work
 
@@ -57,11 +57,11 @@ page.set_default_navigation_timeout(30000)
 
 If several tabs match and the task cannot disambiguate them, ask which to use. If the task needs a new tab, create it with `context.new_page()` in the appropriate existing context. If no contexts exist, report that the expected user session is unavailable rather than substituting a fresh context.
 
-Follow the Playwright skill's browsing and verification instructions. Actions affect the user's live browser and account; keep them within the requested task. CDP has lower fidelity than Playwright's native connection, so inspect current state after unsupported operations or connection failures before retrying. On reconnect, enumerate tabs again because previous Python objects and indices may be stale.
+Follow the headless skill's browsing and verification instructions. Actions affect the user's live browser and account; keep them within the requested task. CDP has lower fidelity than Playwright's native connection, so inspect current state after unsupported operations or connection failures before retrying. On reconnect, enumerate tabs again because previous Python objects and indices may be stale.
 
 ## Disconnect
 
-Leave existing contexts, tabs, and the browser running. Do not execute the Playwright skill's `context.close()` / `browser.close()` cleanup or send the CDP `Browser.close` command. Close a tab created for the task only when it is no longer needed and the user does not need its result. Stop the local Playwright connection and exit the interpreter:
+Leave existing contexts, tabs, and the browser running. Do not execute the headless skill's `context.close()` / `browser.close()` cleanup or send the CDP `Browser.close` command. Close a tab created for the task only when it is no longer needed and the user does not need its result. Stop the local Playwright connection and exit the interpreter:
 
 ```python
 pw.stop()
