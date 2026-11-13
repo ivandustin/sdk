@@ -1,42 +1,33 @@
 ---
 name: browser
-description: Browse and automate websites using Playwright from a persistent Python interactive session attached to the user's default browser. Use for browser navigation, page inspection, forms, screenshots, and web UI tasks.
+description: Browse and automate websites using Playwright from a persistent Python interactive session attached to the user's browser at 127.0.0.1:9222. Use for browser navigation, page inspection, forms, screenshots, and web UI tasks.
 ---
 
 # Browser
 
-Use Python Playwright through `python -i` and the user's default installed browser, preserving their existing profile and signed-in session.
+Use Python Playwright through `python -i` and the user's running browser at `http://127.0.0.1:9222`, preserving their existing profile and signed-in session.
 
 ## Connect to the user's browser
 
-- Determine the OS default browser; do not assume Chrome or Edge. On Windows, read the HTTPS association with PowerShell:
-
-  ```powershell
-  Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\Shell\Associations\UrlAssociations\https\UserChoice' | Select-Object -ExpandProperty ProgId
-  ```
-
-  Resolve an unfamiliar ProgId using its registered application command. On other systems, use the OS default-browser association.
 - Check that the chosen Python interpreter can import `playwright.sync_api`. If missing, install with that interpreter's `python -m pip install playwright`, using a project virtual environment when appropriate. A bundled Playwright browser download is unnecessary for attachment.
-- Attach to the existing default browser through its local Chrome DevTools Protocol (CDP) endpoint. For supported Playwright versions, `connect_over_cdp("chrome")` or `connect_over_cdp("msedge")` can discover the corresponding default profile's debugging endpoint. Use the channel matching the detected default browser; otherwise use a verified local CDP URL.
-- Remote debugging must already be enabled or enabled by the user through the browser's supported settings. If attachment fails, report the concrete failure and the setup needed. Do not silently substitute a bundled browser, a fresh profile, or a different installed browser. Do not terminate the user's browser, copy profile data, or relaunch their normal profile with debugging flags.
-- CDP attachment supports Chromium-based browsers only. If the default is Firefox, Safari, or another unsupported browser, explain the limitation and ask which supported browser the user wants to use before switching.
+- Attach directly to `http://127.0.0.1:9222` through Chrome DevTools Protocol (CDP). Do not detect the OS default browser or discover alternative endpoints.
+- A Chromium-based browser must already expose remote debugging at that address. If attachment fails, report the concrete failure and ask the user to make that endpoint available. Do not terminate or relaunch the user's browser, copy profile data, or substitute another browser or profile.
 
 ## Keep one interactive Python process
 
 Start `python -i` with a persistent terminal/PTY and retain its session ID. Send subsequent Python statements to that same process using terminal stdin. Do not run a new Python process for each action. In the interactive prompt, end compound statements with a blank line; use `exec()` with a multiline string when terminal input handling requires it.
 
-Initialize in that REPL, replacing the endpoint with the detected channel or verified URL:
+Initialize in that REPL:
 
 ```python
 import inspect
 from playwright.sync_api import sync_playwright
 pw = sync_playwright().start()
-endpoint = "chrome"  # Replace with the user's detected default browser endpoint.
 options = {"timeout": 15000}
 if "no_defaults" in inspect.signature(pw.chromium.connect_over_cdp).parameters:
     options["no_defaults"] = True
 
-browser = pw.chromium.connect_over_cdp(endpoint, **options)
+browser = pw.chromium.connect_over_cdp("http://127.0.0.1:9222", **options)
 context = browser.contexts[0]
 [(i, tab.url) for i, tab in enumerate(context.pages)]
 ```
