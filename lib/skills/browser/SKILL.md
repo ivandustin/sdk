@@ -11,7 +11,9 @@ Read [the headless skill](../headless/SKILL.md) and use its persistent Python RE
 
 Use a browser-level `ws://` or `wss://` Chrome DevTools Protocol endpoint supplied by the user or the environment. Use `BROWSER_CDP_URL` as the environment convention for this skill; do not print its value because it may contain credentials. Do not confuse a page-level `/devtools/page/...` endpoint or a Playwright protocol endpoint with a browser CDP endpoint.
 
-If no endpoint is supplied, default to `http://127.0.0.1:9222`. For a remote-debugging HTTP address, including this default, read that address's `/json/version` response and use its `webSocketDebuggerUrl`. Resolve only the supplied address or this default; do not scan for debugging ports or guess other endpoints. If connection fails, report the concrete blocker and request an updated endpoint when needed. Do not silently launch a separate browser or restart the user's browser.
+If no endpoint is supplied, default to `ws://127.0.0.1:9222/devtools/browser`. This browser-level endpoint without a browser ID works with Chrome remote debugging enabled through `chrome://inspect/#remote-debugging`. Keep the `/devtools/browser` path: the bare `ws://127.0.0.1:9222/` endpoint can return 403 without showing an approval prompt.
+
+For a supplied remote-debugging HTTP address, read its `/json/version` response and use `webSocketDebuggerUrl`. Chrome's settings-enabled debugging can return 404 for HTTP discovery; in that case try `ws://<same-host-and-port>/devtools/browser` (or `wss://` for HTTPS). Preserve an explicitly supplied WebSocket path. Resolve only the supplied address or the default above; do not scan for debugging ports. Chrome may ask the user to allow the connection after the correct endpoint is reached. A 403 alone does not establish that approval is pending. If connection fails, report the concrete blocker and request an updated endpoint when needed. Do not silently launch a separate browser or restart the user's browser.
 
 CDP attachment supports Chromium-based browsers only. Check that `playwright.sync_api` is importable as described in the headless skill; browser binary installation is unnecessary for attachment.
 
@@ -22,12 +24,21 @@ import os
 import json
 from urllib.parse import urlsplit
 from urllib.request import urlopen
+from urllib.error import HTTPError
 from playwright.sync_api import sync_playwright
-endpoint = os.environ.get("BROWSER_CDP_URL", "").strip() or "http://127.0.0.1:9222"
+endpoint = os.environ.get("BROWSER_CDP_URL", "").strip() or "ws://127.0.0.1:9222/devtools/browser"
 # If supplied directly instead, assign that endpoint without printing it.
 if urlsplit(endpoint).scheme in ("http", "https"):
-    with urlopen(endpoint.rstrip("/") + "/json/version", timeout=30) as response:
-        endpoint = json.load(response)["webSocketDebuggerUrl"]
+    http_endpoint = endpoint
+    try:
+        with urlopen(http_endpoint.rstrip("/") + "/json/version", timeout=30) as response:
+            endpoint = json.load(response)["webSocketDebuggerUrl"]
+    except HTTPError as error:
+        if error.code != 404:
+            raise
+        address = urlsplit(http_endpoint)
+        ws_scheme = "wss" if address.scheme == "https" else "ws"
+        endpoint = f"{ws_scheme}://{address.netloc}/devtools/browser"
 
 assert urlsplit(endpoint).scheme in ("ws", "wss"), "A WebSocket CDP URL is required"
 pw = sync_playwright().start()
