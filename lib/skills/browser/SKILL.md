@@ -11,6 +11,12 @@ Use a browser-level WebSocket CDP endpoint supplied by the user. Otherwise defau
 
 For an HTTP debugging address, request `/json/version` and use `webSocketDebuggerUrl`. If discovery returns 404, try `/devtools/browser` on the same host and port with `ws` (or `wss` for HTTPS). Resolve only the supplied endpoint or the default; do not scan ports or expose endpoint credentials. Chrome may request connection approval, but a 403 alone does not establish that approval is pending.
 
-Select the existing tab relevant to the task and reuse its signed-in session. If attachment fails or the expected session is unavailable, report the blocker; do not silently substitute a fresh browser or restart the user's browser.
+Select the existing tab relevant to the task and reuse its signed-in session. If attachment fails from WSL to a Windows browser, try the Windows interop fallback below. If attachment still fails or the expected session is unavailable, report the blocker; do not silently substitute a fresh browser or restart the user's browser.
 
 Keep the session available for follow-up work. When disconnecting is requested, leave the user's browser and existing tabs running. Close a task-created tab only when it is no longer needed and the user does not need its result.
+
+## Windows interop fallback from WSL
+
+When WSL cannot reach the user's existing Windows browser directly, run the browser automation on Windows through WSL interop using the same endpoint selection rules. Check dependencies in the Windows environment; a failed connection or an installed dependency in WSL does not establish the browser's availability or dependencies on Windows.
+
+Account for Windows environment variables and file paths when crossing the WSL boundary. Report generated artifacts through paths accessible to the user.
