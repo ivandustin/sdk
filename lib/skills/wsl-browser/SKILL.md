@@ -1,55 +1,77 @@
 ---
 name: wsl-browser
-description: Connect from WSL to an existing Chrome or Chromium session on the Windows host using CDP, including a Caddy relay when remote debugging listens only on Windows loopback.
+description: Control an existing Windows Chrome or Chromium session from Codex running in WSL by launching Windows Python and attaching Playwright over CDP. Use when the browser is on Windows, especially when WSL localhost cannot reach it.
 ---
 
 # Windows browser from WSL
 
-Read [browser](../browser/SKILL.md) for persistent Playwright attachment, tab selection, and disconnect behavior. Use this skill to resolve the WSL-to-Windows transport before attaching. Reuse the live browser; do not launch or restart it.
+Run Playwright in Windows through WSL interop so Windows localhost reaches the existing browser's debugging listener. Reuse its signed-in contexts and tabs. This works without a proxy, gateway connection, firewall change, or browser restart.
 
-## Choose the endpoint
+## Start Windows Python
 
-Honor a user-supplied endpoint or `BROWSER_CDP_URL` first, without printing credentials. Preserve an explicitly supplied WebSocket path.
-
-Without an endpoint, try `ws://127.0.0.1:9222/devtools/browser`. If this fails and the browser is on Windows, inspect the network rather than assuming Linux localhost reaches Windows:
+Check Windows Python and Playwright using Windows execution; an installation in WSL does not establish that they exist on Windows:
 
 ```bash
-wslinfo --networking-mode
-ip route show default
+powershell.exe -NoProfile -Command 'python -c "import sys; import playwright.sync_api; print(sys.executable)"'
 ```
 
-In NAT mode, the default gateway is normally the Windows host address. Derive it from the current route; do not hardcode an address from a previous session. In mirrored mode, try localhost first. If `wslinfo` is unavailable, use the route and listener evidence rather than assuming a networking mode.
+If `python` is unavailable, check `py` or a user-provided Windows interpreter. If Playwright is missing, install it into the chosen Windows interpreter when permitted. Browser binary installation is unnecessary for CDP attachment.
 
-If Windows interop is available, inspect the configured debugging port (9222 by default):
+Start a persistent interpreter with `exec_command`, `tty: true`, and retain its `session_id`:
 
-```powershell
-powershell.exe -NoProfile -Command 'Get-NetTCPConnection -LocalPort 9222 -State Listen -ErrorAction SilentlyContinue | Select-Object LocalAddress,LocalPort | ConvertTo-Json -Compress'
+```bash
+powershell.exe -NoProfile -Command '$env:PYTHON_BASIC_REPL="1"; python -i -q'
 ```
 
-A Windows listener on `127.0.0.1` is loopback-only and cannot be reached through the Windows gateway address from WSL NAT. A refusal on WSL localhost does not establish that Windows remote debugging is disabled. A timeout through the gateway alone does not distinguish a loopback listener from a firewall block. Probe only the configured endpoint and derived host address, without scanning ports.
+`PYTHON_BASIC_REPL` avoids modern Python console editing and color sequences interfering with piped input. A UNC working-directory warning from a Python batch shim is harmless if the Python prompt appears. Use Windows paths for any files the interpreter needs; do not depend on its working directory.
 
-## Relay with Caddy when needed
+Send subsequent Python commands through `write_stdin` to the same session, ending each submitted line with `\r` (carriage return) in the tool argument. With the Windows basic REPL, `\n` alone can concatenate input without executing it. For a multiline snippet, send one `exec("line1\nline2")` command followed by `\r`, or send individual lines and wait for their prompts. Wait for each operation to finish before sending another. Keep this interpreter and its objects available for follow-up work.
 
-When Chrome listens on Windows loopback, prepare this command for Windows PowerShell, replacing `<WINDOWS_HOST_IP>` with the observed WSL gateway. Use the actual debugging port if different; 9223 is a separate relay port:
+## Attach to Chrome
 
-```powershell
-caddy reverse-proxy --from http://<WINDOWS_HOST_IP>:9223 --to http://127.0.0.1:9222 --change-host-header
+Honor an explicit endpoint or `BROWSER_CDP_URL` first. WSL environment variables are not necessarily inherited by Windows Python; transfer an explicitly configured value without exposing credentials in tool output. Otherwise use the Windows loopback endpoint below:
+
+```python
+import os
+from playwright.sync_api import sync_playwright
+endpoint = os.environ.get("BROWSER_CDP_URL", "").strip() or "ws://127.0.0.1:9222/devtools/browser"
+pw = sync_playwright().start()
+browser = pw.chromium.connect_over_cdp(endpoint, timeout=30000)
+print("Browser contexts:", len(browser.contexts))
 ```
 
-Caddy handles WebSocket upgrades. The HTTP scheme avoids automatic HTTPS, and `--change-host-header` presents the upstream loopback address to Chrome. Bind to the Windows WSL interface as shown, rather than all interfaces. Keep the command running during use; Ctrl+C stops the relay. Do not install Caddy, change firewall rules, or reconfigure WSL merely to prepare this command.
+Use a browser-level CDP WebSocket URL, not a page-level `/devtools/page/...` URL or a Playwright protocol endpoint. Preserve an explicitly supplied WebSocket path.
 
-After the user starts the relay, attach to:
+For an HTTP debugging address, request its `/json/version` from Windows and use `webSocketDebuggerUrl`. Chrome's settings-enabled debugging can return HTTP 404 while `ws://127.0.0.1:9222/devtools/browser` works. On that 404, use `/devtools/browser` on the same host and port with `ws` (or `wss` for HTTPS). Do not treat HTTP discovery failure as proof that debugging is disabled.
 
-```text
-ws://<WINDOWS_HOST_IP>:9223/devtools/browser
+WSL's localhost may refer to Linux, and Windows loopback listeners may be unreachable through the WSL gateway. A failed Linux connection does not establish that Windows Chrome is unavailable. Prefer Windows execution over creating a network relay. Probe only the configured endpoint or default port; do not scan ports. Chrome may show a connection approval prompt, but a 403 alone does not establish that approval is pending. Report concrete errors if attachment fails; do not silently launch a fresh browser or restart the user's browser.
+
+## Select a tab and work
+
+Inspect tabs only as needed to identify the requested site; avoid exposing unrelated URLs or sensitive query strings. For example, filter on the task's hostname:
+
+```python
+from urllib.parse import urlsplit
+print([(ci, pi, tab.url) for ci, ctx in enumerate(browser.contexts)
+       for pi, tab in enumerate(ctx.pages)
+       if urlsplit(tab.url).hostname == "example.com"])
 ```
 
-For Chrome's settings-enabled remote debugging, retain `/devtools/browser` even without a browser ID. HTTP `/json/version` discovery may return 404 while this WebSocket endpoint works. For an explicitly supplied browser-ID path, preserve it. If HTTP discovery through a relay advertises a loopback WebSocket address, retain the returned browser path but use the reachable relay host and port.
+Select the observed context and page indices:
 
-Chrome may show a connection approval prompt; a 403 alone does not prove approval is pending. Report concrete connection errors. If the relay times out, check whether Caddy started successfully and whether Windows permits the connection before proposing a configuration change.
+```python
+context = browser.contexts[context_index]
+page = context.pages[page_index]
+page.set_default_timeout(15000)
+page.set_default_navigation_timeout(30000)
+print(page.title())
+print(page.locator("body").inner_text()[:12000])
+```
 
-## Verify attachment
+Use existing contexts and cookies; do not create a replacement context when none is available. Create a task tab with `context.new_page()` only when needed. Navigate with `wait_until="domcontentloaded"`, inspect visible state, and use locators derived from the actual page. Reinspect after navigation or errors. Before retrying a submission, verify whether it already succeeded.
 
-Use the persistent Python REPL from the browser skill, passing the resolved endpoint to `pw.chromium.connect_over_cdp(endpoint, timeout=30000)`. Verify that existing contexts are available and report the tab count without exposing unrelated URLs. Enumerate tabs only as needed to choose the user's requested page. Keep the interpreter session available for follow-up work, and never close the user's browser or existing tabs as cleanup.
+Screenshots and downloads use Windows paths. To use a WSL output location, convert it with `wslpath -w` and pass the resulting path as a Python raw string or correctly escaped string. Report artifacts through their accessible WSL paths.
 
-References: [Caddy CLI](https://caddyserver.com/docs/command-line), [WebSocket proxy support](https://caddyserver.com/docs/caddyfile/directives/reverse_proxy).
+## Preserve the user session
+
+Leave the browser, existing contexts, and existing tabs running. Never call `browser.close()`, `context.close()`, or CDP `Browser.close` as cleanup. Close a task-created tab only when it is no longer needed. When disconnecting, call `pw.stop()` and exit the interpreter; do not disconnect merely because a turn ends if follow-up work needs the session. After reconnecting, inspect contexts and tabs again rather than reusing stale indices.
