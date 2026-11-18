@@ -1,82 +1,24 @@
 ---
 name: browser
-description: Use Playwright to control the user's existing Chromium browser through a WebSocket CDP connection, reusing its signed-in context and tabs. Use when a task requires the user's browser rather than a separate automated browser session.
+description: Control the user's existing Chromium browser through a WebSocket CDP connection, reusing its signed-in context and tabs. Use when a task requires the user's browser rather than a separate automated browser session.
 ---
 
 # Browser
 
-Read [the headless skill](../headless/SKILL.md) and use its persistent Python REPL workflow, page inspection, locators, waiting, and verification guidance. Replace its browser launch, storage-state initialization, and cleanup with the attachment workflow below.
+Read [the headless skill](../headless/SKILL.md) for the runtime, Playwright implementation, persistent session, browsing, and verification workflow. Apply the attachment differences below instead of launching a browser or initializing storage state.
 
-## Connect to the user's browser
+## Attach to the user's browser
 
-Use a browser-level `ws://` or `wss://` Chrome DevTools Protocol endpoint supplied by the user or the environment. Use `BROWSER_CDP_URL` as the environment convention for this skill; do not print its value because it may contain credentials. Do not confuse a page-level `/devtools/page/...` endpoint or a Playwright protocol endpoint with a browser CDP endpoint.
+Use a browser-level CDP endpoint supplied by the user or environment (`BROWSER_CDP_URL`). Otherwise default to `ws://127.0.0.1:9222/devtools/browser`. Keep the `/devtools/browser` path: Chrome's settings-enabled remote debugging supports it without a browser ID, while the bare WebSocket root can return 403 without an approval prompt.
 
-If no endpoint is supplied, default to `ws://127.0.0.1:9222/devtools/browser`. This browser-level endpoint without a browser ID works with Chrome remote debugging enabled through `chrome://inspect/#remote-debugging`. Keep the `/devtools/browser` path: the bare `ws://127.0.0.1:9222/` endpoint can return 403 without showing an approval prompt.
+For an HTTP debugging address, request `/json/version` and use `webSocketDebuggerUrl`. If discovery returns 404, try `/devtools/browser` on the same host and port with `ws` (or `wss` for HTTPS). Preserve an explicitly supplied WebSocket path. Use Playwright's Chromium CDP attachment, not a page-level `/devtools/page/...` endpoint or a Playwright protocol connection. Browser binary installation is unnecessary.
 
-For a supplied remote-debugging HTTP address, read its `/json/version` response and use `webSocketDebuggerUrl`. Chrome's settings-enabled debugging can return 404 for HTTP discovery; in that case try `ws://<same-host-and-port>/devtools/browser` (or `wss://` for HTTPS). Preserve an explicitly supplied WebSocket path. Resolve only the supplied address or the default above; do not scan for debugging ports. Chrome may ask the user to allow the connection after the correct endpoint is reached. A 403 alone does not establish that approval is pending. If connection fails, report the concrete blocker and request an updated endpoint when needed. Do not silently launch a separate browser or restart the user's browser.
+Resolve only the supplied endpoint or the default; do not scan ports. Avoid exposing endpoint credentials. Chrome may request connection approval, but a 403 alone does not establish that approval is pending. If attachment fails, report the concrete error and request an updated endpoint when needed. Do not silently launch a separate browser or restart the user's browser.
 
-CDP attachment supports Chromium-based browsers only. Check that `playwright.sync_api` is importable as described in the headless skill; browser binary installation is unnecessary for attachment.
+## Reuse the user session
 
-Start `python -i -q` with `tty: true` and retain its `session_id`. Initialize in that persistent REPL:
+Inspect existing contexts and tabs to identify the requested page, limiting inspection to relevant URLs and avoiding sensitive values. Select the observed matching context and page; ask which to use only if the task cannot disambiguate matches. Create a task tab in an existing context when needed. If no contexts exist, report that the expected user session is unavailable rather than creating a replacement context. Reuse existing cookies; skip headless's storage-state initialization.
 
-```python
-import os
-import json
-from urllib.parse import urlsplit
-from urllib.request import urlopen
-from urllib.error import HTTPError
-from playwright.sync_api import sync_playwright
-endpoint = os.environ.get("BROWSER_CDP_URL", "").strip() or "ws://127.0.0.1:9222/devtools/browser"
-# If supplied directly instead, assign that endpoint without printing it.
-if urlsplit(endpoint).scheme in ("http", "https"):
-    http_endpoint = endpoint
-    try:
-        with urlopen(http_endpoint.rstrip("/") + "/json/version", timeout=30) as response:
-            endpoint = json.load(response)["webSocketDebuggerUrl"]
-    except HTTPError as error:
-        if error.code != 404:
-            raise
-        address = urlsplit(http_endpoint)
-        ws_scheme = "wss" if address.scheme == "https" else "ws"
-        endpoint = f"{ws_scheme}://{address.netloc}/devtools/browser"
+Follow headless's browsing and verification workflow. Actions affect the user's live browser and account. CDP has lower fidelity than Playwright's native connection; inspect current state after unsupported operations or connection failures before retrying. After reconnecting, enumerate contexts and tabs again rather than reusing stale objects or indices.
 
-assert urlsplit(endpoint).scheme in ("ws", "wss"), "A WebSocket CDP URL is required"
-pw = sync_playwright().start()
-browser = pw.chromium.connect_over_cdp(endpoint, timeout=30000)
-```
-
-Do not use `launch()`, `launch_persistent_context()`, or the headless skill's `STORAGE` storage-state initialization. Reuse the attached browser's contexts and cookies.
-
-## Select a tab and work
-
-Inspect available tabs before choosing one:
-
-```python
-tabs = [(ci, pi, tab.url) for ci, ctx in enumerate(browser.contexts)
-        for pi, tab in enumerate(ctx.pages)]
-print(tabs)
-```
-
-Keep tab inspection scoped to identifying the requested page; URLs can contain sensitive values. Select the context and page matching the user's task using the observed indices, rather than assuming the first tab is the intended target:
-
-```python
-context = browser.contexts[context_index]
-page = context.pages[page_index]
-page.set_default_timeout(15000)
-page.set_default_navigation_timeout(30000)
-```
-
-If several tabs match and the task cannot disambiguate them, ask which to use. If the task needs a new tab, create it with `context.new_page()` in the appropriate existing context. If no contexts exist, report that the expected user session is unavailable rather than substituting a fresh context.
-
-Follow the headless skill's browsing and verification instructions. Actions affect the user's live browser and account; keep them within the requested task. CDP has lower fidelity than Playwright's native connection, so inspect current state after unsupported operations or connection failures before retrying. On reconnect, enumerate tabs again because previous Python objects and indices may be stale.
-
-## Disconnect
-
-Leave existing contexts, tabs, and the browser running. Do not execute the headless skill's `context.close()` / `browser.close()` cleanup or send the CDP `Browser.close` command. Close a tab created for the task only when it is no longer needed and the user does not need its result. Stop the local Playwright connection and exit the interpreter:
-
-```python
-pw.stop()
-exit()
-```
-
-API reference: [Playwright connect_over_cdp](https://playwright.dev/python/docs/api/class-browsertype#browser-type-connect-over-cdp).
+Keep the connection available for follow-up work as described in headless. When disconnecting is requested, stop the local Playwright connection without closing the user's browser, existing contexts, or existing tabs. Do not send CDP `Browser.close` or use headless's browser/context cleanup. Close a task-created tab only when it is no longer needed and the user does not need its result.
